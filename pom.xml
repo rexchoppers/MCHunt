@@ -9,7 +9,7 @@
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
-    <name>Mchunt</name>
+    <name>MCHunt</name>
 
     <properties>
         <java.version>1.8</java.version>
