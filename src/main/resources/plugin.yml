@@ -1,0 +1,5 @@
+name: Mchunt
+version: '${project.version}'
+main: codox.uk.mchunt.Mchunt
+api-version: 1.17
+authors: [ RandomPanda30 ]
