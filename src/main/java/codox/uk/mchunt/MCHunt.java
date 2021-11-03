@@ -1,11 +1,15 @@
 package codox.uk.mchunt;
 
+import codox.uk.mchunt.objects.Arena;
 import codox.uk.mchunt.util.GeneralUtility;
+import com.google.gson.Gson;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,7 +29,6 @@ public final class MCHunt extends JavaPlugin {
         for (File file: filesToCreate) {
             if(!file.exists()) file.createNewFile();
         }
-
     }
 
     @Override
@@ -39,6 +42,23 @@ public final class MCHunt extends JavaPlugin {
             e.printStackTrace();
         }
 
+        // Try to save down list of arenas
+        ArrayList<Arena> arenas = new ArrayList<>();
+        arenas.add(new Arena());
+        arenas.add(new Arena());
+        arenas.add(new Arena());
+
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(arenas);
+
+        File configFile = new File(this.getDataFolder().getAbsolutePath() + System.getProperty("file.separator") + "arenas.json");
+
+        try (PrintWriter pw = new PrintWriter(configFile)) {
+            pw.write(jsonString);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
 
         GeneralUtility.sendConsoleMessage("Starting plugin");
 
