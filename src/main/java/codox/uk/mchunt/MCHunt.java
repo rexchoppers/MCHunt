@@ -1,5 +1,7 @@
 package codox.uk.mchunt;
 
+import co.aikar.commands.PaperCommandManager;
+import codox.uk.mchunt.commands.CommandMCHunt;
 import codox.uk.mchunt.objects.Arena;
 import codox.uk.mchunt.util.GeneralUtility;
 import com.google.gson.Gson;
@@ -47,6 +49,9 @@ public final class MCHunt extends JavaPlugin {
         // Setup inventory manager
         inventoryManager = new InventoryManager(this);
 
+        // Setup command manager
+        PaperCommandManager manager = new PaperCommandManager(this);
+        manager.registerCommand(new CommandMCHunt());
 
         // Try to save down list of arenas
         ArrayList<Arena> arenas = new ArrayList<>();
