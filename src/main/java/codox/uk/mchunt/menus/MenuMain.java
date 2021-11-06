@@ -6,18 +6,18 @@ import fr.minuskube.inv.content.InventoryContents;
 import fr.minuskube.inv.content.InventoryProvider;
 import org.bukkit.entity.Player;
 
-public class MenuMain {
-    private SmartInventory inventory;
-
+public class MenuMain extends BaseMenu {
     public MenuMain() {
-        this.inventory = SmartInventory.builder()
-                .id("mchuntMain")
-                .manager(MCHunt.getInventoryManagerInstance())
-                .provider(new MenuMainProvider())
-                .size(3, 9)
-                .title("MCHunt Menu")
-                .closeable(true)
-                .build();
+        this.setInventory(
+                SmartInventory.builder()
+                        .id("mchuntMain")
+                        .manager(MCHunt.getInventoryManagerInstance())
+                        .provider(new MenuMainProvider())
+                        .size(3, 9)
+                        .title("MCHunt Menu")
+                        .closeable(true)
+                        .build()
+        );
     }
 
     private class MenuMainProvider implements InventoryProvider {
