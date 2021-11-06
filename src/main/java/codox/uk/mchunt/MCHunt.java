@@ -3,6 +3,8 @@ package codox.uk.mchunt;
 import codox.uk.mchunt.objects.Arena;
 import codox.uk.mchunt.util.GeneralUtility;
 import com.google.gson.Gson;
+import fr.minuskube.inv.InventoryManager;
+import fr.minuskube.inv.SmartInventory;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -15,7 +17,8 @@ import java.util.List;
 
 public final class MCHunt extends JavaPlugin {
 
-    private MCHunt plugin;
+    private static MCHunt plugin;
+    private static InventoryManager inventoryManager;
 
     private void createConfigFilesIfNotExists() throws IOException {
         // Create plugin config folder if it doesn't already exist
@@ -33,7 +36,6 @@ public final class MCHunt extends JavaPlugin {
 
     @Override
     public void onEnable() {
-
         // Create the JSON data files
         try {
             createConfigFilesIfNotExists();
@@ -41,6 +43,10 @@ public final class MCHunt extends JavaPlugin {
             // If something goes wrong, disable the plugin and error
             e.printStackTrace();
         }
+
+        // Setup inventory manager
+        inventoryManager = new InventoryManager(this);
+
 
         // Try to save down list of arenas
         ArrayList<Arena> arenas = new ArrayList<>();
@@ -105,5 +111,13 @@ public final class MCHunt extends JavaPlugin {
         // Plugin shutdown logic
 
         plugin = null;
+    }
+
+    public static MCHunt getInstance() {
+        return plugin;
+    }
+
+    public static InventoryManager getInventoryManagerInstance() {
+        return inventoryManager;
     }
 }
