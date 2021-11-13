@@ -1,0 +1,7 @@
+name: Build And Deploy
+on: [push]
+jobs:
+  runs-on: ubuntu-latest
+
+  steps:
+    - uses:
