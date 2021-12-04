@@ -6,7 +6,6 @@ import codox.uk.mchunt.objects.Arena;
 import codox.uk.mchunt.util.GeneralUtility;
 import com.google.gson.Gson;
 import fr.minuskube.inv.InventoryManager;
-import fr.minuskube.inv.SmartInventory;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
