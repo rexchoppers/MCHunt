@@ -1,10 +1,13 @@
 package codox.uk.mchunt.menus;
 
 import codox.uk.mchunt.MCHunt;
+import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
 import fr.minuskube.inv.content.InventoryProvider;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class MenuMain extends BaseMenu {
     public MenuMain() {
@@ -23,7 +26,7 @@ public class MenuMain extends BaseMenu {
     private class MenuMainProvider implements InventoryProvider {
         @Override
         public void init(Player player, InventoryContents contents) {
-
+            contents.fillBorders(ClickableItem.empty(new ItemStack(Material.BLACK_STAINED_GLASS_PANE)));
         }
 
         @Override
