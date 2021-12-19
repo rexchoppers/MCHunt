@@ -1,6 +1,8 @@
 package codox.uk.mchunt.menus;
 
 import codox.uk.mchunt.MCHunt;
+import codox.uk.mchunt.MCHuntItems;
+import codox.uk.mchunt.enums.Permissions;
 import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
@@ -27,6 +29,12 @@ public class MenuMain extends BaseMenu {
         @Override
         public void init(Player player, InventoryContents contents) {
             contents.fillBorders(ClickableItem.empty(new ItemStack(Material.BLACK_STAINED_GLASS_PANE)));
+
+            if (player.hasPermission(MCHuntItems.ITEM_MENU_ADMIN_SECTION.getPermission())) {
+                contents.set(1, 7, ClickableItem.of(MCHuntItems.ITEM_MENU_ADMIN_SECTION.build(), e -> {
+                    
+                }));
+            }
         }
 
         @Override
