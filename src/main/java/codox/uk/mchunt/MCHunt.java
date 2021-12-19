@@ -5,6 +5,7 @@ import codox.uk.mchunt.commands.CommandMCHunt;
 import codox.uk.mchunt.objects.Arena;
 import codox.uk.mchunt.util.GeneralUtility;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import fr.minuskube.inv.InventoryManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -58,8 +59,10 @@ public final class MCHunt extends JavaPlugin {
         arenas.add(new Arena());
         arenas.add(new Arena());
 
-        Gson gson = new Gson();
-        String jsonString = gson.toJson(arenas);
+        GsonBuilder gson = new GsonBuilder();
+
+        String jsonString = gson.excludeFieldsWithoutExposeAnnotation()
+                .create().toJson(arenas);
 
         File configFile = new File(this.getDataFolder().getAbsolutePath() + System.getProperty("file.separator") + "arenas.json");
 
