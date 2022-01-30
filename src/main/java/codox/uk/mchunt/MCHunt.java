@@ -48,6 +48,7 @@ public final class MCHunt extends JavaPlugin {
 
         // Setup inventory manager
         inventoryManager = new InventoryManager(this);
+        inventoryManager.init();
 
         // Setup command manager
         PaperCommandManager manager = new PaperCommandManager(this);
