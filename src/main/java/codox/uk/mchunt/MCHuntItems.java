@@ -16,4 +16,12 @@ public class MCHuntItems {
                 add("");
                 add("%b%tClick to enter the admin menu");
             }});
+
+    public static final ItemBuilder ITEM_MENU_BACK = new ItemBuilder()
+            .setMaterial(Material.REDSTONE_TORCH)
+            .setAmount(1)
+            .setName("%BBack")
+            .setLores(new ArrayList<String>() {{
+                add("");
+            }});
 }
