@@ -23,4 +23,4 @@ jobs:
         run: |
           export SSHPASS=$(echo "$SSH_USER_PASSWORD" | openssl enc -d -base64)
 
-          sshpass -e scp -o stricthostkeychecking=no -r mchunt-1.0.0.jar mc@:49.12.216.133:/home/mc/plugins
+          sshpass -e scp -o stricthostkeychecking=no -r mchunt-1.0.0.jar mc@49.12.216.133:/home/mc/plugins
