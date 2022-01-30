@@ -1,8 +1,6 @@
 package codox.uk.mchunt.menus;
 
 import codox.uk.mchunt.MCHunt;
-import codox.uk.mchunt.MCHuntItems;
-import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
 import fr.minuskube.inv.content.InventoryProvider;
