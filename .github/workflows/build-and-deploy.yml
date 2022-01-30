@@ -11,7 +11,11 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
+      - name: Install SSH Pass
+        run: apt-get install sshpass
       - name: Build with Maven
         run: mvn package
       - name: List items
-        run: cd target && ls
+        run: cd target
+      - name: Deploy to server
+        run: ls
