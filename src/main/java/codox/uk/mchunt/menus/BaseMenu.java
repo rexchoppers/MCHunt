@@ -11,6 +11,10 @@ public class BaseMenu {
         this.inventory.open(player);
     }
 
+    public void close(Player player) {
+        this.inventory.close(player);
+    }
+
     public void setInventory(SmartInventory inventory) {
         this.inventory = inventory;
     }
