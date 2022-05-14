@@ -6,7 +6,7 @@ public class Format {
     public static String HEADER = "&6";
     public static String NORMAL = "&f";
     public static String TEXT = "&f";
-    public static String TAG = "%a[%nVoidships%a]%n";
+    public static String TAG = "%a[%nMCHunt%a]%n";
     public static String WARNING = "&4";
     public static String GOOD = "&a";
     public static String BAD = "&c";
