@@ -29,7 +29,7 @@ public class MenuAdmin extends BaseMenu {
         public void init(Player player, InventoryContents contents) {
             contents.fillBorders(ClickableItem.empty(new ItemStack(Material.BLACK_STAINED_GLASS_PANE)));
 
-            contents.set(4, 2, ClickableItem.of(MCHuntItems.ITEM_MENU_BACK.build(), e -> {
+            contents.set(3, 1, ClickableItem.of(MCHuntItems.ITEM_MENU_BACK.build(), e -> {
                 close(player);
                 (new MenuMain()).open(player);
             }));
