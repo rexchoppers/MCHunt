@@ -2,6 +2,7 @@ package codox.uk.mchunt.menus;
 
 import codox.uk.mchunt.MCHunt;
 import codox.uk.mchunt.MCHuntItems;
+import codox.uk.mchunt.processor.ArenaSetupProcessor;
 import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
@@ -30,7 +31,7 @@ public class MenuAdmin extends BaseMenu {
             contents.fillBorders(ClickableItem.empty(new ItemStack(Material.BLACK_STAINED_GLASS_PANE)));
 
             contents.set(1, 1, ClickableItem.of(MCHuntItems.ITEM_ADMIN_MENU_ENTER_ARENA_SETUP_MODE.build(), e -> {
-
+                (new ArenaSetupProcessor()).stashPlayer(player);
             }));
 
             contents.set(3, 1, ClickableItem.of(MCHuntItems.ITEM_MENU_BACK.build(), e -> {

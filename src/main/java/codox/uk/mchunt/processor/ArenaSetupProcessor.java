@@ -1,11 +1,22 @@
 package codox.uk.mchunt.processor;
 
 import com.google.gson.Gson;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
+
+/**
+ * Created by brady on 11/02/2017.
+ *
+ * File name: tmp-arena-setup.json
+ */
 public class ArenaSetupProcessor {
 
     private ArrayList<UUID> playersInSetupMode;
@@ -16,8 +27,16 @@ public class ArenaSetupProcessor {
 
     /**
      */
-    public void loadPlayersFromTemporaryFiles() {
+    public Map<?, ?> loadDataFromFile() throws IOException {
+        Gson gson = new Gson();
 
+        Reader reader = Files.newBufferedReader(Paths.get("tmp-arena-setup.json"));
+
+        Map<?, ?> map = gson.fromJson(reader, Map.class);
+
+        reader.close();
+
+        return map;
     }
 
     public ArrayList<UUID> getPlayersInSetupMode() {
@@ -27,7 +46,7 @@ public class ArenaSetupProcessor {
     /**
      * Dump a player's information into the temporary file
      */
-    public void stashPlayerInformation(Player player) {
+    public void stashPlayer(Player player) {
         HashMap<String, Object> playerInformation = new HashMap<>();
         List<Map<String, Object>> playerItems = new ArrayList<>();
         String uuid = player.getUniqueId().toString();
@@ -46,6 +65,9 @@ public class ArenaSetupProcessor {
         playerInformation.put("inventory", playerItems);
 
         Gson gson = new Gson();
+        String gsonString = gson.toJson(playerInformation);
+
+        Bukkit.getConsoleSender().sendMessage(gsonString);
     }
 
     /**
