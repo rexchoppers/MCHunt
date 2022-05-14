@@ -1,5 +1,6 @@
 package codox.uk.mchunt.processor;
 
+import codox.uk.mchunt.MCHunt;
 import com.google.gson.Gson;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -14,7 +15,7 @@ import java.util.*;
 
 /**
  * Created by brady on 11/02/2017.
- *
+ * <p>
  * File name: tmp-arena-setup.json
  */
 public class ArenaSetupProcessor {
@@ -26,11 +27,12 @@ public class ArenaSetupProcessor {
     }
 
     /**
+     *
      */
     public List<HashMap<String, Object>> loadDataFromFile() throws IOException {
         Gson gson = new Gson();
 
-        Reader reader = Files.newBufferedReader(Paths.get("tmp-arena-setup.json"));
+        Reader reader = Files.newBufferedReader(Paths.get(MCHunt.getInstance().getDataFolder().getAbsolutePath() + System.getProperty("file.separator"), "tmp-arena-setup.json"));
 
         List<HashMap<String, Object>> list = gson.fromJson(reader, List.class);
 
@@ -63,8 +65,8 @@ public class ArenaSetupProcessor {
         playerInformation.put("uuid", uuid.toString());
 
         // Serialize the player's inventory
-        for(ItemStack item: player.getInventory().getContents()) {
-            if(item == null) continue;
+        for (ItemStack item : player.getInventory().getContents()) {
+            if (item == null) continue;
 
             Map<String, Object> serializedItem = item.serialize();
             playerItems.add(serializedItem);
@@ -82,7 +84,7 @@ public class ArenaSetupProcessor {
 
     /**
      * Retrieves the player's dumped information
-     *
+     * <p>
      * If removeFromTemporaryFile is set, it will also remove them
      * from the temporary file
      */
