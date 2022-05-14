@@ -74,12 +74,15 @@ public class ArenaSetupProcessor {
 
         playerInformation.put("inventory", playerItems);
 
+        // Add the player's information into the existing information
         existingInformation.add(playerInformation);
 
         Gson gson = new Gson();
-        String gsonString = gson.toJson(playerInformation);
+        String gsonString = gson.toJson(existingInformation);
 
         Bukkit.getConsoleSender().sendMessage(gsonString);
+
+        // Add the player to the array above
     }
 
     /**
