@@ -27,16 +27,16 @@ public class ArenaSetupProcessor {
 
     /**
      */
-    public Map<?, ?> loadDataFromFile() throws IOException {
+    public List<HashMap<String, Object>> loadDataFromFile() throws IOException {
         Gson gson = new Gson();
 
         Reader reader = Files.newBufferedReader(Paths.get("tmp-arena-setup.json"));
 
-        Map<?, ?> map = gson.fromJson(reader, Map.class);
+        List<HashMap<String, Object>> list = gson.fromJson(reader, List.class);
 
         reader.close();
 
-        return map;
+        return list;
     }
 
     public ArrayList<UUID> getPlayersInSetupMode() {
@@ -46,13 +46,21 @@ public class ArenaSetupProcessor {
     /**
      * Dump a player's information into the temporary file
      */
-    public void stashPlayer(Player player) {
+    public void stashPlayer(Player player) throws Exception {
+        UUID uuid = player.getUniqueId();
+
+        // Check if the player has already been stashed
+        if (this.playersInSetupMode.contains(uuid)) {
+            throw new Exception("Player has already been stashed");
+        }
+
+        List<HashMap<String, Object>> existingInformation = this.loadDataFromFile();
+
         HashMap<String, Object> playerInformation = new HashMap<>();
         List<Map<String, Object>> playerItems = new ArrayList<>();
-        String uuid = player.getUniqueId().toString();
 
         // Add the player's UUID
-        playerInformation.put("uuid", uuid);
+        playerInformation.put("uuid", uuid.toString());
 
         // Serialize the player's inventory
         for(ItemStack item: player.getInventory().getContents()) {
@@ -63,6 +71,8 @@ public class ArenaSetupProcessor {
         }
 
         playerInformation.put("inventory", playerItems);
+
+        existingInformation.add(playerInformation);
 
         Gson gson = new Gson();
         String gsonString = gson.toJson(playerInformation);
