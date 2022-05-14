@@ -30,12 +30,12 @@ public class MCHuntItems {
     public static final ItemBuilder ITEM_ADMIN_MENU_ENTER_ARENA_SETUP_MODE = new ItemBuilder()
             .setMaterial(Material.BOOK)
             .setAmount(1)
-            .setName(Format.processString("%NEnter Arena Setup Mode"))
+            .setName(Format.processString(Format.processString("%NEnter Arena Setup Mode")))
             .setPermission(Permissions.PERMISSION_ADMIN.toString())
             .setLores(new ArrayList<String>() {{
                 add("");
-                add("%TClick to enter arena setup mode");
-                add("%TYour inventory and player state will");
-                add("%Tbe stored whilst you're in setup mode");
+                add(Format.processString("%TClick to enter arena setup mode"));
+                add(Format.processString("%TYour inventory and player state will"));
+                add(Format.processString("%Tbe stored whilst you're in setup mode"));
             }});
 }
