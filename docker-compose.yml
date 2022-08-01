@@ -18,5 +18,12 @@ services:
     volumes:
       - mc-server-data:/data
 
+  mcrcon:
+    container_name: mcrcon
+    restart: always
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.mcrcon
+
 volumes:
   mc-server-data: {}
