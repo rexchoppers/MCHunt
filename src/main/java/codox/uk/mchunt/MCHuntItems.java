@@ -22,20 +22,19 @@ public class MCHuntItems {
             .setMaterial(Material.REDSTONE_TORCH)
             .setAmount(1)
             .setName(Format.processString("%BBack"))
-            .setLores(new ArrayList<String>() {{
-                add("");
-            }});
+            .setLores(new ArrayList<String>() {
+            });
 
     // Admin items
     public static final ItemBuilder ITEM_ADMIN_MENU_ENTER_ARENA_SETUP_MODE = new ItemBuilder()
             .setMaterial(Material.BOOK)
             .setAmount(1)
-            .setName(Format.processString(Format.processString("%NEnter Arena Setup Mode")))
+            .setName(Format.processString(Format.processString("%n%BEnter Arena Setup Mode")))
             .setPermission(Permissions.PERMISSION_ADMIN.toString())
             .setLores(new ArrayList<String>() {{
                 add("");
-                add(Format.processString("%TClick to enter arena setup mode"));
-                add(Format.processString("%TYour inventory and player state will"));
-                add(Format.processString("%Tbe stored whilst you're in setup mode"));
+                add(Format.processString("%tClick to enter arena setup mode"));
+                add(Format.processString("%tYour inventory and player state will"));
+                add(Format.processString("%tbe stored whilst you're in setup mode"));
             }});
 }
