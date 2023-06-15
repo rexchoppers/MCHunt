@@ -7,7 +7,7 @@ services:
     restart: always
     environment:
       EULA: "TRUE"
-      VERSION: "1.15"
+      VERSION: "1.15.2"
       TYPE: "SPIGOT"
       ENABLE_RCON: true
     tty: true
