@@ -2,6 +2,7 @@ package codox.uk.mchunt;
 
 import co.aikar.commands.PaperCommandManager;
 import codox.uk.mchunt.commands.CommandMCHunt;
+import codox.uk.mchunt.config.MCHuntConfiguration;
 import codox.uk.mchunt.objects.Arena;
 import codox.uk.mchunt.util.GeneralUtility;
 import com.google.gson.Gson;
@@ -12,14 +13,20 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 
 public final class MCHunt extends JavaPlugin {
 
     private static MCHunt plugin;
+
+    private static MCHuntConfiguration config;
+
     private static InventoryManager inventoryManager;
 
     private void createConfigFilesIfNotExists() throws IOException {
@@ -28,7 +35,7 @@ public final class MCHunt extends JavaPlugin {
 
         List<File> filesToCreate = Arrays.asList(
                 new File(this.getDataFolder().getAbsolutePath() + System.getProperty("file.separator") + "arenas.json"),
-                new File(this.getDataFolder().getAbsolutePath() + System.getProperty("file.separator") + "tmp-inventory.json")
+                new File(this.getDataFolder().getAbsolutePath() + System.getProperty("file.separator") + "tmp-arena-setup.json")
         );
 
         for (File file: filesToCreate) {
@@ -36,8 +43,27 @@ public final class MCHunt extends JavaPlugin {
         }
     }
 
+    public static String getVersionNumber() {
+        String version;
+        try (InputStream inputStream = MCHunt.class.getResourceAsStream("/META-INF/maven/codox.uk/mchunt/pom.properties")) {
+            Properties properties = new Properties();
+            properties.load(inputStream);
+            version = properties.getProperty("version");
+        } catch (Exception e) {
+            version = "Unknown";
+        }
+        return version;
+    }
+
     @Override
     public void onEnable() {
+        // Setup config file
+        config = new MCHuntConfiguration(this);
+
+        if(!config.doesConfigurationExists()) {
+            config.createConfiguration();
+        }
+
         // Create the JSON data files
         try {
             createConfigFilesIfNotExists();
@@ -115,7 +141,7 @@ public final class MCHunt extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        GeneralUtility.sendConsoleMessage("Clsoing plugin");
+        GeneralUtility.sendConsoleMessage("Closing plugin");
         // Plugin shutdown logic
 
         plugin = null;
