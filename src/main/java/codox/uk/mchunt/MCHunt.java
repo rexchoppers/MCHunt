@@ -29,6 +29,8 @@ public final class MCHunt extends JavaPlugin {
 
     private static InventoryManager inventoryManager;
 
+    public static String BASE_URL = "https://mchunt.rexchoppers.com";
+
     private void createConfigFilesIfNotExists() throws IOException {
         // Create plugin config folder if it doesn't already exist
         new File(this.getDataFolder().getAbsolutePath()).mkdirs();
@@ -61,7 +63,11 @@ public final class MCHunt extends JavaPlugin {
         config = new MCHuntConfiguration(this);
 
         if(!config.doesConfigurationExists()) {
-            config.createConfiguration();
+            try {
+                config.createConfiguration();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         // Create the JSON data files
