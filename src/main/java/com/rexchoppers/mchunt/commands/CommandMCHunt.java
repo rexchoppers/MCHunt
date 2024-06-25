@@ -5,6 +5,7 @@ import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Description;
 import com.rexchoppers.mchunt.MCHunt;
+import com.rexchoppers.mchunt.menus.MenuMain;
 import org.bukkit.entity.Player;
 
 @CommandAlias("mchunt|mch")
@@ -18,6 +19,6 @@ public class CommandMCHunt extends BaseCommand {
     @Default()
     @Description("Opens the MCHunt GUI")
     public void defaultCommand(Player player, String[] args) {
-        // Open GUI
+        (new MenuMain(plugin)).open(player);
     }
 }
