@@ -1,12 +1,17 @@
 package com.rexchoppers.mchunt.models;
 
+import com.google.gson.annotations.Expose;
 import com.rexchoppers.mchunt.enums.ArenaStatus;
 
 public class Arena {
+    @Expose
     private String id;
+
+    @Expose
     private String name;
 
     private ArenaStatus status;
+
 
     public Arena(String id, String name) {
         this.id = id;
