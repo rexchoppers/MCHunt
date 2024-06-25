@@ -7,6 +7,7 @@ import com.rexchoppers.mchunt.managers.ArenaManager;
 import com.rexchoppers.mchunt.serializers.ArenaStatusSerializer;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.nio.file.FileSystems;
 import java.util.Locale;
 
 public final class MCHunt extends JavaPlugin {
@@ -24,8 +25,12 @@ public final class MCHunt extends JavaPlugin {
 
         currentLocale = Locale.getDefault();
 
+
+
         // Setup managers
-        this.arenaManager = new ArenaManager(this, "arenas.json");
+        this.arenaManager = new ArenaManager(this,
+                this.getDataFolder().getAbsolutePath() + FileSystems.getDefault().getSeparator() + "arenas.json"
+        );
     }
 
     @Override

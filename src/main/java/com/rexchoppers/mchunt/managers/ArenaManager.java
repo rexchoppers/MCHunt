@@ -24,6 +24,11 @@ public class ArenaManager {
 
     private void init() {
         File file = new File(filePath);
+        File parentDir = file.getParentFile();
+        if (!parentDir.exists()) {
+            parentDir.mkdirs();
+        }
+
         if (!file.exists()) {
             try (FileWriter writer = new FileWriter(file)) {
                 writer.write("[]");
