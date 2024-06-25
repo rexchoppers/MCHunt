@@ -8,6 +8,7 @@ import com.rexchoppers.mchunt.enums.ArenaStatus;
 import com.rexchoppers.mchunt.exceptions.ArenaExistsException;
 import com.rexchoppers.mchunt.items.ItemManager;
 import com.rexchoppers.mchunt.managers.ArenaManager;
+import com.rexchoppers.mchunt.managers.ArenaSetupManager;
 import com.rexchoppers.mchunt.models.Arena;
 import com.rexchoppers.mchunt.serializers.ArenaStatusSerializer;
 import fr.minuskube.inv.InventoryManager;
@@ -25,6 +26,7 @@ public final class MCHunt extends JavaPlugin {
 
     private InventoryManager inventoryManager;
     private ArenaManager arenaManager;
+    private ArenaSetupManager arenaSetupManager;
     private ItemManager itemManager;
 
     @Override
@@ -40,6 +42,9 @@ public final class MCHunt extends JavaPlugin {
         // Setup managers
         this.arenaManager = new ArenaManager(this,
                 this.getDataFolder().getAbsolutePath() + FileSystems.getDefault().getSeparator() + "arenas.json"
+        );
+        this.arenaSetupManager = new ArenaSetupManager(this,
+                this.getDataFolder().getAbsolutePath() + FileSystems.getDefault().getSeparator() + "arenaSetup.json"
         );
 
         this.itemManager = new ItemManager(this);
@@ -75,5 +80,9 @@ public final class MCHunt extends JavaPlugin {
 
     public ItemManager getItemManager() {
         return itemManager;
+    }
+
+    public ArenaSetupManager getArenaSetupManager() {
+        return arenaSetupManager;
     }
 }

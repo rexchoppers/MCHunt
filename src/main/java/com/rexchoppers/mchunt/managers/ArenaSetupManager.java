@@ -1,0 +1,94 @@
+package com.rexchoppers.mchunt.managers;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.rexchoppers.mchunt.MCHunt;
+import com.rexchoppers.mchunt.exceptions.PlayerAlreadyInArenaSetupException;
+import com.rexchoppers.mchunt.models.Arena;
+import com.rexchoppers.mchunt.models.ArenaSetup;
+import org.bukkit.Bukkit;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+public class ArenaSetupManager {
+    private final MCHunt plugin;
+    private final String filePath;
+
+    private List<ArenaSetup> arenaSetups;
+
+    public ArenaSetupManager(
+            MCHunt plugin,
+            String filePath
+    ) {
+        this.plugin = plugin;
+        this.filePath = filePath;
+
+        init();
+    }
+
+    private void init() {
+        File file = new File(filePath);
+        File parentDir = file.getParentFile();
+        if (!parentDir.exists()) {
+            parentDir.mkdirs();
+        }
+
+        if (!file.exists()) {
+            try (FileWriter writer = new FileWriter(file)) {
+                writer.write("[]");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        arenaSetups = load();
+    }
+
+    public void createArenaSetup(ArenaSetup arenaSetup) throws PlayerAlreadyInArenaSetupException {
+        // Check if arena setup already exists
+        if(getArenaSetupByPlayerUuid(arenaSetups, arenaSetup.getPlayerUuid()).isPresent()) {
+            Bukkit.getConsoleSender().sendMessage("Player already in arena setup");
+            throw new PlayerAlreadyInArenaSetupException();
+        }
+
+        arenaSetups.add(arenaSetup);
+        save(arenaSetups);
+    }
+
+    private void save(List<ArenaSetup> arenaSetups) {
+        Gson gson = plugin.getGson();
+        try (FileWriter writer = new FileWriter(filePath)) {
+            gson.toJson(arenaSetups, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Optional<ArenaSetup> getArenaSetupByPlayerUuid(List<ArenaSetup> arenaSetups, UUID playerUuid) {
+        if (arenaSetups == null) {
+            return Optional.empty();
+        }
+
+        return arenaSetups.stream()
+                .filter(arenaSetup -> arenaSetup.getPlayerUuid().equals(playerUuid))
+                .findFirst();
+    }
+
+    private List<ArenaSetup> load() {
+        Gson gson = plugin.getGson();
+        try (FileReader reader = new FileReader(filePath)) {
+            Type type = new TypeToken<List<ArenaSetup>>() {}.getType();
+            return gson.fromJson(reader, type);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+}

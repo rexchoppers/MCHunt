@@ -5,6 +5,7 @@ import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
 import fr.minuskube.inv.content.InventoryProvider;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -33,7 +34,8 @@ public class MenuMain extends MenuBase {
 
             if (player.hasPermission(plugin.getItemManager().itemNavigateToAdmin().getPermission())) {
                 contents.set(1, 7, ClickableItem.of(plugin.getItemManager().itemNavigateToAdmin().build(), e -> {
-                    // (new MenuAdmin(plugin)).open(player);
+                    Bukkit.getConsoleSender().sendMessage("Player " + player.getName() + " opened the admin menu");
+                    (new MenuAdmin(plugin)).open(player);
                 }));
             }
         }

@@ -1,6 +1,8 @@
 package com.rexchoppers.mchunt.menus;
 
 import com.rexchoppers.mchunt.MCHunt;
+import com.rexchoppers.mchunt.exceptions.PlayerAlreadyInArenaSetupException;
+import com.rexchoppers.mchunt.models.ArenaSetup;
 import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
@@ -8,6 +10,10 @@ import fr.minuskube.inv.content.InventoryProvider;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class MenuAdmin extends MenuBase {
     private final MCHunt plugin;
@@ -33,6 +39,13 @@ public class MenuAdmin extends MenuBase {
 
             if (player.hasPermission(plugin.getItemManager().itemEnterArenaSetup().getPermission())) {
                 contents.set(1, 7, ClickableItem.of(plugin.getItemManager().itemEnterArenaSetup().build(), e -> {
+                    try {
+                        ArenaSetup arenaSetup = new ArenaSetup(player.getUniqueId(), player.getInventory().getContents());
+                        plugin.getArenaSetupManager().createArenaSetup(arenaSetup);
+                        player.getInventory().clear();
+                    } catch (PlayerAlreadyInArenaSetupException ex) {
+                        throw new RuntimeException(ex);
+                    }
 
                 }));
             }
