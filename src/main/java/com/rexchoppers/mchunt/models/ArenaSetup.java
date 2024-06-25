@@ -2,45 +2,30 @@ package com.rexchoppers.mchunt.models;
 
 import com.google.gson.annotations.Expose;
 import com.rexchoppers.mchunt.enums.ArenaStatus;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
-public class Arena {
+import java.util.List;
+import java.util.UUID;
+
+public class ArenaSetup {
     @Expose
-    private String id;
+    private UUID playerUuid;
 
     @Expose
-    private String name;
-
-    private ArenaStatus status;
+    private ItemStack[] inventory;
 
 
-    public Arena(String id, String name) {
-        this.id = id;
-        this.name = name;
-        this.status = ArenaStatus.OFFLINE;
+    public ArenaSetup(UUID playerUuid, ItemStack[] inventory) {
+        this.playerUuid = playerUuid;
+        this.inventory = inventory;
     }
 
-
-    public String getId() {
-        return id;
+    public UUID getPlayerUuid() {
+        return playerUuid;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public ArenaStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(ArenaStatus status) {
-        this.status = status;
+    public ItemStack[] getInventory() {
+        return inventory;
     }
 }
