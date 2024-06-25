@@ -19,10 +19,24 @@ public class ItemManager {
                 .setMaterial(Material.CRAFTING_TABLE)
                 .setAmount(1)
                 .setName(Format.processString("%B&6Enter Admin Menu"))
-                .setPermission(Permissions.PERMISSION_ADMIN.toString())
+                .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
                 .setLores(new ArrayList<String>() {{
                     add("");
                     add(Format.processString("%b%tClick to enter the admin menu"));
+                }});
+    }
+
+    public ItemBuilder itemEnterArenaSetup() {
+        return new ItemBuilder(this.plugin)
+                .setMaterial(Material.BOOK)
+                .setAmount(1)
+                .setName(Format.processString(Format.processString("%n%BEnter Arena Setup Mode")))
+                .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
+                .setLores(new ArrayList<String>() {{
+                    add("");
+                    add(Format.processString("%tClick to enter arena setup mode"));
+                    add(Format.processString("%tYour inventory and player state will"));
+                    add(Format.processString("%tbe stored whilst you're in setup mode"));
                 }});
     }
 }
