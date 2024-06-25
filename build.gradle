@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.1.0'
 }
 
 group = 'com.rexchoppers'
@@ -25,6 +26,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.9.0'
     implementation "co.aikar:acf-paper:0.5.1-SNAPSHOT"
     implementation "co.aikar:acf-core:0.5.1-SNAPSHOT"
+    implementation 'fr.minuskube.inv:smart-invs:1.2.7'
 
 }
 
@@ -53,4 +55,14 @@ processResources {
     filesMatching('plugin.yml') {
         expand props
     }
+}
+
+shadowJar {
+    archiveClassifier.set('') // Sets classifier to an empty string, which effectively makes this the main jar
+    configurations = [project.configurations.runtimeClasspath] // Ensures all runtime dependencies are included
+}
+
+
+tasks.build {
+    dependsOn shadowJar
 }
