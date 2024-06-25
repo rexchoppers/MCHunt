@@ -1,7 +1,9 @@
 package com.rexchoppers.mchunt;
 
+import co.aikar.commands.PaperCommandManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.rexchoppers.mchunt.commands.CommandMCHunt;
 import com.rexchoppers.mchunt.enums.ArenaStatus;
 import com.rexchoppers.mchunt.exceptions.ArenaExistsException;
 import com.rexchoppers.mchunt.managers.ArenaManager;
@@ -35,11 +37,9 @@ public final class MCHunt extends JavaPlugin {
                 this.getDataFolder().getAbsolutePath() + FileSystems.getDefault().getSeparator() + "arenas.json"
         );
 
-        try {
-            this.arenaManager.createArena(new Arena(UUID.randomUUID().toString(), "Arena 1"));
-        } catch (ArenaExistsException e) {
-            throw new RuntimeException(e);
-        }
+        // Setup commands
+        PaperCommandManager manager = new PaperCommandManager(this);
+        manager.registerCommand(new CommandMCHunt(this));
     }
 
     @Override

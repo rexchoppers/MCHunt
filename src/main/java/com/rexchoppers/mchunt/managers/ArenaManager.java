@@ -15,6 +15,8 @@ public class ArenaManager {
     private final MCHunt plugin;
     private final String filePath;
 
+    private List<Arena> arenas;
+
     public ArenaManager(MCHunt plugin, String filePath) {
         this.plugin = plugin;
         this.filePath = filePath;
@@ -80,5 +82,9 @@ public class ArenaManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Arena> getArenas() {
+        return arenas;
     }
 }
