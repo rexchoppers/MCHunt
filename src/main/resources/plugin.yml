@@ -1,5 +1,0 @@
-name: MCHunt
-version: '${project.version}'
-main: codox.uk.mchunt.MCHunt
-api-version: 1.15
-authors: [ RandomPanda30 ]
