@@ -46,6 +46,9 @@ public class ArenaManager {
             throw new ArenaExistsException(arena.getName());
         }
 
+        arenas.add(arena);
+        save(arenas);
+
         return true;
     }
 
@@ -60,13 +63,22 @@ public class ArenaManager {
     }
 
     private List<Arena> load() {
-        Gson gson = new Gson();
+        Gson gson = plugin.getGson();
         try (FileReader reader = new FileReader(filePath)) {
             Type type = new TypeToken<List<Arena>>() {}.getType();
             return gson.fromJson(reader, type);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    private void save(List<Arena> arenas) {
+        Gson gson = plugin.getGson();
+        try (FileWriter writer = new FileWriter(filePath)) {
+            gson.toJson(arenas, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
