@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  mc-server:
+    container_name: mc-server
+    image: 'itzg/minecraft-server:2024.6.1-java21-jdk'
+    restart: always
+    environment:
+      EULA: "TRUE"
+      VERSION: "1.21"
+      TYPE: "SPIGOT"
+      ENABLE_RCON: true
+    tty: true
+    stdin_open: true
+    ports:
+      - "25565:25565"
+      - "25575:25575"
+    volumes:
+      - mc-server-data:/data
+
+  mcrcon:
+    container_name: mcrcon
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile.mcrcon
+
+volumes:
+  mc-server-data: {}
