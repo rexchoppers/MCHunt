@@ -5,11 +5,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.rexchoppers.mchunt.commands.CommandMCHunt;
 import com.rexchoppers.mchunt.enums.ArenaStatus;
-import com.rexchoppers.mchunt.exceptions.ArenaExistsException;
-import com.rexchoppers.mchunt.items.ItemManager;
+import com.rexchoppers.mchunt.managers.EventManager;
+import com.rexchoppers.mchunt.managers.ItemManager;
 import com.rexchoppers.mchunt.managers.ArenaManager;
 import com.rexchoppers.mchunt.managers.ArenaSetupManager;
-import com.rexchoppers.mchunt.models.Arena;
 import com.rexchoppers.mchunt.serializers.ArenaStatusSerializer;
 import com.rexchoppers.mchunt.serializers.ItemStackArraySerializer;
 import fr.minuskube.inv.InventoryManager;
@@ -18,7 +17,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.nio.file.FileSystems;
 import java.util.Locale;
-import java.util.UUID;
 
 public final class MCHunt extends JavaPlugin {
 
@@ -30,6 +28,8 @@ public final class MCHunt extends JavaPlugin {
     private ArenaManager arenaManager;
     private ArenaSetupManager arenaSetupManager;
     private ItemManager itemManager;
+    
+    private EventManager eventManager;
 
     @Override
     public void onEnable() {
@@ -50,6 +50,8 @@ public final class MCHunt extends JavaPlugin {
         this.arenaSetupManager = new ArenaSetupManager(this,
                 this.getDataFolder().getAbsolutePath() + FileSystems.getDefault().getSeparator() + "arenaSetup.json"
         );
+        this.eventManager = new EventManager(this);
+        this.eventManager.registerEvents();
 
         this.itemManager = new ItemManager(this);
 
@@ -88,5 +90,9 @@ public final class MCHunt extends JavaPlugin {
 
     public ArenaSetupManager getArenaSetupManager() {
         return arenaSetupManager;
+    }
+
+    public EventManager getEventManager() {
+        return eventManager;
     }
 }
