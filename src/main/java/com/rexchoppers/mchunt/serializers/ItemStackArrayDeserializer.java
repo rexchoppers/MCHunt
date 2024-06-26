@@ -13,7 +13,7 @@ public class ItemStackArrayDeserializer implements JsonDeserializer<ItemStack[]>
         ItemStack[] items = new ItemStack[jsonArray.size()];
         int index = 0;
         for (JsonElement element : jsonArray) {
-            if (!element.isJsonNull()) {
+            if (element != null && !element.isJsonNull()) {
                 Map<String, Object> itemMap = context.deserialize(element, Map.class);
                 items[index++] = ItemStack.deserialize(itemMap);
             } else {

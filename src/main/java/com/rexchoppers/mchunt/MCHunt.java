@@ -36,7 +36,7 @@ public final class MCHunt extends JavaPlugin {
         this.gson = new GsonBuilder()
                 .registerTypeAdapter(ArenaStatus.class, new ArenaStatusSerializer())
                 .registerTypeAdapter(ItemStack[].class, new ItemStackArraySerializer())
-                .registerTypeAdapter(ItemStack.class, new ItemStackArrayDeserializer())
+                .registerTypeAdapter(ItemStack[].class, new ItemStackArrayDeserializer())
                 .registerTypeAdapter(Location.class, new LocationSerializer())
                 .registerTypeAdapter(Location.class, new LocationDeserializer())
                 .excludeFieldsWithoutExposeAnnotation()
