@@ -11,7 +11,9 @@ import com.rexchoppers.mchunt.managers.ArenaManager;
 import com.rexchoppers.mchunt.managers.ArenaSetupManager;
 import com.rexchoppers.mchunt.serializers.ArenaStatusSerializer;
 import com.rexchoppers.mchunt.serializers.ItemStackArraySerializer;
+import com.rexchoppers.mchunt.serializers.LocationSerializer;
 import fr.minuskube.inv.InventoryManager;
+import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -36,6 +38,7 @@ public final class MCHunt extends JavaPlugin {
         this.gson = new GsonBuilder()
                 .registerTypeAdapter(ArenaStatus.class, new ArenaStatusSerializer())
                 .registerTypeAdapter(ItemStack[].class, new ItemStackArraySerializer())
+                .registerTypeAdapter(Location.class, new LocationSerializer())
                 .excludeFieldsWithoutExposeAnnotation()
                 .create();
 

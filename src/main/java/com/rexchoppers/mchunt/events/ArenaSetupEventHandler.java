@@ -59,7 +59,8 @@ public class ArenaSetupEventHandler implements Listener {
 
                 // Right click = Boundary point 2
                 if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
-
+                    arenaSetup.setLocationBoundaryPoint2(event.getClickedBlock().getLocation());
+                    this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
                 }
                 event.setCancelled(true);
                 break;
