@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static com.rexchoppers.mchunt.util.PlayerUtil.sendPlayerError;
+
 public class MenuAdmin extends MenuBase {
     private final MCHunt plugin;
 
@@ -41,10 +43,12 @@ public class MenuAdmin extends MenuBase {
                 contents.set(1, 7, ClickableItem.of(plugin.getItemManager().itemEnterArenaSetup().build(), e -> {
                     try {
                         ArenaSetup arenaSetup = new ArenaSetup(player.getUniqueId(), player.getInventory().getContents());
+
                         plugin.getArenaSetupManager().createArenaSetup(arenaSetup);
                         player.getInventory().clear();
                     } catch (PlayerAlreadyInArenaSetupException ex) {
-                        throw new RuntimeException(ex);
+                        getInventory().close(player);
+                        sendPlayerError(player, ex.getMessage());
                     }
 
                 }));

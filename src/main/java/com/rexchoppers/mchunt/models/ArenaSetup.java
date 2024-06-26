@@ -15,7 +15,6 @@ public class ArenaSetup {
     @Expose
     private ItemStack[] inventory;
 
-
     public ArenaSetup(UUID playerUuid, ItemStack[] inventory) {
         this.playerUuid = playerUuid;
         this.inventory = inventory;

@@ -54,7 +54,6 @@ public class ArenaSetupManager {
     public void createArenaSetup(ArenaSetup arenaSetup) throws PlayerAlreadyInArenaSetupException {
         // Check if arena setup already exists
         if(getArenaSetupByPlayerUuid(arenaSetups, arenaSetup.getPlayerUuid()).isPresent()) {
-            Bukkit.getConsoleSender().sendMessage("Player already in arena setup");
             throw new PlayerAlreadyInArenaSetupException();
         }
 

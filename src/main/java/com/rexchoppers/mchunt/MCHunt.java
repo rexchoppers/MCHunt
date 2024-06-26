@@ -11,7 +11,9 @@ import com.rexchoppers.mchunt.managers.ArenaManager;
 import com.rexchoppers.mchunt.managers.ArenaSetupManager;
 import com.rexchoppers.mchunt.models.Arena;
 import com.rexchoppers.mchunt.serializers.ArenaStatusSerializer;
+import com.rexchoppers.mchunt.serializers.ItemStackArraySerializer;
 import fr.minuskube.inv.InventoryManager;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.nio.file.FileSystems;
@@ -33,6 +35,8 @@ public final class MCHunt extends JavaPlugin {
     public void onEnable() {
         this.gson = new GsonBuilder()
                 .registerTypeAdapter(ArenaStatus.class, new ArenaStatusSerializer())
+                .registerTypeAdapter(ItemStack[].class, new ItemStackArraySerializer())
+                .excludeFieldsWithoutExposeAnnotation()
                 .create();
 
         currentLocale = Locale.getDefault();
