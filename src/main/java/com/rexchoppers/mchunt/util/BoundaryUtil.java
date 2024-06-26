@@ -16,22 +16,34 @@ public class BoundaryUtil {
         int topBlockX = Math.max(corner1.getBlockX(), corner2.getBlockX());
         int bottomBlockX = Math.min(corner1.getBlockX(), corner2.getBlockX());
 
+        int topBlockY = Math.max(corner1.getBlockY(), corner2.getBlockY());
+        int bottomBlockY = Math.min(corner1.getBlockY(), corner2.getBlockY());
+
         int topBlockZ = Math.max(corner1.getBlockZ(), corner2.getBlockZ());
         int bottomBlockZ = Math.min(corner1.getBlockZ(), corner2.getBlockZ());
-
-        int y = corner1.getBlockY();
 
         // Retrieve the tracking map from the arena setup
         Map<Location, BlockData> boundaryTracking = arenaSetup.getTmpBoundaryTracking();
 
-        for (int x = bottomBlockX; x <= topBlockX; x++) {
-            updateBoundary(player, boundaryTracking, new Location(player.getWorld(), x, y, bottomBlockZ), Material.GLOWSTONE);
-            updateBoundary(player, boundaryTracking, new Location(player.getWorld(), x, y, topBlockZ), Material.GLOWSTONE);
+        // Draw vertical lines at each corner
+        for (int x : new int[]{bottomBlockX, topBlockX}) {
+            for (int z : new int[]{bottomBlockZ, topBlockZ}) {
+                for (int y = bottomBlockY; y <= topBlockY; y++) {
+                    updateBoundary(player, boundaryTracking, new Location(player.getWorld(), x, y, z), Material.GLOWSTONE);
+                }
+            }
         }
 
-        for (int z = bottomBlockZ + 1; z < topBlockZ; z++) {
-            updateBoundary(player, boundaryTracking, new Location(player.getWorld(), bottomBlockX, y, z), Material.GLOWSTONE);
-            updateBoundary(player, boundaryTracking, new Location(player.getWorld(), topBlockX, y, z), Material.GLOWSTONE);
+        // Draw horizontal lines along top and bottom faces
+        for (int y : new int[]{bottomBlockY, topBlockY}) {
+            for (int x = bottomBlockX; x <= topBlockX; x++) {
+                updateBoundary(player, boundaryTracking, new Location(player.getWorld(), x, y, bottomBlockZ), Material.GLOWSTONE);
+                updateBoundary(player, boundaryTracking, new Location(player.getWorld(), x, y, topBlockZ), Material.GLOWSTONE);
+            }
+            for (int z = bottomBlockZ; z <= topBlockZ; z++) {
+                updateBoundary(player, boundaryTracking, new Location(player.getWorld(), bottomBlockX, y, z), Material.GLOWSTONE);
+                updateBoundary(player, boundaryTracking, new Location(player.getWorld(), topBlockX, y, z), Material.GLOWSTONE);
+            }
         }
 
         arenaSetup.setTmpBoundaryTracking(boundaryTracking);
