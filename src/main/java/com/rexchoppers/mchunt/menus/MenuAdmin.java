@@ -7,6 +7,7 @@ import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
 import fr.minuskube.inv.content.InventoryProvider;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -50,6 +51,8 @@ public class MenuAdmin extends MenuBase {
                         plugin.getItemManager().setArenaSetupItems(player);
 
                         getInventory().close(player);
+
+                        player.setGameMode(GameMode.CREATIVE);
 
 
                     } catch (PlayerAlreadyInArenaSetupException ex) {
