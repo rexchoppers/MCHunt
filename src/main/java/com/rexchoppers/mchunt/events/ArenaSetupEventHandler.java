@@ -7,10 +7,12 @@ import com.rexchoppers.mchunt.managers.LocalizationManager;
 import com.rexchoppers.mchunt.models.ArenaSetup;
 import com.rexchoppers.mchunt.util.BoundaryUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -18,6 +20,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import static com.rexchoppers.mchunt.util.PlayerUtil.sendPlayerAudibleMessage;
+import static com.rexchoppers.mchunt.util.PlayerUtil.sendPlayerError;
 
 public class ArenaSetupEventHandler implements Listener {
     private final MCHunt plugin;
@@ -110,12 +113,28 @@ public class ArenaSetupEventHandler implements Listener {
                     );
                 }
 
+                /*
+                  Check if the 2 boundary points are set and are in the same world.
+                  If not, set them as null and warn player
+                 */
                 if (arenaSetup.getLocationBoundaryPoint1() != null &&
                         arenaSetup.getLocationBoundaryPoint2() != null) {
-                    boundaryUtil.drawArenaBoundary(
-                            player,
-                            arenaSetup
-                    );
+                    if(!arenaSetup.getLocationBoundaryPoint1().getWorld().getName().equals(arenaSetup.getLocationBoundaryPoint2().getWorld().getName())) {
+                        sendPlayerError(
+                                player,
+                                new LocalizationManager(MCHunt.getCurrentLocale())
+                                        .getMessage(
+                                                "arena.setup.boundary_world_mismatch"
+                                        )
+                        );
+                        arenaSetup.setLocationBoundaryPoint1(null);
+                        arenaSetup.setLocationBoundaryPoint2(null);
+                    } else {
+                        boundaryUtil.drawArenaBoundary(
+                                player,
+                                arenaSetup
+                        );
+                    }
                 }
 
                 this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
@@ -123,6 +142,35 @@ public class ArenaSetupEventHandler implements Listener {
                 break;
             default:
                 break;
+        }
+    }
+
+    @EventHandler
+    public void onPlayerDropItemEvent(PlayerDropItemEvent event) {
+        Player player = event.getPlayer();
+
+        ArenaSetup arenaSetup = this.plugin.getArenaSetupManager()
+                .getArenaSetupByPlayerUuid(
+                        plugin.getArenaSetupManager().getArenaSetups(),
+                        player.getUniqueId()).orElse(null);
+
+        if (arenaSetup == null) {
+            return;
+        }
+
+        Item itemDrop = event.getItemDrop();
+        ItemStack itemStack = itemDrop.getItemStack();
+
+        String action = this.plugin.getItemManager().getItemAction(itemStack);
+
+        if(action != null && action.equals("mchunt.boundarySelection")) {
+            event.setCancelled(true);
+            sendPlayerError(
+                    player,
+                    new LocalizationManager(MCHunt.getCurrentLocale())
+                            .getMessage(
+                                    "player.setup.cannot_drop_setup_items"
+                            ));
         }
     }
 }

@@ -57,6 +57,9 @@ public class ArenaSetup {
     }
 
     public Map<Location, BlockData> getTmpBoundaryTracking() {
+        if (tmpBoundaryTracking == null) {
+            tmpBoundaryTracking = new HashMap<>();
+        }
         return tmpBoundaryTracking;
     }
 
