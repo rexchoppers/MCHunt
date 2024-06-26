@@ -46,11 +46,16 @@ public class MenuAdmin extends MenuBase {
 
                         plugin.getArenaSetupManager().createArenaSetup(arenaSetup);
                         player.getInventory().clear();
+
+                        plugin.getItemManager().setArenaSetupItems(player);
+
+                        getInventory().close(player);
+
+
                     } catch (PlayerAlreadyInArenaSetupException ex) {
                         getInventory().close(player);
                         sendPlayerError(player, ex.getMessage());
                     }
-
                 }));
             }
         }
