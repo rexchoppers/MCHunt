@@ -3,6 +3,7 @@ package com.rexchoppers.mchunt.menus;
 import com.rexchoppers.mchunt.MCHunt;
 import com.rexchoppers.mchunt.exceptions.PlayerAlreadyInArenaSetupException;
 import com.rexchoppers.mchunt.models.ArenaSetup;
+import com.rexchoppers.mchunt.util.BoundaryUtil;
 import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
