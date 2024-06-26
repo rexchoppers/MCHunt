@@ -113,7 +113,8 @@ public class ItemBuilder implements Cloneable {
         return tag;
     }
 
-    public void setTag(String tag) {
+    public ItemBuilder setTag(String tag) {
         this.tag = tag;
+        return this;
     }
 }
