@@ -12,6 +12,6 @@ public class EventManager {
     }
 
     public void registerEvents() {
-        Bukkit.getPluginManager().registerEvents(new ArenaSetupEventHandler(), plugin);
+        Bukkit.getPluginManager().registerEvents(new ArenaSetupEventHandler(this.plugin), this.plugin);
     }
 }

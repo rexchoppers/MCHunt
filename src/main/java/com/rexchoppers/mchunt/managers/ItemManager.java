@@ -28,6 +28,11 @@ public class ItemManager {
     public String getItemAction(ItemStack itemStack) {
         NamespacedKey key = new NamespacedKey(this.plugin, "action");
         ItemMeta itemMeta = itemStack.getItemMeta();
+
+        if(itemMeta == null) {
+            return null;
+        }
+
         PersistentDataContainer container = itemMeta.getPersistentDataContainer();
 
         if(container.has(key , PersistentDataType.STRING)) {

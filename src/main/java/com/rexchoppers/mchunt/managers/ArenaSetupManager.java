@@ -61,6 +61,13 @@ public class ArenaSetupManager {
         save(arenaSetups);
     }
 
+    public void updateArenaSetup(ArenaSetup arenaSetup) {
+        Optional<ArenaSetup> existingArenaSetup = getArenaSetupByPlayerUuid(arenaSetups, arenaSetup.getPlayerUuid());
+        existingArenaSetup.ifPresent(setup -> arenaSetups.remove(setup));
+        arenaSetups.add(arenaSetup);
+        save(arenaSetups);
+    }
+
     private void save(List<ArenaSetup> arenaSetups) {
         Gson gson = plugin.getGson();
         try (FileWriter writer = new FileWriter(filePath)) {
@@ -89,5 +96,9 @@ public class ArenaSetupManager {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public List<ArenaSetup> getArenaSetups() {
+        return arenaSetups;
     }
 }
