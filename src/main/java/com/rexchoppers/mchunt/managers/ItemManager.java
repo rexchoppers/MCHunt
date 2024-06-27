@@ -23,6 +23,7 @@ public class ItemManager {
 
     public void setArenaSetupItems(Player player) {
         player.getInventory().setItem(0, itemArenaSetupSelection().build());
+        player.getInventory().setItem(1, itemArenaSetupSetName().build());
     }
 
     public String getItemAction(ItemStack itemStack) {

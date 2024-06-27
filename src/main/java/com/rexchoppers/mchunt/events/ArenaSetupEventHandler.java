@@ -2,10 +2,12 @@ package com.rexchoppers.mchunt.events;
 
 import com.rexchoppers.mchunt.MCHunt;
 import com.rexchoppers.mchunt.exceptions.ArenaSetupNotFoundException;
+import com.rexchoppers.mchunt.managers.ArenaManager;
 import com.rexchoppers.mchunt.managers.ArenaSetupManager;
 import com.rexchoppers.mchunt.managers.LocalizationManager;
 import com.rexchoppers.mchunt.models.ArenaSetup;
 import com.rexchoppers.mchunt.util.BoundaryUtil;
+import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -16,6 +18,8 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -44,7 +48,7 @@ public class ArenaSetupEventHandler implements Listener {
         Player player = event.getPlayer();
         ItemStack itemInMainHand = player.getInventory().getItemInMainHand();
 
-        if (isEmptyItem(itemInMainHand) || isBlockClickedEmpty(event)) {
+        if (isEmptyItem(itemInMainHand)) {
             return;
         }
 
@@ -70,8 +74,67 @@ public class ArenaSetupEventHandler implements Listener {
         String action = this.plugin.getItemManager().getItemAction(itemInMainHand);
 
         switch (action) {
+            case "mchunt.arenaName":
+                if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+                    new AnvilGUI.Builder()
+                            .onClose(stateSnapshot -> {
+                                String name = stateSnapshot.getText();
+
+                                if (name == null || name.isEmpty()) {
+                                    sendPlayerError(
+                                            player,
+                                            new LocalizationManager(MCHunt.getCurrentLocale())
+                                                    .getMessage(
+                                                            "arena.setup.name_not_empty"
+                                                    )
+                                    );
+                                    return;
+                                }
+
+                                // Check if the name is a duplicate
+                                ArenaManager arenaManager = this.plugin.getArenaManager();
+                                if (arenaManager.getArenaByName(arenaManager.getArenas(), name).isPresent()) {
+                                    sendPlayerError(
+                                            player,
+                                            new LocalizationManager(MCHunt.getCurrentLocale())
+                                                    .getMessage(
+                                                            "arena.setup.name_duplicate", name
+                                                    )
+                                    );
+                                    return;
+                                }
+
+                                arenaSetup.setArenaName(name);
+                                this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+
+                                sendPlayerAudibleMessage(
+                                        player,
+                                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                                .getMessage(
+                                                        "arena.setup.name_set", name
+                                                )
+                                );
+                            })
+                            .onClick((slot, stateSnapshot) -> {
+                                if (slot != AnvilGUI.Slot.OUTPUT) {
+                                    return Collections.emptyList();
+                                }
+
+                                return Arrays.asList(AnvilGUI.ResponseAction.close());
+                            })
+                            .preventClose()
+                            .text("Arena")
+                            .title("Enter Arena Name")
+                            .plugin(this.plugin)                                          //set the plugin instance
+                            .open(player);                                                   //opens the GUI for the player provided
+                }
+                break;
             // Boundary selection
             case "mchunt.boundarySelection":
+                if(isBlockClickedEmpty(event)) {
+                    return;
+                }
+
                 BoundaryUtil boundaryUtil = new BoundaryUtil();
 
                 // Clear any pre-existing boundaries for the user

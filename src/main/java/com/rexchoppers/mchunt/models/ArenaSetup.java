@@ -17,6 +17,9 @@ public class ArenaSetup {
     private UUID playerUuid;
 
     @Expose
+    private String arenaName;
+
+    @Expose
     private ItemStack[] inventory;
 
     @Expose
@@ -69,5 +72,13 @@ public class ArenaSetup {
 
     public void clearTmpBoundaryTracking() {
         this.tmpBoundaryTracking.clear();
+    }
+
+    public String getArenaName() {
+        return arenaName;
+    }
+
+    public void setArenaName(String arenaName) {
+        this.arenaName = arenaName;
     }
 }
