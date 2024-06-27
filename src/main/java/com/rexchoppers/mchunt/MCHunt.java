@@ -5,10 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.rexchoppers.mchunt.commands.CommandMCHunt;
 import com.rexchoppers.mchunt.enums.ArenaStatus;
-import com.rexchoppers.mchunt.managers.EventManager;
-import com.rexchoppers.mchunt.managers.ItemManager;
-import com.rexchoppers.mchunt.managers.ArenaManager;
-import com.rexchoppers.mchunt.managers.ArenaSetupManager;
+import com.rexchoppers.mchunt.managers.*;
 import com.rexchoppers.mchunt.serializers.*;
 import fr.minuskube.inv.InventoryManager;
 import org.bukkit.Location;
@@ -31,6 +28,8 @@ public final class MCHunt extends JavaPlugin {
     
     private EventManager eventManager;
 
+    private PacketManager packetManager;
+
     @Override
     public void onEnable() {
         this.gson = new GsonBuilder()
@@ -50,9 +49,14 @@ public final class MCHunt extends JavaPlugin {
         this.arenaManager = new ArenaManager(this,
                 this.getDataFolder().getAbsolutePath() + FileSystems.getDefault().getSeparator() + "arenas.json"
         );
+
         this.arenaSetupManager = new ArenaSetupManager(this,
                 this.getDataFolder().getAbsolutePath() + FileSystems.getDefault().getSeparator() + "arenaSetup.json"
         );
+
+        this.packetManager = new PacketManager(this);
+        this.packetManager.registerPackets();
+
         this.eventManager = new EventManager(this);
         this.eventManager.registerEvents();
 
