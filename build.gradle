@@ -16,6 +16,10 @@ repositories {
         name = "sonatype"
         url = "https://oss.sonatype.org/content/groups/public/"
     }
+    maven {
+        name = "codemc-snapshots"
+        url = "https://repo.codemc.io/repository/maven-snapshots/"
+    }
     maven { url = "https://repo.aikar.co/content/groups/aikar/" }
 
 }
@@ -27,6 +31,8 @@ dependencies {
     implementation "co.aikar:acf-paper:0.5.1-SNAPSHOT"
     implementation "co.aikar:acf-core:0.5.1-SNAPSHOT"
     implementation 'fr.minuskube.inv:smart-invs:1.2.7'
+    implementation 'net.wesjd:anvilgui:1.9.6-SNAPSHOT'
+
 
 }
 
