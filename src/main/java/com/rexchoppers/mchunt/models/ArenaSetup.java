@@ -23,6 +23,9 @@ public class ArenaSetup {
     private ItemStack[] inventory;
 
     @Expose
+    private Location[] arenaSigns;
+
+    @Expose
     private Location locationBoundaryPoint1;
 
     @Expose
