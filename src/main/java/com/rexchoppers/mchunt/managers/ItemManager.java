@@ -84,4 +84,17 @@ public class ItemManager {
                     add(Format.processString("%aRIGHT %tclick to select the second point"));
                 }});
     }
+
+    public ItemBuilder itemArenaSetupSetName() {
+        return new ItemBuilder(this.plugin)
+                .setMaterial(Material.NAME_TAG)
+                .setAmount(1)
+                .setName(Format.processString("%n%BArena Name"))
+                .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
+                .setAction("mchunt.arenaName")
+                .setLores(new ArrayList<String>() {{
+                    add("");
+                    add(Format.processString("%tSet the name of the arena"));
+                }});
+    }
 }
