@@ -123,10 +123,10 @@ public class ArenaSetupEventHandler implements Listener {
                                 return Arrays.asList(AnvilGUI.ResponseAction.close());
                             })
                             .preventClose()
-                            .text("Arena")
+                            .text(arenaSetup.getArenaName() == null || arenaSetup.getArenaName().isEmpty() ? "Arena" : arenaSetup.getArenaName())
                             .title("Enter Arena Name")
-                            .plugin(this.plugin)                                          //set the plugin instance
-                            .open(player);                                                   //opens the GUI for the player provided
+                            .plugin(this.plugin)
+                            .open(player);
                 }
                 break;
             // Boundary selection
