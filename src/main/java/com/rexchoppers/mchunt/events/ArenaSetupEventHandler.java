@@ -104,6 +104,11 @@ public class ArenaSetupEventHandler implements Listener {
                                     return;
                                 }
 
+                                // If no name changes were made, stop
+                                if (name.equals(arenaSetup.getArenaName())) {
+                                    return;
+                                }
+
                                 arenaSetup.setArenaName(name);
                                 this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
 
@@ -122,7 +127,6 @@ public class ArenaSetupEventHandler implements Listener {
 
                                 return Arrays.asList(AnvilGUI.ResponseAction.close());
                             })
-                            .preventClose()
                             .text(arenaSetup.getArenaName() == null || arenaSetup.getArenaName().isEmpty() ? "Arena" : arenaSetup.getArenaName())
                             .title("Enter Arena Name")
                             .plugin(this.plugin)
