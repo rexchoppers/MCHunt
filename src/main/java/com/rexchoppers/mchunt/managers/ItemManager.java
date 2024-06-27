@@ -24,6 +24,7 @@ public class ItemManager {
     public void setArenaSetupItems(Player player) {
         player.getInventory().setItem(0, itemArenaSetupSelection().build());
         player.getInventory().setItem(1, itemArenaSetupSetName().build());
+        player.getInventory().setItem(2, itemArenaSetupSign().build());
     }
 
     public String getItemAction(ItemStack itemStack) {
@@ -96,6 +97,19 @@ public class ItemManager {
                 .setLores(new ArrayList<String>() {{
                     add("");
                     add(Format.processString("%tSet the name of the arena"));
+                }});
+    }
+
+    public ItemBuilder itemArenaSetupSign() {
+        return new ItemBuilder(this.plugin)
+                .setMaterial(Material.OAK_SIGN)
+                .setAmount(1)
+                .setName(Format.processString("%n%BArena Sign"))
+                .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
+                .setAction("mchunt.arenaSign")
+                .setLores(new ArrayList<String>() {{
+                    add("");
+                    add(Format.processString("%tSet the arena signs"));
                 }});
     }
 }
