@@ -54,7 +54,8 @@ public class ArenaSetupEventHandler implements Listener {
             "mchunt.boundarySelection",
             "mchunt.arenaSign",
             "mchunt.cancelArenaSetup",
-            "mchunt.saveArenaSetup"
+            "mchunt.saveArenaSetup",
+            "mchunt.arenaBlocks"
     };
 
     String[] restrictClickItemActions = {
@@ -62,7 +63,8 @@ public class ArenaSetupEventHandler implements Listener {
             "mchunt.boundarySelection",
             "mchunt.arenaSign",
             "mchunt.cancelArenaSetup",
-            "mchunt.saveArenaSetup"
+            "mchunt.saveArenaSetup",
+            "mchunt.arenaBlocks"
     };
 
     @EventHandler

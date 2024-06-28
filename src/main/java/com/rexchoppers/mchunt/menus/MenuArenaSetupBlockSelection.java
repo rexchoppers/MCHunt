@@ -84,8 +84,8 @@ public class MenuArenaSetupBlockSelection extends MenuBase {
                 }
 
                 if (isSelected) {
-                    meta.addEnchant(Enchantment.LURE, 1, true); // Add an enchantment
-                    itemStack.setItemMeta(meta); // Set the modified meta back to the ItemStack
+                    meta.addEnchant(Enchantment.LURE, 1, true);
+                    itemStack.setItemMeta(meta);
                 }
 
                 if (selectedBlocksOnly && !isSelected) {
@@ -140,16 +140,13 @@ public class MenuArenaSetupBlockSelection extends MenuBase {
                     getInventory().open(player, pagination.first().getPage());
                 }));
             }
-            
+
             inventoryContents.set(5, 3, ClickableItem.of(new ItemStack(Material.ARROW), e -> {
                 if (pagination.isFirst()) return;
                 getInventory().open(player, pagination.previous().getPage());
             }));
 
             inventoryContents.set(5, 5, ClickableItem.of(new ItemStack(Material.ARROW), e -> {
-                Bukkit.getConsoleSender().sendMessage(Boolean.toString(pagination.isLast()));
-                Bukkit.getConsoleSender().sendMessage(Integer.toString(pagination.getPageItems().length));
-                Bukkit.getConsoleSender().sendMessage(Integer.toString(items.toArray(new ClickableItem[0]).length / 45));
                 if (pagination.isLast()) return;
                 getInventory().open(player, pagination.next().getPage());
             }));

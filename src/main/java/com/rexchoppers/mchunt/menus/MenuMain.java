@@ -34,7 +34,6 @@ public class MenuMain extends MenuBase {
 
             if (player.hasPermission(plugin.getItemManager().itemNavigateToAdmin().getPermission())) {
                 contents.set(1, 7, ClickableItem.of(plugin.getItemManager().itemNavigateToAdmin().build(), e -> {
-                    Bukkit.getConsoleSender().sendMessage("Player " + player.getName() + " opened the admin menu");
                     (new MenuAdmin(plugin)).open(player);
                 }));
             }
