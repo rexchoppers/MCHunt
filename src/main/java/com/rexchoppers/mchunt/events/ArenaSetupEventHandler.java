@@ -18,6 +18,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -219,6 +220,40 @@ public class ArenaSetupEventHandler implements Listener {
     }
 
     @EventHandler
+    public void onInventoryClickEvent(InventoryClickEvent event) {
+        if(!(event.getWhoClicked() instanceof Player player)) {
+            return;
+        }
+
+        ArenaSetup arenaSetup = this.plugin.getArenaSetupManager()
+                .getArenaSetupByPlayerUuid(
+                        plugin.getArenaSetupManager().getArenaSetups(),
+                        player.getUniqueId()).orElse(null);
+
+        if (arenaSetup == null) {
+            return;
+        }
+
+        String[] itemActions = {
+            "mchunt.arenaName",
+            "mchunt.boundarySelection",
+            "mchunt.arenaSign"
+        };
+
+        ItemStack item = event.getCurrentItem();
+
+        if (item == null || item.getType().equals(Material.AIR)) {
+            return;
+        }
+
+        String action = this.plugin.getItemManager().getItemAction(item);
+
+        if (action != null && Arrays.asList(itemActions).contains(action)) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
     public void onBlockPlaceEvent(BlockPlaceEvent event) {
         Player player = event.getPlayer();
 
@@ -237,8 +272,6 @@ public class ArenaSetupEventHandler implements Listener {
         if (action != null) {
             switch (action) {
                 case "mchunt.arenaSign":
-                    player.sendMessage("Block placed");
-                    player.sendMessage("Matches");
                     arenaSetup.appendArenaSign(event.getBlockPlaced().getLocation());
                     this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
 
