@@ -258,6 +258,53 @@ public class ArenaSetupEventHandler implements Listener {
     }
 
     @EventHandler
+    public void onBlockBreakEvent(BlockPlaceEvent event) {
+        Player player = event.getPlayer();
+
+        ArenaSetup arenaSetup = this.plugin.getArenaSetupManager()
+                .getArenaSetupByPlayerUuid(
+                        plugin.getArenaSetupManager().getArenaSetups(),
+                        player.getUniqueId()).orElse(null);
+
+        if (arenaSetup == null) {
+            return;
+        }
+
+        ItemStack itemInHand = player.getInventory().getItemInMainHand();
+        String action = this.plugin.getItemManager().getItemAction(itemInHand);
+
+        if (action != null) {
+            switch (action) {
+                case "mchunt.arenaSign":
+                    Location blockLocation = event.getBlock().getLocation();
+
+                    if (arenaSetup.getArenaSigns() != null) {
+                        for (Location location : arenaSetup.getArenaSigns()) {
+                            if (location.equals(blockLocation)) {
+                                arenaSetup.removeArenaSign(location);
+                                this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+
+                                sendPlayerAudibleMessage(
+                                        player,
+                                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                                .getMessage(
+                                                        "arena.setup.sign_removed",
+                                                        blockLocation.getWorld().getName(),
+                                                        Double.toString(blockLocation.getX()),
+                                                        Double.toString(blockLocation.getY()),
+                                                        Double.toString(blockLocation.getZ())
+                                                )
+                                );
+                                break;
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+    }
+
+    @EventHandler
     public void onPlayerDropItemEvent(PlayerDropItemEvent event) {
         Player player = event.getPlayer();
 

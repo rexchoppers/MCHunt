@@ -106,6 +106,23 @@ public class ArenaSetup {
             this.setArenaSigns(newArray);
     }
 
+    public void removeArenaSign(Location locationToRemove) {
+        Location[] currentArenaSigns = this.getArenaSigns();
+        Location[] newArray = new Location[this.arenaSigns.length - 1];
+
+        int j = 0;
+        for (Location currentArenaSign : currentArenaSigns) {
+            if (currentArenaSign.equals(locationToRemove)) {
+                continue;
+            }
+
+            newArray[j] = currentArenaSign;
+            j++;
+        }
+
+        this.setArenaSigns(newArray);
+    }
+
     public void setArenaSigns(Location[] arenaSigns) {
         this.arenaSigns = arenaSigns;
     }
