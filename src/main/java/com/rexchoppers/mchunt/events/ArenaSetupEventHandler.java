@@ -221,7 +221,7 @@ public class ArenaSetupEventHandler implements Listener {
 
     @EventHandler
     public void onInventoryClickEvent(InventoryClickEvent event) {
-        if(!(event.getWhoClicked() instanceof Player player)) {
+        if (!(event.getWhoClicked() instanceof Player player)) {
             return;
         }
 
@@ -235,9 +235,11 @@ public class ArenaSetupEventHandler implements Listener {
         }
 
         String[] itemActions = {
-            "mchunt.arenaName",
-            "mchunt.boundarySelection",
-            "mchunt.arenaSign"
+                "mchunt.arenaName",
+                "mchunt.boundarySelection",
+                "mchunt.arenaSign",
+                "mchunt.cancelArenaSetup",
+                "mchunt.saveArenaSetup"
         };
 
         ItemStack item = event.getCurrentItem();
