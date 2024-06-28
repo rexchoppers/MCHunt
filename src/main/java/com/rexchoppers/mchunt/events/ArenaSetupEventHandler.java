@@ -50,21 +50,21 @@ public class ArenaSetupEventHandler implements Listener {
     }
 
     String[] restrictDropItemActions = {
-            "mchunt.arenaName",
-            "mchunt.boundarySelection",
-            "mchunt.arenaSign",
-            "mchunt.cancelArenaSetup",
-            "mchunt.saveArenaSetup",
-            "mchunt.arenaBlocks"
+            "mchunt.setup.arenaName",
+            "mchunt.setup.boundarySelection",
+            "mchunt.setup.arenaSign",
+            "mchunt.setup.cancelArenaSetup",
+            "mchunt.setup.saveArenaSetup",
+            "mchunt.setup.arenaBlocks"
     };
 
     String[] restrictClickItemActions = {
-            "mchunt.arenaName",
-            "mchunt.boundarySelection",
-            "mchunt.arenaSign",
-            "mchunt.cancelArenaSetup",
-            "mchunt.saveArenaSetup",
-            "mchunt.arenaBlocks"
+            "mchunt.setup.arenaName",
+            "mchunt.setup.boundarySelection",
+            "mchunt.setup.arenaSign",
+            "mchunt.setup.cancelArenaSetup",
+            "mchunt.setup.saveArenaSetup",
+            "mchunt.setup.arenaBlocks"
     };
 
     @EventHandler
@@ -99,13 +99,13 @@ public class ArenaSetupEventHandler implements Listener {
 
         if (action != null) {
             switch (action) {
-                case "mchunt.arenaBlocks":
+                case "mchunt.setup.arenaBlocks":
                     if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
                         new MenuArenaSetupBlockSelection(this.plugin).getInventory().open(player);
                         event.setCancelled(true);
                     }
                     break;
-                case "mchunt.arenaName":
+                case "mchunt.setup.arenaName":
                     if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
                         new AnvilGUI.Builder()
                                 .onClose(stateSnapshot -> {
@@ -165,7 +165,7 @@ public class ArenaSetupEventHandler implements Listener {
                     }
                     break;
                 // Boundary selection
-                case "mchunt.boundarySelection":
+                case "mchunt.setup.boundarySelection":
                     if (isBlockClickedEmpty(event)) {
                         return;
                     }
@@ -302,7 +302,7 @@ public class ArenaSetupEventHandler implements Listener {
 
         if (action != null) {
             switch (action) {
-                case "mchunt.arenaSign":
+                case "mchunt.setup.arenaSign":
                     arenaSetup.appendArenaSign(event.getBlockPlaced().getLocation());
                     this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
 

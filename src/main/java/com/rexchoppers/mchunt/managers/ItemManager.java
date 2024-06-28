@@ -27,7 +27,7 @@ public class ItemManager {
         player.getInventory().setItem(0, itemArenaSetupSelection().build());
         player.getInventory().setItem(1, itemArenaSetupSetName().build());
         player.getInventory().setItem(2, itemArenaSetupSign().build());
-        player.getInventory().setItem(3, itemArenaSetupBlocks().build());
+        player.getInventory().setItem(3, itemArenaSetupConfig().build());
         player.getInventory().setItem(7, itemArenaSetupCancel().build());
         player.getInventory().setItem(8, itemArenaSetupSave().build());
     }
@@ -239,7 +239,7 @@ public class ItemManager {
                 .setAmount(1)
                 .setName(Format.processString("%n%BBoundary Selection"))
                 .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
-                .setAction("mchunt.boundarySelection")
+                .setAction("mchunt.setup.boundarySelection")
                 .setLores(new ArrayList<String>() {{
                     add("");
                     add(Format.processString("%tBoundary selection mode"));
@@ -255,7 +255,7 @@ public class ItemManager {
                 .setAmount(1)
                 .setName(Format.processString("%n%BArena Name"))
                 .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
-                .setAction("mchunt.arenaName")
+                .setAction("mchunt.setup.arenaName")
                 .setLores(new ArrayList<String>() {{
                     add("");
                     add(Format.processString("%tSet the name of the arena"));
@@ -268,7 +268,7 @@ public class ItemManager {
                 .setAmount(1)
                 .setName(Format.processString("%n%BArena Sign"))
                 .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
-                .setAction("mchunt.arenaSign")
+                .setAction("mchunt.setup.arenaSign")
                 .setLores(new ArrayList<String>() {{
                     add("");
                     add(Format.processString("%tSet the arena signs"));
@@ -281,7 +281,7 @@ public class ItemManager {
                 .setAmount(1)
                 .setName(Format.processString("%n%BArena Blocks"))
                 .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
-                .setAction("mchunt.arenaBlocks")
+                .setAction("mchunt.setup.arenaBlocks")
                 .setLores(new ArrayList<String>() {{
                     add("");
                     add(Format.processString("%tSet the blocks for the arena"));
@@ -294,7 +294,7 @@ public class ItemManager {
                 .setAmount(1)
                 .setName(Format.processString("%n%BToggle Selected - %gON"))
                 .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
-                .setAction("mchunt.toggleSelectedBlock")
+                .setAction("mchunt.setup.toggleSelectedBlock")
                 .setLores(new ArrayList<String>() {{
                     add("");
                     add(Format.processString("%tClick to show all blocks"));
@@ -307,10 +307,23 @@ public class ItemManager {
                 .setAmount(1)
                 .setName(Format.processString("%n%BToggle Selected - %eOFF"))
                 .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
-                .setAction("mchunt.toggleSelectedBlock")
+                .setAction("mchunt.setup.toggleSelectedBlock")
                 .setLores(new ArrayList<String>() {{
                     add("");
                     add(Format.processString("%tClick to show selected blocks only"));
+                }});
+    }
+
+    public ItemBuilder itemArenaSetupConfig() {
+        return new ItemBuilder(this.plugin)
+                .setMaterial(Material.PAPER)
+                .setAmount(1)
+                .setName(Format.processString("%n%BArena Config"))
+                .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
+                .setAction("mchunt.setup.arenaConfig")
+                .setLores(new ArrayList<String>() {{
+                    add("");
+                    add(Format.processString("%tCancel the current arena setup"));
                 }});
     }
 
@@ -320,7 +333,7 @@ public class ItemManager {
                 .setAmount(1)
                 .setName(Format.processString("%n%BCancel"))
                 .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
-                .setAction("mchunt.cancelArenaSetup")
+                .setAction("mchunt.setup.cancelArenaSetup")
                 .setLores(new ArrayList<String>() {{
                     add("");
                     add(Format.processString("%tCancel the current arena setup"));
@@ -333,7 +346,7 @@ public class ItemManager {
                 .setAmount(1)
                 .setName(Format.processString("%n%BSave"))
                 .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
-                .setAction("mchunt.saveArenaSetup")
+                .setAction("mchunt.setup.saveArenaSetup")
                 .setLores(new ArrayList<String>() {{
                     add("");
                     add(Format.processString("%tSave the current arena setup"));
