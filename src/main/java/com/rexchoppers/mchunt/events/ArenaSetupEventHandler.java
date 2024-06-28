@@ -73,142 +73,144 @@ public class ArenaSetupEventHandler implements Listener {
 
         String action = this.plugin.getItemManager().getItemAction(itemInMainHand);
 
-        switch (action) {
-            case "mchunt.arenaName":
-                if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
-                    new AnvilGUI.Builder()
-                            .onClose(stateSnapshot -> {
-                                String name = stateSnapshot.getText();
+        if (action != null) {
+            switch (action) {
+                case "mchunt.arenaName":
+                    if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+                        new AnvilGUI.Builder()
+                                .onClose(stateSnapshot -> {
+                                    String name = stateSnapshot.getText();
 
-                                if (name == null || name.isEmpty()) {
-                                    sendPlayerError(
+                                    if (name == null || name.isEmpty()) {
+                                        sendPlayerError(
+                                                player,
+                                                new LocalizationManager(MCHunt.getCurrentLocale())
+                                                        .getMessage(
+                                                                "arena.setup.name_not_empty"
+                                                        )
+                                        );
+                                        return;
+                                    }
+
+                                    // Check if the name is a duplicate
+                                    ArenaManager arenaManager = this.plugin.getArenaManager();
+                                    if (arenaManager.getArenaByName(arenaManager.getArenas(), name).isPresent()) {
+                                        sendPlayerError(
+                                                player,
+                                                new LocalizationManager(MCHunt.getCurrentLocale())
+                                                        .getMessage(
+                                                                "arena.setup.name_duplicate", name
+                                                        )
+                                        );
+                                        return;
+                                    }
+
+                                    // If no name changes were made, stop
+                                    if (name.equals(arenaSetup.getArenaName())) {
+                                        return;
+                                    }
+
+                                    arenaSetup.setArenaName(name);
+                                    this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+
+                                    sendPlayerAudibleMessage(
                                             player,
                                             new LocalizationManager(MCHunt.getCurrentLocale())
                                                     .getMessage(
-                                                            "arena.setup.name_not_empty"
+                                                            "arena.setup.name_set", name
                                                     )
                                     );
-                                    return;
-                                }
+                                })
+                                .onClick((slot, stateSnapshot) -> {
+                                    if (slot != AnvilGUI.Slot.OUTPUT) {
+                                        return Collections.emptyList();
+                                    }
 
-                                // Check if the name is a duplicate
-                                ArenaManager arenaManager = this.plugin.getArenaManager();
-                                if (arenaManager.getArenaByName(arenaManager.getArenas(), name).isPresent()) {
-                                    sendPlayerError(
-                                            player,
-                                            new LocalizationManager(MCHunt.getCurrentLocale())
-                                                    .getMessage(
-                                                            "arena.setup.name_duplicate", name
-                                                    )
-                                    );
-                                    return;
-                                }
+                                    return Arrays.asList(AnvilGUI.ResponseAction.close());
+                                })
+                                .text(arenaSetup.getArenaName() == null || arenaSetup.getArenaName().isEmpty() ? "Arena" : arenaSetup.getArenaName())
+                                .title("Enter Arena Name")
+                                .plugin(this.plugin)
+                                .open(player);
+                    }
+                    break;
+                // Boundary selection
+                case "mchunt.boundarySelection":
+                    if (isBlockClickedEmpty(event)) {
+                        return;
+                    }
 
-                                // If no name changes were made, stop
-                                if (name.equals(arenaSetup.getArenaName())) {
-                                    return;
-                                }
+                    BoundaryUtil boundaryUtil = new BoundaryUtil();
 
-                                arenaSetup.setArenaName(name);
-                                this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+                    // Clear any pre-existing boundaries for the user
+                    boundaryUtil.clearTemporaryBoundary(player, arenaSetup);
 
-                                sendPlayerAudibleMessage(
-                                        player,
-                                        new LocalizationManager(MCHunt.getCurrentLocale())
-                                                .getMessage(
-                                                        "arena.setup.name_set", name
-                                                )
-                                );
-                            })
-                            .onClick((slot, stateSnapshot) -> {
-                                if (slot != AnvilGUI.Slot.OUTPUT) {
-                                    return Collections.emptyList();
-                                }
+                    // Left click = Boundary point 1
+                    if (event.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
+                        arenaSetup.setLocationBoundaryPoint1(event.getClickedBlock().getLocation());
+                        this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+                        sendPlayerAudibleMessage(
+                                player,
+                                new LocalizationManager(MCHunt.getCurrentLocale())
+                                        .getMessage(
+                                                "arena.setup.boundary_set",
+                                                "1",
+                                                event.getClickedBlock().getLocation().getWorld().getName(),
+                                                Double.toString(event.getClickedBlock().getLocation().getX()),
+                                                Double.toString(event.getClickedBlock().getLocation().getY()),
+                                                Double.toString(event.getClickedBlock().getLocation().getZ())
+                                        )
+                        );
+                    }
 
-                                return Arrays.asList(AnvilGUI.ResponseAction.close());
-                            })
-                            .text(arenaSetup.getArenaName() == null || arenaSetup.getArenaName().isEmpty() ? "Arena" : arenaSetup.getArenaName())
-                            .title("Enter Arena Name")
-                            .plugin(this.plugin)
-                            .open(player);
-                }
-                break;
-            // Boundary selection
-            case "mchunt.boundarySelection":
-                if(isBlockClickedEmpty(event)) {
-                    return;
-                }
-
-                BoundaryUtil boundaryUtil = new BoundaryUtil();
-
-                // Clear any pre-existing boundaries for the user
-                boundaryUtil.clearTemporaryBoundary(player, arenaSetup);
-
-                // Left click = Boundary point 1
-                if (event.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
-                    arenaSetup.setLocationBoundaryPoint1(event.getClickedBlock().getLocation());
-                    this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
-                    sendPlayerAudibleMessage(
-                            player,
-                            new LocalizationManager(MCHunt.getCurrentLocale())
-                                    .getMessage(
-                                            "arena.setup.boundary_set",
-                                            "1",
-                                            event.getClickedBlock().getLocation().getWorld().getName(),
-                                            Double.toString(event.getClickedBlock().getLocation().getX()),
-                                            Double.toString(event.getClickedBlock().getLocation().getY()),
-                                            Double.toString(event.getClickedBlock().getLocation().getZ())
-                                    )
-                    );
-                }
-
-                // Right click = Boundary point 2
-                if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
-                    arenaSetup.setLocationBoundaryPoint2(event.getClickedBlock().getLocation());
-                    this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
-                    sendPlayerAudibleMessage(
-                            player,
-                            new LocalizationManager(MCHunt.getCurrentLocale())
-                                    .getMessage(
-                                            "arena.setup.boundary_set",
-                                            "2",
-                                            event.getClickedBlock().getLocation().getWorld().getName(),
-                                            Double.toString(event.getClickedBlock().getLocation().getX()),
-                                            Double.toString(event.getClickedBlock().getLocation().getY()),
-                                            Double.toString(event.getClickedBlock().getLocation().getZ())
-                                    )
-                    );
-                }
+                    // Right click = Boundary point 2
+                    if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+                        arenaSetup.setLocationBoundaryPoint2(event.getClickedBlock().getLocation());
+                        this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+                        sendPlayerAudibleMessage(
+                                player,
+                                new LocalizationManager(MCHunt.getCurrentLocale())
+                                        .getMessage(
+                                                "arena.setup.boundary_set",
+                                                "2",
+                                                event.getClickedBlock().getLocation().getWorld().getName(),
+                                                Double.toString(event.getClickedBlock().getLocation().getX()),
+                                                Double.toString(event.getClickedBlock().getLocation().getY()),
+                                                Double.toString(event.getClickedBlock().getLocation().getZ())
+                                        )
+                        );
+                    }
 
                 /*
                   Check if the 2 boundary points are set and are in the same world.
                   If not, set them as null and warn player
                  */
-                if (arenaSetup.getLocationBoundaryPoint1() != null &&
-                        arenaSetup.getLocationBoundaryPoint2() != null) {
-                    if(!arenaSetup.getLocationBoundaryPoint1().getWorld().getName().equals(arenaSetup.getLocationBoundaryPoint2().getWorld().getName())) {
-                        sendPlayerError(
-                                player,
-                                new LocalizationManager(MCHunt.getCurrentLocale())
-                                        .getMessage(
-                                                "arena.setup.boundary_world_mismatch"
-                                        )
-                        );
-                        arenaSetup.setLocationBoundaryPoint1(null);
-                        arenaSetup.setLocationBoundaryPoint2(null);
-                    } else {
-                        boundaryUtil.drawArenaBoundary(
-                                player,
-                                arenaSetup
-                        );
+                    if (arenaSetup.getLocationBoundaryPoint1() != null &&
+                            arenaSetup.getLocationBoundaryPoint2() != null) {
+                        if (!arenaSetup.getLocationBoundaryPoint1().getWorld().getName().equals(arenaSetup.getLocationBoundaryPoint2().getWorld().getName())) {
+                            sendPlayerError(
+                                    player,
+                                    new LocalizationManager(MCHunt.getCurrentLocale())
+                                            .getMessage(
+                                                    "arena.setup.boundary_world_mismatch"
+                                            )
+                            );
+                            arenaSetup.setLocationBoundaryPoint1(null);
+                            arenaSetup.setLocationBoundaryPoint2(null);
+                        } else {
+                            boundaryUtil.drawArenaBoundary(
+                                    player,
+                                    arenaSetup
+                            );
+                        }
                     }
-                }
 
-                this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
-                event.setCancelled(true);
-                break;
-            default:
-                break;
+                    this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+                    event.setCancelled(true);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -230,7 +232,7 @@ public class ArenaSetupEventHandler implements Listener {
 
         String action = this.plugin.getItemManager().getItemAction(itemStack);
 
-        if(action != null && action.equals("mchunt.boundarySelection")) {
+        if (action != null && action.equals("mchunt.boundarySelection")) {
             event.setCancelled(true);
             sendPlayerError(
                     player,
