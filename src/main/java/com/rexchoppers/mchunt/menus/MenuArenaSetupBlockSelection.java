@@ -11,7 +11,9 @@ import fr.minuskube.inv.content.SlotIterator;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,13 +63,21 @@ public class MenuArenaSetupBlockSelection extends MenuBase {
 
             for (Material material : blockMaterials) {
                 ItemStack itemStack = new ItemStack(material);
+                ItemMeta meta = itemStack.getItemMeta(); // Retrieve the current ItemMeta
 
+                boolean isSelected = false;
                 if (arenaBlocks != null) {
                     for (String arenaBlock : arenaBlocks) {
                         if (arenaBlock.equals(material.toString())) {
-                            itemStack.getItemMeta().addEnchant(Enchantment.LURE, 1, true);
+                            isSelected = true;
+                            break;
                         }
                     }
+                }
+
+                if (isSelected) {
+                    meta.addEnchant(Enchantment.LURE, 1, true); // Add an enchantment
+                    itemStack.setItemMeta(meta); // Set the modified meta back to the ItemStack
                 }
 
                 items.add(ClickableItem.of(itemStack, e -> {
@@ -90,10 +100,11 @@ public class MenuArenaSetupBlockSelection extends MenuBase {
                 }));
             }
 
-            pagination.setItems(items.toArray(new ClickableItem[0]));
-            pagination.setItemsPerPage(36);
 
-            pagination.addToIterator(inventoryContents.newIterator(SlotIterator.Type.HORIZONTAL, 1, 1));
+            pagination.setItems(items.toArray(new ClickableItem[0]));
+            pagination.setItemsPerPage(45);
+
+            pagination.addToIterator(inventoryContents.newIterator(SlotIterator.Type.HORIZONTAL, 0, 0));
 
             inventoryContents.set(5, 3, ClickableItem.of(new ItemStack(Material.ARROW),
                     e -> getInventory().open(player, pagination.previous().getPage())));

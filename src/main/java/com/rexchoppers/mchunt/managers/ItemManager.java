@@ -50,8 +50,25 @@ public class ItemManager {
     }
 
     public List<Material> getBlockMaterials() {
+        String[] excludedBlocks = {
+                Material.AIR.name(),
+        };
+
         List<Material> blockMaterials = new ArrayList<>();
         for (Material material : Material.values()) {
+            boolean excluded = false;
+
+            for (String excludedBlock : excludedBlocks) {
+                if (material.name().equals(excludedBlock)) {
+                    excluded = true;
+                    break;
+                }
+            }
+
+            if (excluded) {
+                continue;
+            }
+
             if (material.isBlock()) {
                 blockMaterials.add(material);
             }

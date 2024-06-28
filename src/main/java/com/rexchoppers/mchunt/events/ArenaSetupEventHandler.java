@@ -5,6 +5,7 @@ import com.rexchoppers.mchunt.exceptions.ArenaSetupNotFoundException;
 import com.rexchoppers.mchunt.managers.ArenaManager;
 import com.rexchoppers.mchunt.managers.ArenaSetupManager;
 import com.rexchoppers.mchunt.managers.LocalizationManager;
+import com.rexchoppers.mchunt.menus.MenuArenaSetupBlockSelection;
 import com.rexchoppers.mchunt.models.ArenaSetup;
 import com.rexchoppers.mchunt.util.BoundaryUtil;
 import net.wesjd.anvilgui.AnvilGUI;
@@ -96,6 +97,12 @@ public class ArenaSetupEventHandler implements Listener {
 
         if (action != null) {
             switch (action) {
+                case "mchunt.arenaBlocks":
+                    if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+                        new MenuArenaSetupBlockSelection(this.plugin).getInventory().open(player);
+                        event.setCancelled(true);
+                    }
+                    break;
                 case "mchunt.arenaName":
                     if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
                         new AnvilGUI.Builder()

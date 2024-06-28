@@ -23,6 +23,9 @@ public class ArenaSetup {
     private Location[] arenaSigns;
 
     @Expose
+    private String[] arenaBlocks;
+
+    @Expose
     private Location locationBoundaryPoint1;
 
     @Expose
@@ -134,5 +137,17 @@ public class ArenaSetup {
 
     public void setArenaSigns(Location[] arenaSigns) {
         this.arenaSigns = arenaSigns;
+    }
+
+    public String[] getArenaBlocks() {
+        if (arenaBlocks == null) {
+            arenaBlocks = new String[0];
+        }
+
+        return arenaBlocks;
+    }
+
+    public void setArenaBlocks(String[] arenaBlocks) {
+        this.arenaBlocks = arenaBlocks;
     }
 }
