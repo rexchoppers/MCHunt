@@ -6,6 +6,7 @@ import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 import com.rexchoppers.mchunt.MCHunt;
+import org.bukkit.inventory.ItemStack;
 
 public class PacketManager {
     private final MCHunt plugin;
@@ -23,9 +24,23 @@ public class PacketManager {
                     public void onPacketSending(PacketEvent event) {
                         ArenaSetupManager arenaSetupManager = PacketManager.this.plugin.getArenaSetupManager();
 
-                        if (arenaSetupManager.getArenaSetupByPlayerUuid(
+                        if (!arenaSetupManager.getArenaSetupByPlayerUuid(
                                 arenaSetupManager.getArenaSetups(),
                                 event.getPlayer().getUniqueId()).isPresent()) {
+                            return;
+                        }
+                        if (event.getPlayer().getInventory().getItemInMainHand().getType().isAir()) {
+                            return;
+                        }
+
+                        ItemStack itemInHand = event.getPlayer().getInventory().getItemInMainHand();
+                        String action = PacketManager.this.plugin.getItemManager().getItemAction(itemInHand);
+
+                        if (action == null) {
+                            return;
+                        }
+
+                        if (action.equals("mchunt.setup.arenaSign")) {
                             event.setCancelled(true);
                         }
                     }
