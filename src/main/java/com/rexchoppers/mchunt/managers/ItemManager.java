@@ -426,6 +426,8 @@ public class ItemManager {
                 .setAmount(1)
                 .setName(Format.processString("%n%BActions"))
                 .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
+                .setAction("mchunt.setup.actions")
+
                 .setLores(new ArrayList<String>() {{
                     add("");
                     add(Format.processString("%tSelect an action to perform"));
