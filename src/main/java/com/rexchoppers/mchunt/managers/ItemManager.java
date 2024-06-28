@@ -35,7 +35,7 @@ public class ItemManager {
             put(5, itemArenaSetupHiderSpawn());
             put(6, itemArenaSetupSeekerSpawn());
             put(7, itemArenaSetupAfterGameSpawn());
-            put(9, itemArenaSetupActions());
+            put(8, itemArenaSetupActions());
         }};
     }
 

@@ -377,14 +377,19 @@ public class ArenaSetupEventHandler implements Listener {
 
         Map<Integer, ItemBuilder> arenaItems = this.plugin.getItemManager().getArenaSetupItems();
 
-        if (action != null && Arrays.asList(this.restrictDropItemActions).contains(action)) {
-            event.setCancelled(true);
-            sendPlayerError(
-                    player,
-                    new LocalizationManager(MCHunt.getCurrentLocale())
-                            .getMessage(
-                                    "player.setup.cannot_drop_setup_items"
-                            ));
+        if (action != null) {
+            for (Map.Entry<Integer, ItemBuilder> entry : arenaItems.entrySet()) {
+                if (entry.getValue().getAction().equals(action)) {
+                    event.setCancelled(true);
+                    sendPlayerError(
+                            player,
+                            new LocalizationManager(MCHunt.getCurrentLocale())
+                                    .getMessage(
+                                            "player.setup.cannot_drop_setup_items"
+                                    ));
+                    return;
+                }
+            }
         }
     }
 }
