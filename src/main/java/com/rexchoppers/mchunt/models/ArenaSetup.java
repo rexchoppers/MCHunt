@@ -150,4 +150,41 @@ public class ArenaSetup {
     public void setArenaBlocks(String[] arenaBlocks) {
         this.arenaBlocks = arenaBlocks;
     }
+
+    public void appendArenaBlock(String blockToAdd) {
+        String[] currentArenaBlocks = this.getArenaBlocks();
+        String[] newArray = new String[this.arenaBlocks.length + 1];
+
+        // Copy the contents of the original array to the new array
+        System.arraycopy(currentArenaBlocks, 0, newArray, 0, currentArenaBlocks.length);
+
+        // Add the new element to the end of the new array
+        newArray[currentArenaBlocks.length] = blockToAdd;
+
+        this.setArenaBlocks(newArray);
+    }
+
+    public void removeArenaBlock(String blockToRemove) {
+        String[] currentArenaBlocks = this.getArenaBlocks();
+
+        if (currentArenaBlocks == null || currentArenaBlocks.length == 0) {
+            this.setArenaBlocks(new String[0]);
+            return;
+        }
+
+        String[] newArray = new String[currentArenaBlocks.length - 1];
+        int j = 0;
+        for (String currentArenaBlock : currentArenaBlocks) {
+            if (currentArenaBlock == null) continue;
+
+            if (currentArenaBlock.equals(blockToRemove)) {
+                continue;
+            }
+
+            newArray[j] = currentArenaBlock;
+            j++;
+        }
+
+        this.setArenaBlocks(newArray);
+    }
 }

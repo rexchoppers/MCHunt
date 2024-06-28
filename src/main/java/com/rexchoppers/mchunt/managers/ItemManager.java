@@ -76,6 +76,17 @@ public class ItemManager {
         return blockMaterials;
     }
 
+    public String formatMaterialName(Material material) {
+        // Convert names like STONE_SWORD to Stone Sword
+        String name = material.name().toLowerCase().replace('_', ' ');
+        String[] words = name.split("\\s+");
+        StringBuilder formattedName = new StringBuilder();
+        for (String word : words) {
+            formattedName.append(Character.toUpperCase(word.charAt(0))).append(word.substring(1)).append(" ");
+        }
+        return formattedName.toString().trim();
+    }
+
     // Items
     public ItemBuilder itemNavigateToAdmin() {
         return new ItemBuilder(this.plugin)

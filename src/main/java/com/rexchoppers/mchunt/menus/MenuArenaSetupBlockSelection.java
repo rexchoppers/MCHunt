@@ -2,13 +2,16 @@ package com.rexchoppers.mchunt.menus;
 
 import com.rexchoppers.mchunt.MCHunt;
 import com.rexchoppers.mchunt.models.ArenaSetup;
+import com.rexchoppers.mchunt.util.Format;
 import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
 import fr.minuskube.inv.content.InventoryProvider;
 import fr.minuskube.inv.content.Pagination;
 import fr.minuskube.inv.content.SlotIterator;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -63,7 +66,12 @@ public class MenuArenaSetupBlockSelection extends MenuBase {
 
             for (Material material : blockMaterials) {
                 ItemStack itemStack = new ItemStack(material);
-                ItemMeta meta = itemStack.getItemMeta(); // Retrieve the current ItemMeta
+                ItemMeta meta = itemStack.getItemMeta();
+
+                Bukkit.getConsoleSender().sendMessage(plugin.getItemManager().formatMaterialName(material));
+
+                // Set the display name of the item
+                meta.setDisplayName(Format.processString("%t" + plugin.getItemManager().formatMaterialName(material) + " %g(Selected)"));
 
                 boolean isSelected = false;
                 if (arenaBlocks != null) {
@@ -84,18 +92,29 @@ public class MenuArenaSetupBlockSelection extends MenuBase {
                     // Add or remove block from arena setup
                     if (arenaBlocks != null) {
                         List<String> newArenaBlocks = new ArrayList<>();
-                        for (String arenaBlock : arenaBlocks) {
-                            if (!arenaBlock.equals(material.toString())) {
-                                newArenaBlocks.add(arenaBlock);
+                        String[] currentArenaBlocks = arenaSetup.getArenaBlocks();
+
+                        // Check if the block is already selected or not
+                        boolean materialAlreadySelected = false;
+
+                        for (String currentArenaBlock : currentArenaBlocks) {
+                            if (Material.valueOf(currentArenaBlock).name().equals(material.name())) {
+                                materialAlreadySelected = true;
                             }
                         }
 
-                        if (newArenaBlocks.size() == arenaBlocks.length) {
-                            newArenaBlocks.add(material.toString());
+                        // Append or remove the block from the arena setup
+                        if (!materialAlreadySelected) {
+                            arenaSetup.appendArenaBlock(material.toString());
+                        } else {
+                            arenaSetup.removeArenaBlock(material.toString());
                         }
-                        arenaSetup.setArenaBlocks(newArenaBlocks.toArray(new String[0]));
-                    } else {
-                        arenaSetup.setArenaBlocks(new String[]{material.toString()});
+
+                        plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+                        player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0F, 1.0F);
+
+                        // Reopen the inventory
+                        getInventory().open(player, pagination.getPage());
                     }
                 }));
             }
@@ -106,10 +125,15 @@ public class MenuArenaSetupBlockSelection extends MenuBase {
 
             pagination.addToIterator(inventoryContents.newIterator(SlotIterator.Type.HORIZONTAL, 0, 0));
 
-            inventoryContents.set(5, 3, ClickableItem.of(new ItemStack(Material.ARROW),
-                    e -> getInventory().open(player, pagination.previous().getPage())));
-            inventoryContents.set(5, 5, ClickableItem.of(new ItemStack(Material.ARROW),
-                    e -> getInventory().open(player, pagination.next().getPage())));
+            inventoryContents.set(5, 3, ClickableItem.of(new ItemStack(Material.ARROW), e -> {
+                if (pagination.isFirst()) return;
+                getInventory().open(player, pagination.previous().getPage());
+            }));
+
+            inventoryContents.set(5, 5, ClickableItem.of(new ItemStack(Material.ARROW), e -> {
+                if (pagination.isLast()) return;
+                getInventory().open(player, pagination.next().getPage());
+            }));
         }
 
         @Override
