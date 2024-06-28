@@ -9,11 +9,14 @@ import com.rexchoppers.mchunt.models.ArenaSetup;
 import com.rexchoppers.mchunt.util.BoundaryUtil;
 import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -209,6 +212,45 @@ public class ArenaSetupEventHandler implements Listener {
                     event.setCancelled(true);
                     break;
                 default:
+                    break;
+            }
+        }
+    }
+
+    @EventHandler
+    public void onBlockPlaceEvent(BlockPlaceEvent event) {
+        Player player = event.getPlayer();
+
+        ArenaSetup arenaSetup = this.plugin.getArenaSetupManager()
+                .getArenaSetupByPlayerUuid(
+                        plugin.getArenaSetupManager().getArenaSetups(),
+                        player.getUniqueId()).orElse(null);
+
+        if (arenaSetup == null) {
+            return;
+        }
+
+        ItemStack itemInHand = player.getInventory().getItemInMainHand();
+        String action = this.plugin.getItemManager().getItemAction(itemInHand);
+
+        if (action != null) {
+            switch (action) {
+                case "mchunt.arenaSign":
+                    if (event.getBlockPlaced().getType().equals(Material.OAK_SIGN)) {
+                        arenaSetup.appendArenaSign(event.getBlockPlaced().getLocation());
+                        this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+
+                        sendPlayerAudibleMessage(
+                                player,
+                                new LocalizationManager(MCHunt.getCurrentLocale())
+                                        .getMessage(
+                                                "arena.setup.sign_set",
+                                                Double.toString(event.getBlockPlaced().getLocation().getX()),
+                                                Double.toString(event.getBlockPlaced().getLocation().getY()),
+                                                Double.toString(event.getBlockPlaced().getLocation().getZ())
+                                        )
+                        );
+                    }
                     break;
             }
         }
