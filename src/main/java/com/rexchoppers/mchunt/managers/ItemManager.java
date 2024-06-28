@@ -13,6 +13,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ItemManager {
     private final MCHunt plugin;
@@ -48,6 +49,17 @@ public class ItemManager {
         return null;
     }
 
+    public List<Material> getBlockMaterials() {
+        List<Material> blockMaterials = new ArrayList<>();
+        for (Material material : Material.values()) {
+            if (material.isBlock()) {
+                blockMaterials.add(material);
+            }
+        }
+        return blockMaterials;
+    }
+
+    // Items
     public ItemBuilder itemNavigateToAdmin() {
         return new ItemBuilder(this.plugin)
                 .setMaterial(Material.CRAFTING_TABLE)
