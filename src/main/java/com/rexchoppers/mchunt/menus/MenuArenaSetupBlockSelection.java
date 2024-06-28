@@ -41,6 +41,8 @@ public class MenuArenaSetupBlockSelection extends MenuBase {
 
     private class MenuArenaSetupBlockSelectionProvider implements InventoryProvider {
 
+        private boolean selectedBlocksOnly = false;
+
         @Override
         public void init(Player player, InventoryContents inventoryContents) {
             Pagination pagination = inventoryContents.pagination();
@@ -86,6 +88,10 @@ public class MenuArenaSetupBlockSelection extends MenuBase {
                     itemStack.setItemMeta(meta); // Set the modified meta back to the ItemStack
                 }
 
+                if (selectedBlocksOnly && !isSelected) {
+                    continue;
+                }
+
                 items.add(ClickableItem.of(itemStack, e -> {
                     // Add or remove block from arena setup
                     if (arenaBlocks != null) {
@@ -123,6 +129,18 @@ public class MenuArenaSetupBlockSelection extends MenuBase {
 
             pagination.addToIterator(inventoryContents.newIterator(SlotIterator.Type.HORIZONTAL, 0, 0));
 
+            if (selectedBlocksOnly) {
+                inventoryContents.set(5, 1, ClickableItem.of(plugin.getItemManager().itemArenaSetupBlocksToggleSelectedOn().build(), e -> {
+                    this.selectedBlocksOnly = true;
+                    getInventory().open(player, pagination.first().getPage());
+                }));
+            } else {
+                inventoryContents.set(5, 1, ClickableItem.of(plugin.getItemManager().itemArenaSetupBlocksToggleSelectedOff().build(), e -> {
+                    this.selectedBlocksOnly = false;
+                    getInventory().open(player, pagination.first().getPage());
+                }));
+            }
+            
             inventoryContents.set(5, 3, ClickableItem.of(new ItemStack(Material.ARROW), e -> {
                 if (pagination.isFirst()) return;
                 getInventory().open(player, pagination.previous().getPage());

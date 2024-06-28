@@ -197,7 +197,6 @@ public class ItemManager {
     }
 
     public String formatMaterialName(Material material) {
-        // Convert names like STONE_SWORD to Stone Sword
         String name = material.name().toLowerCase().replace('_', ' ');
         String[] words = name.split("\\s+");
         StringBuilder formattedName = new StringBuilder();
@@ -289,6 +288,32 @@ public class ItemManager {
                     add("");
                     add(Format.processString("%aLEFT %tclick to select a block"));
                     add(Format.processString("%aRIGHT %tclick to remove a block"));
+                }});
+    }
+
+    public ItemBuilder itemArenaSetupBlocksToggleSelectedOn() {
+        return new ItemBuilder(this.plugin)
+                .setMaterial(Material.GREEN_WOOL)
+                .setAmount(1)
+                .setName(Format.processString("%n%BToggle Selected - %gON"))
+                .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
+                .setAction("mchunt.toggleSelectedBlock")
+                .setLores(new ArrayList<String>() {{
+                    add("");
+                    add(Format.processString("%tClick to show all blocks"));
+                }});
+    }
+
+    public ItemBuilder itemArenaSetupBlocksToggleSelectedOff() {
+        return new ItemBuilder(this.plugin)
+                .setMaterial(Material.RED_WOOL)
+                .setAmount(1)
+                .setName(Format.processString("%n%BToggle Selected - %eOFF"))
+                .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
+                .setAction("mchunt.toggleSelectedBlock")
+                .setLores(new ArrayList<String>() {{
+                    add("");
+                    add(Format.processString("%tClick to show selected blocks only"));
                 }});
     }
 
