@@ -48,6 +48,22 @@ public class ArenaSetupEventHandler implements Listener {
         return event.getClickedBlock() == null || event.getClickedBlock().getType().isAir();
     }
 
+    String[] restrictDropItemActions = {
+            "mchunt.arenaName",
+            "mchunt.boundarySelection",
+            "mchunt.arenaSign",
+            "mchunt.cancelArenaSetup",
+            "mchunt.saveArenaSetup"
+    };
+
+    String[] restrictClickItemActions = {
+            "mchunt.arenaName",
+            "mchunt.boundarySelection",
+            "mchunt.arenaSign",
+            "mchunt.cancelArenaSetup",
+            "mchunt.saveArenaSetup"
+    };
+
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) throws ArenaSetupNotFoundException {
         Player player = event.getPlayer();
@@ -234,14 +250,6 @@ public class ArenaSetupEventHandler implements Listener {
             return;
         }
 
-        String[] itemActions = {
-                "mchunt.arenaName",
-                "mchunt.boundarySelection",
-                "mchunt.arenaSign",
-                "mchunt.cancelArenaSetup",
-                "mchunt.saveArenaSetup"
-        };
-
         ItemStack item = event.getCurrentItem();
 
         if (item == null || item.getType().equals(Material.AIR)) {
@@ -250,7 +258,7 @@ public class ArenaSetupEventHandler implements Listener {
 
         String action = this.plugin.getItemManager().getItemAction(item);
 
-        if (action != null && Arrays.asList(itemActions).contains(action)) {
+        if (action != null && Arrays.asList(this.restrictClickItemActions).contains(action)) {
             player.setItemOnCursor(null);
 
             player.updateInventory();
@@ -361,7 +369,7 @@ public class ArenaSetupEventHandler implements Listener {
 
         String action = this.plugin.getItemManager().getItemAction(itemStack);
 
-        if (action != null && action.equals("mchunt.boundarySelection")) {
+        if (action != null && Arrays.asList(this.restrictDropItemActions).contains(action)) {
             event.setCancelled(true);
             sendPlayerError(
                     player,
