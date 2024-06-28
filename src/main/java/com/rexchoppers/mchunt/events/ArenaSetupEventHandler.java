@@ -249,7 +249,19 @@ public class ArenaSetupEventHandler implements Listener {
         String action = this.plugin.getItemManager().getItemAction(item);
 
         if (action != null && Arrays.asList(itemActions).contains(action)) {
+            player.setItemOnCursor(null);
+
+            player.updateInventory();
             event.setCancelled(true);
+
+            player.closeInventory();
+
+            sendPlayerError(
+                    player,
+                    new LocalizationManager(MCHunt.getCurrentLocale())
+                            .getMessage(
+                                    "player.setup.cannot_move_setup_items"
+                            ));
         }
     }
 
