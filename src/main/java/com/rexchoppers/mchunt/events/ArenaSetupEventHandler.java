@@ -311,6 +311,19 @@ public class ArenaSetupEventHandler implements Listener {
                     );
                     break;
                 case "mchunt.setup.lobbySpawn":
+                    if (arenaSetup.getLobbySpawn() != null) {
+                        sendPlayerError(
+                                player,
+                                new LocalizationManager(MCHunt.getCurrentLocale())
+                                        .getMessage(
+                                                "arena.setup.lobby_spawn_already_set"
+                                        )
+                        );
+                        event.setCancelled(true);
+                        player.getInventory().remove(itemInHand);
+                        return;
+                    }
+
                     arenaSetup.setLobbySpawn(event.getBlockPlaced().getLocation());
                     this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
 
@@ -366,6 +379,19 @@ public class ArenaSetupEventHandler implements Listener {
                     event.setCancelled(true);
                     break;
                 case "mchunt.setup.afterGameSpawn":
+                    if (arenaSetup.getAfterGameSpawn() != null) {
+                        sendPlayerError(
+                                player,
+                                new LocalizationManager(MCHunt.getCurrentLocale())
+                                        .getMessage(
+                                                "arena.setup.after_game_spawn_already_set"
+                                        )
+                        );
+                        event.setCancelled(true);
+                        player.getInventory().remove(itemInHand);
+                        return;
+                    }
+
                     arenaSetup.setAfterGameSpawn(event.getBlockPlaced().getLocation());
                     this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
 
