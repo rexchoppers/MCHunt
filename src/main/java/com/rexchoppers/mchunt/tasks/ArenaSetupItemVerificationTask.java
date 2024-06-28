@@ -34,7 +34,7 @@ public class ArenaSetupItemVerificationTask extends BukkitRunnable {
                     }
 
                     // Check if player has the correct items in their inventory
-                    int[] assignedSlots = {0, 1, 2, 3};
+                    int[] assignedSlots = {0, 1, 2, 3, 7, 8};
                     boolean notify = false;
 
                     for (int slot : assignedSlots) {

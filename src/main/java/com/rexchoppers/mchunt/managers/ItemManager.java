@@ -26,6 +26,8 @@ public class ItemManager {
         player.getInventory().setItem(1, itemArenaSetupSetName().build());
         player.getInventory().setItem(2, itemArenaSetupSign().build());
         player.getInventory().setItem(3, itemArenaSetupBlocks().build());
+        player.getInventory().setItem(7, itemArenaSetupCancel().build());
+        player.getInventory().setItem(8, itemArenaSetupSave().build());
     }
 
     public String getItemAction(ItemStack itemStack) {
@@ -127,6 +129,32 @@ public class ItemManager {
                     add("");
                     add(Format.processString("%aLEFT %tclick to select a block"));
                     add(Format.processString("%aRIGHT %tclick to remove a block"));
+                }});
+    }
+
+    public ItemBuilder itemArenaSetupCancel() {
+        return new ItemBuilder(this.plugin)
+                .setMaterial(Material.REDSTONE)
+                .setAmount(1)
+                .setName(Format.processString("%n%BCancel"))
+                .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
+                .setAction("mchunt.cancelArenaSetup")
+                .setLores(new ArrayList<String>() {{
+                    add("");
+                    add(Format.processString("%tCancel the current arena setup"));
+                }});
+    }
+
+    public ItemBuilder itemArenaSetupSave() {
+        return new ItemBuilder(this.plugin)
+                .setMaterial(Material.EMERALD)
+                .setAmount(1)
+                .setName(Format.processString("%n%BSave"))
+                .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
+                .setAction("mchunt.saveArenaSetup")
+                .setLores(new ArrayList<String>() {{
+                    add("");
+                    add(Format.processString("%tSave the current arena setup"));
                 }});
     }
 }
