@@ -68,10 +68,8 @@ public class MenuArenaSetupBlockSelection extends MenuBase {
                 ItemStack itemStack = new ItemStack(material);
                 ItemMeta meta = itemStack.getItemMeta();
 
-                Bukkit.getConsoleSender().sendMessage(plugin.getItemManager().formatMaterialName(material));
-
                 // Set the display name of the item
-                meta.setDisplayName(Format.processString("%t" + plugin.getItemManager().formatMaterialName(material) + " %g(Selected)"));
+                meta.setDisplayName(Format.processString("%n" + plugin.getItemManager().formatMaterialName(material) + " %g(Selected)"));
 
                 boolean isSelected = false;
                 if (arenaBlocks != null) {
@@ -131,6 +129,9 @@ public class MenuArenaSetupBlockSelection extends MenuBase {
             }));
 
             inventoryContents.set(5, 5, ClickableItem.of(new ItemStack(Material.ARROW), e -> {
+                Bukkit.getConsoleSender().sendMessage(Boolean.toString(pagination.isLast()));
+                Bukkit.getConsoleSender().sendMessage(Integer.toString(pagination.getPageItems().length));
+                Bukkit.getConsoleSender().sendMessage(Integer.toString(items.toArray(new ClickableItem[0]).length / 45));
                 if (pagination.isLast()) return;
                 getInventory().open(player, pagination.next().getPage());
             }));

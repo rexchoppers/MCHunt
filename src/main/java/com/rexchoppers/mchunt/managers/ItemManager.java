@@ -52,6 +52,22 @@ public class ItemManager {
     public List<Material> getBlockMaterials() {
         String[] excludedBlocks = {
                 Material.AIR.name(),
+                Material.BARRIER.name(),
+                Material.CAVE_AIR.name(),
+                Material.VOID_AIR.name(),
+                Material.BUBBLE_COLUMN.name(),
+                Material.STRUCTURE_VOID.name(),
+                Material.CHAIN_COMMAND_BLOCK.name(),
+                Material.REPEATING_COMMAND_BLOCK.name(),
+                Material.FIRE.name(),
+                Material.SOUL_FIRE.name(),
+                Material.WATER.name(),
+                Material.LAVA.name(),
+                Material.NETHER_PORTAL.name(),
+                Material.JIGSAW.name(),
+                Material.MOVING_PISTON.name(),
+                Material.END_PORTAL.name(),
+                Material.BARRIER.name(),
         };
 
         List<Material> blockMaterials = new ArrayList<>();
@@ -69,7 +85,7 @@ public class ItemManager {
                 continue;
             }
 
-            if (material.isBlock()) {
+            if (material.isBlock() && !material.isAir() && material.isSolid()) {
                 blockMaterials.add(material);
             }
         }
