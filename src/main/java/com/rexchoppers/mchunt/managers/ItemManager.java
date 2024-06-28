@@ -14,7 +14,9 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ItemManager {
     private final MCHunt plugin;
@@ -23,13 +25,26 @@ public class ItemManager {
         this.plugin = plugin;
     }
 
+    public Map<Integer, ItemBuilder> getArenaSetupItems() {
+        return new HashMap<>() {{
+            put(0, itemArenaSetupSelection());
+            put(1, itemArenaSetupSetName());
+            put(2, itemArenaSetupSign());
+            put(3, itemArenaSetupConfig());
+            put(4, itemArenaSetupLobbySpawn());
+            put(5, itemArenaSetupHiderSpawn());
+            put(6, itemArenaSetupSeekerSpawn());
+            put(7, itemArenaSetupAfterGameSpawn());
+            put(9, itemArenaSetupActions());
+        }};
+    }
+
     public void setArenaSetupItems(Player player) {
-        player.getInventory().setItem(0, itemArenaSetupSelection().build());
-        player.getInventory().setItem(1, itemArenaSetupSetName().build());
-        player.getInventory().setItem(2, itemArenaSetupSign().build());
-        player.getInventory().setItem(3, itemArenaSetupConfig().build());
-        player.getInventory().setItem(7, itemArenaSetupCancel().build());
-        player.getInventory().setItem(8, itemArenaSetupSave().build());
+        for (Map.Entry<Integer, ItemBuilder> entry : getArenaSetupItems().entrySet()) {
+            player.getInventory().setItem(entry.getKey(), entry.getValue().build());
+        }
+
+        // TODO - Create method to do actions
     }
 
     public String getItemAction(ItemStack itemStack) {
@@ -351,5 +366,83 @@ public class ItemManager {
                     add("");
                     add(Format.processString("%tSave the current arena setup"));
                 }});
+    }
+
+    public ItemBuilder itemArenaSetupLobbySpawn() {
+        return new ItemBuilder(this.plugin)
+                .setMaterial(Material.BLUE_WOOL)
+                .setAmount(1)
+                .setName(Format.processString("%n%BLobby Spawn"))
+                .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
+                .setAction("mchunt.setup.lobbySpawn")
+                .setLores(new ArrayList<String>() {{
+                    add("");
+                    add(Format.processString("%tSet the lobby spawn point"));
+                }});
+    }
+
+    public ItemBuilder itemArenaSetupHiderSpawn() {
+        return new ItemBuilder(this.plugin)
+                .setMaterial(Material.GREEN_WOOL)
+                .setAmount(1)
+                .setName(Format.processString("%n%BHider Spawn"))
+                .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
+                .setAction("mchunt.setup.hiderSpawn")
+                .setLores(new ArrayList<String>() {{
+                    add("");
+                    add(Format.processString("%tSet the hider spawn point"));
+                }});
+    }
+
+    public ItemBuilder itemArenaSetupSeekerSpawn() {
+        return new ItemBuilder(this.plugin)
+                .setMaterial(Material.RED_WOOL)
+                .setAmount(1)
+                .setName(Format.processString("%n%BSeeker Spawn"))
+                .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
+                .setAction("mchunt.setup.seekerSpawn")
+                .setLores(new ArrayList<String>() {{
+                    add("");
+                    add(Format.processString("%tSet the seeker spawn point"));
+                }});
+    }
+
+    public ItemBuilder itemArenaSetupAfterGameSpawn() {
+        return new ItemBuilder(this.plugin)
+                .setMaterial(Material.YELLOW_WOOL)
+                .setAmount(1)
+                .setName(Format.processString("%n%BAfter Game Spawn"))
+                .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
+                .setAction("mchunt.setup.afterGameSpawn")
+                .setLores(new ArrayList<String>() {{
+                    add("");
+                    add(Format.processString("%tSet the after game spawn point"));
+                }});
+    }
+
+    public ItemBuilder itemArenaSetupActions() {
+        return new ItemBuilder(this.plugin)
+                .setMaterial(Material.LEVER)
+                .setAmount(1)
+                .setName(Format.processString("%n%BActions"))
+                .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
+                .setLores(new ArrayList<String>() {{
+                    add("");
+                    add(Format.processString("%tSelect an action to perform"));
+                }});
+    }
+
+    public ItemBuilder itemBackArrow() {
+        return new ItemBuilder(this.plugin)
+                .setMaterial(Material.ARROW)
+                .setAmount(1)
+                .setName(Format.processString("%n%BBack"));
+    }
+
+    public ItemBuilder itemNextArrow() {
+        return new ItemBuilder(this.plugin)
+                .setMaterial(Material.ARROW)
+                .setAmount(1)
+                .setName(Format.processString("%n%BNext"));
     }
 }

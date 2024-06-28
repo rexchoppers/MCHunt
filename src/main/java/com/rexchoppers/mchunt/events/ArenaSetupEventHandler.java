@@ -2,6 +2,7 @@ package com.rexchoppers.mchunt.events;
 
 import com.rexchoppers.mchunt.MCHunt;
 import com.rexchoppers.mchunt.exceptions.ArenaSetupNotFoundException;
+import com.rexchoppers.mchunt.items.ItemBuilder;
 import com.rexchoppers.mchunt.managers.ArenaManager;
 import com.rexchoppers.mchunt.managers.ArenaSetupManager;
 import com.rexchoppers.mchunt.managers.LocalizationManager;
@@ -25,10 +26,7 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
 
 import static com.rexchoppers.mchunt.util.PlayerUtil.sendPlayerAudibleMessage;
 import static com.rexchoppers.mchunt.util.PlayerUtil.sendPlayerError;
@@ -376,6 +374,8 @@ public class ArenaSetupEventHandler implements Listener {
         ItemStack itemStack = itemDrop.getItemStack();
 
         String action = this.plugin.getItemManager().getItemAction(itemStack);
+
+        Map<Integer, ItemBuilder> arenaItems = this.plugin.getItemManager().getArenaSetupItems();
 
         if (action != null && Arrays.asList(this.restrictDropItemActions).contains(action)) {
             event.setCancelled(true);

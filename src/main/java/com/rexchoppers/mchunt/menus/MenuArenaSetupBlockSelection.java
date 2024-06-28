@@ -131,22 +131,22 @@ public class MenuArenaSetupBlockSelection extends MenuBase {
 
             if (selectedBlocksOnly) {
                 inventoryContents.set(5, 1, ClickableItem.of(plugin.getItemManager().itemArenaSetupBlocksToggleSelectedOn().build(), e -> {
-                    this.selectedBlocksOnly = true;
+                    this.selectedBlocksOnly = false;
                     getInventory().open(player, pagination.first().getPage());
                 }));
             } else {
                 inventoryContents.set(5, 1, ClickableItem.of(plugin.getItemManager().itemArenaSetupBlocksToggleSelectedOff().build(), e -> {
-                    this.selectedBlocksOnly = false;
+                    this.selectedBlocksOnly = true;
                     getInventory().open(player, pagination.first().getPage());
                 }));
             }
 
-            inventoryContents.set(5, 3, ClickableItem.of(new ItemStack(Material.ARROW), e -> {
+            inventoryContents.set(5, 3, ClickableItem.of(plugin.getItemManager().itemBackArrow().build(), e -> {
                 if (pagination.isFirst()) return;
                 getInventory().open(player, pagination.previous().getPage());
             }));
 
-            inventoryContents.set(5, 5, ClickableItem.of(new ItemStack(Material.ARROW), e -> {
+            inventoryContents.set(5, 5, ClickableItem.of(plugin.getItemManager().itemNextArrow().build(), e -> {
                 if (pagination.isLast()) return;
                 getInventory().open(player, pagination.next().getPage());
             }));
