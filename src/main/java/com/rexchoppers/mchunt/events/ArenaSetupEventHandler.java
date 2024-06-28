@@ -48,14 +48,6 @@ public class ArenaSetupEventHandler implements Listener {
         return event.getClickedBlock() == null || event.getClickedBlock().getType().isAir();
     }
 
-    String[] restrictDropItemActions = {
-            "mchunt.setup.arenaName",
-            "mchunt.setup.boundarySelection",
-            "mchunt.setup.arenaSign",
-            "mchunt.setup.cancelArenaSetup",
-            "mchunt.setup.saveArenaSetup",
-    };
-
     String[] restrictClickItemActions = {
             "mchunt.setup.arenaName",
             "mchunt.setup.boundarySelection",
@@ -314,6 +306,84 @@ public class ArenaSetupEventHandler implements Listener {
                                             Double.toString(event.getBlockPlaced().getLocation().getZ())
                                     )
                     );
+                    break;
+                case "mchunt.setup.lobbySpawn":
+                    arenaSetup.setLobbySpawn(event.getBlockPlaced().getLocation());
+                    this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+
+                    sendPlayerAudibleMessage(
+                            player,
+                            new LocalizationManager(MCHunt.getCurrentLocale())
+                                    .getMessage(
+                                            "arena.setup.lobby_spawn_set",
+                                            event.getBlockPlaced().getLocation().getWorld().getName(),
+                                            Double.toString(event.getBlockPlaced().getLocation().getX()),
+                                            Double.toString(event.getBlockPlaced().getLocation().getY()),
+                                            Double.toString(event.getBlockPlaced().getLocation().getZ())
+                                    )
+                    );
+
+                    // Show user fake block
+                    player.getInventory().remove(itemInHand);
+                    event.setCancelled(true);
+                    break;
+                case "mchunt.setup.hiderSpawn":
+                    arenaSetup.appendHiderSpawn(event.getBlockPlaced().getLocation());
+                    this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+
+                    sendPlayerAudibleMessage(
+                            player,
+                            new LocalizationManager(MCHunt.getCurrentLocale())
+                                    .getMessage(
+                                            "arena.setup.hider_spawn_set",
+                                            event.getBlockPlaced().getLocation().getWorld().getName(),
+                                            Double.toString(event.getBlockPlaced().getLocation().getX()),
+                                            Double.toString(event.getBlockPlaced().getLocation().getY()),
+                                            Double.toString(event.getBlockPlaced().getLocation().getZ())
+                                    )
+                    );
+
+                    // Show user fake block
+                    event.setCancelled(true);
+                    break;
+                case "mchunt.setup.seekerSpawn":
+                    arenaSetup.appendSeekerSpawn(event.getBlockPlaced().getLocation());
+                    this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+
+                    sendPlayerAudibleMessage(
+                            player,
+                            new LocalizationManager(MCHunt.getCurrentLocale())
+                                    .getMessage(
+                                            "arena.setup.seeker_spawn_set",
+                                            event.getBlockPlaced().getLocation().getWorld().getName(),
+                                            Double.toString(event.getBlockPlaced().getLocation().getX()),
+                                            Double.toString(event.getBlockPlaced().getLocation().getY()),
+                                            Double.toString(event.getBlockPlaced().getLocation().getZ())
+                                    )
+                    );
+
+                    // Show user fake block
+                    event.setCancelled(true);
+                    break;
+                case "mchunt.setup.afterGameSpawn":
+                    arenaSetup.setAfterGameSpawn(event.getBlockPlaced().getLocation());
+                    this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+
+                    sendPlayerAudibleMessage(
+                            player,
+                            new LocalizationManager(MCHunt.getCurrentLocale())
+                                    .getMessage(
+                                            "arena.setup.after_game_spawn_set",
+                                            event.getBlockPlaced().getLocation().getWorld().getName(),
+                                            Double.toString(event.getBlockPlaced().getLocation().getX()),
+                                            Double.toString(event.getBlockPlaced().getLocation().getY()),
+                                            Double.toString(event.getBlockPlaced().getLocation().getZ())
+                                    )
+                    );
+
+                    // Show user fake block
+                    player.getInventory().remove(itemInHand);
+                    event.setCancelled(true);
                     break;
             }
         }

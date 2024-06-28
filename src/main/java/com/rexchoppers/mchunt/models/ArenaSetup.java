@@ -26,6 +26,18 @@ public class ArenaSetup {
     private String[] arenaBlocks;
 
     @Expose
+    private Location lobbySpawn;
+
+    @Expose
+    private Location[] hiderSpawns;
+
+    @Expose
+    private Location[] seekerSpawns;
+
+    @Expose
+    private Location afterGameSpawn;
+
+    @Expose
     private Location locationBoundaryPoint1;
 
     @Expose
@@ -186,5 +198,119 @@ public class ArenaSetup {
         }
 
         this.setArenaBlocks(newArray);
+    }
+
+    public Location getLobbySpawn() {
+        return lobbySpawn;
+    }
+
+    public void setLobbySpawn(Location lobbySpawn) {
+        this.lobbySpawn = lobbySpawn;
+    }
+
+    public Location[] getHiderSpawns() {
+        if (this.hiderSpawns == null) {
+            this.hiderSpawns = new Location[0];
+        }
+
+        return hiderSpawns;
+    }
+
+    public void setHiderSpawns(Location[] hiderSpawns) {
+        this.hiderSpawns = hiderSpawns;
+    }
+
+    public void appendHiderSpawn(Location locationToAdd) {
+        Location[] currentHiderSpawns = this.getHiderSpawns();
+        Location[] newArray = new Location[this.hiderSpawns.length + 1];
+
+        // Copy the contents of the original array to the new array
+        System.arraycopy(currentHiderSpawns, 0, newArray, 0, currentHiderSpawns.length);
+
+        // Add the new element to the end of the new array
+        newArray[currentHiderSpawns.length] = locationToAdd;
+
+        this.setHiderSpawns(newArray);
+    }
+
+    public void removeHiderSpawn(Location locationToRemove) {
+        Location[] currentHiderSpawns = this.getHiderSpawns();
+
+        if (currentHiderSpawns == null || currentHiderSpawns.length == 0) {
+            this.setHiderSpawns(new Location[0]);
+            return;
+        }
+
+        Location[] newArray = new Location[currentHiderSpawns.length - 1];
+        int j = 0;
+        for (Location currentHiderSpawn : currentHiderSpawns) {
+            if (currentHiderSpawn == null) continue;
+
+            if (currentHiderSpawn.equals(locationToRemove)) {
+                continue;
+            }
+
+            newArray[j] = currentHiderSpawn;
+            j++;
+        }
+
+        this.setHiderSpawns(newArray);
+    }
+
+    public Location[] getSeekerSpawns() {
+        if (this.seekerSpawns == null) {
+            this.seekerSpawns = new Location[0];
+        }
+
+        return seekerSpawns;
+    }
+
+    public void setSeekerSpawns(Location[] seekerSpawns) {
+        this.seekerSpawns = seekerSpawns;
+    }
+
+    public void appendSeekerSpawn(Location locationToAdd) {
+        Location[] currentSeekerSpawns = this.getSeekerSpawns();
+        Location[] newArray = new Location[this.seekerSpawns.length + 1];
+
+        // Copy the contents of the original array to the new array
+        System.arraycopy(currentSeekerSpawns, 0, newArray, 0, currentSeekerSpawns.length);
+
+        // Add the new element to the end of the new array
+        newArray[currentSeekerSpawns.length] = locationToAdd;
+
+        this.setSeekerSpawns(newArray);
+    }
+
+    public void removeSeekerSpawn(Location locationToRemove) {
+        Location[] currentSeekerSpawns = this.getSeekerSpawns();
+
+        if (currentSeekerSpawns == null || currentSeekerSpawns.length == 0) {
+            this.setSeekerSpawns(new Location[0]);
+            return;
+        }
+
+        Location[] newArray = new Location[currentSeekerSpawns.length - 1];
+        int j = 0;
+        for (Location currentSeekerSpawn : currentSeekerSpawns) {
+            if (currentSeekerSpawn == null) continue;
+
+            if (currentSeekerSpawn.equals(locationToRemove)) {
+                continue;
+            }
+
+            newArray[j] = currentSeekerSpawn;
+            j++;
+        }
+
+        this.setSeekerSpawns(newArray);
+    }
+
+    public Location getAfterGameSpawn() {
+        return afterGameSpawn;
+    }
+
+    public void setAfterGameSpawn(Location afterGameSpawn) {
+        this.afterGameSpawn = afterGameSpawn;
     }
 }
