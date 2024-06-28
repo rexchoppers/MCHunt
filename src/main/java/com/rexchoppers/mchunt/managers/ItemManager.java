@@ -285,9 +285,6 @@ public class ItemManager {
                 .setLores(new ArrayList<String>() {{
                     add("");
                     add(Format.processString("%tSet the blocks for the arena"));
-                    add("");
-                    add(Format.processString("%aLEFT %tclick to select a block"));
-                    add(Format.processString("%aRIGHT %tclick to remove a block"));
                 }});
     }
 
