@@ -7,10 +7,7 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class ArenaSetup {
     @Expose
@@ -86,9 +83,14 @@ public class ArenaSetup {
     }
 
     public Location[] getArenaSigns() {
-        if(arenaSigns == null) {
+        if (arenaSigns == null) {
             arenaSigns = new Location[0];
         }
+
+        // Convert the array to a list allowing nulls, then filter out nulls
+        List<Location> arenaSignsList = new ArrayList<>(Arrays.asList(arenaSigns));
+        arenaSignsList.removeIf(Objects::isNull);
+        arenaSigns = arenaSignsList.toArray(new Location[0]);
 
         return arenaSigns;
     }
@@ -108,10 +110,17 @@ public class ArenaSetup {
 
     public void removeArenaSign(Location locationToRemove) {
         Location[] currentArenaSigns = this.getArenaSigns();
-        Location[] newArray = new Location[this.arenaSigns.length - 1];
 
+        if (currentArenaSigns == null || currentArenaSigns.length == 0) {
+            this.setArenaSigns(new Location[0]);
+            return;
+        }
+
+        Location[] newArray = new Location[currentArenaSigns.length - 1];
         int j = 0;
         for (Location currentArenaSign : currentArenaSigns) {
+            if (currentArenaSign == null) continue;
+
             if (currentArenaSign.equals(locationToRemove)) {
                 continue;
             }

@@ -271,36 +271,27 @@ public class ArenaSetupEventHandler implements Listener {
             return;
         }
 
-        ItemStack itemInHand = player.getInventory().getItemInMainHand();
-        String action = this.plugin.getItemManager().getItemAction(itemInHand);
+        Location blockLocation = event.getBlock().getLocation();
 
-        if (action != null) {
-            switch (action) {
-                case "mchunt.arenaSign":
-                    Location blockLocation = event.getBlock().getLocation();
+        if (arenaSetup.getArenaSigns() != null) {
+            for (Location location : arenaSetup.getArenaSigns()) {
+                if (location.equals(blockLocation)) {
+                    arenaSetup.removeArenaSign(location);
+                    this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
 
-                    if (arenaSetup.getArenaSigns() != null) {
-                        for (Location location : arenaSetup.getArenaSigns()) {
-                            if (location.equals(blockLocation)) {
-                                arenaSetup.removeArenaSign(location);
-                                this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
-
-                                sendPlayerAudibleMessage(
-                                        player,
-                                        new LocalizationManager(MCHunt.getCurrentLocale())
-                                                .getMessage(
-                                                        "arena.setup.sign_removed",
-                                                        blockLocation.getWorld().getName(),
-                                                        Double.toString(blockLocation.getX()),
-                                                        Double.toString(blockLocation.getY()),
-                                                        Double.toString(blockLocation.getZ())
-                                                )
-                                );
-                                break;
-                            }
-                        }
-                    }
+                    sendPlayerAudibleMessage(
+                            player,
+                            new LocalizationManager(MCHunt.getCurrentLocale())
+                                    .getMessage(
+                                            "arena.setup.sign_removed",
+                                            blockLocation.getWorld().getName(),
+                                            Double.toString(blockLocation.getX()),
+                                            Double.toString(blockLocation.getY()),
+                                            Double.toString(blockLocation.getZ())
+                                    )
+                    );
                     break;
+                }
             }
         }
     }
