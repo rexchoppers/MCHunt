@@ -86,19 +86,24 @@ public class ArenaSetup {
     }
 
     public Location[] getArenaSigns() {
+        if(arenaSigns == null) {
+            arenaSigns = new Location[0];
+        }
+
         return arenaSigns;
     }
 
     public void appendArenaSign(Location locationToAdd) {
+            Location[] currentArenaSigns = this.getArenaSigns();
             Location[] newArray = new Location[this.arenaSigns.length + 1];
 
             // Copy the contents of the original array to the new array
-            System.arraycopy(this.arenaSigns, 0, newArray, 0, this.arenaSigns.length);
+            System.arraycopy(currentArenaSigns, 0, newArray, 0, currentArenaSigns.length);
 
             // Add the new element to the end of the new array
-            newArray[this.arenaSigns.length] = locationToAdd;
+            newArray[currentArenaSigns.length] = locationToAdd;
 
-            this.arenaSigns = newArray;
+            this.setArenaSigns(newArray);
     }
 
     public void setArenaSigns(Location[] arenaSigns) {

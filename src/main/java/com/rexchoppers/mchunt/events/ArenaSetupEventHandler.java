@@ -236,21 +236,21 @@ public class ArenaSetupEventHandler implements Listener {
         if (action != null) {
             switch (action) {
                 case "mchunt.arenaSign":
-                    if (event.getBlockPlaced().getType().equals(Material.OAK_SIGN)) {
-                        arenaSetup.appendArenaSign(event.getBlockPlaced().getLocation());
-                        this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+                    player.sendMessage("Block placed");
+                    player.sendMessage("Matches");
+                    arenaSetup.appendArenaSign(event.getBlockPlaced().getLocation());
+                    this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
 
-                        sendPlayerAudibleMessage(
-                                player,
-                                new LocalizationManager(MCHunt.getCurrentLocale())
-                                        .getMessage(
-                                                "arena.setup.sign_set",
-                                                Double.toString(event.getBlockPlaced().getLocation().getX()),
-                                                Double.toString(event.getBlockPlaced().getLocation().getY()),
-                                                Double.toString(event.getBlockPlaced().getLocation().getZ())
-                                        )
-                        );
-                    }
+                    sendPlayerAudibleMessage(
+                            player,
+                            new LocalizationManager(MCHunt.getCurrentLocale())
+                                    .getMessage(
+                                            "arena.setup.sign_set",
+                                            Double.toString(event.getBlockPlaced().getLocation().getX()),
+                                            Double.toString(event.getBlockPlaced().getLocation().getY()),
+                                            Double.toString(event.getBlockPlaced().getLocation().getZ())
+                                    )
+                    );
                     break;
             }
         }
