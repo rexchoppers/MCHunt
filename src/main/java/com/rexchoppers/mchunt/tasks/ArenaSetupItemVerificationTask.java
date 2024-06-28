@@ -30,11 +30,11 @@ public class ArenaSetupItemVerificationTask extends BukkitRunnable {
                     Player player = plugin.getServer().getPlayer(arenaSetup.getPlayerUuid());
 
                     if (player == null || !player.isOnline()) {
-                        return; // Exit this runnable if the player is null or not online
+                        return;
                     }
 
                     // Check if player has the correct items in their inventory
-                    int[] assignedSlots = {0, 1, 2};
+                    int[] assignedSlots = {0, 1, 2, 3};
                     boolean notify = false;
 
                     for (int slot : assignedSlots) {

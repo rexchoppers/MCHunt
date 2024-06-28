@@ -25,6 +25,7 @@ public class ItemManager {
         player.getInventory().setItem(0, itemArenaSetupSelection().build());
         player.getInventory().setItem(1, itemArenaSetupSetName().build());
         player.getInventory().setItem(2, itemArenaSetupSign().build());
+        player.getInventory().setItem(3, itemArenaSetupBlocks().build());
     }
 
     public String getItemAction(ItemStack itemStack) {
@@ -110,6 +111,22 @@ public class ItemManager {
                 .setLores(new ArrayList<String>() {{
                     add("");
                     add(Format.processString("%tSet the arena signs"));
+                }});
+    }
+
+    public ItemBuilder itemArenaSetupBlocks() {
+        return new ItemBuilder(this.plugin)
+                .setMaterial(Material.CHEST)
+                .setAmount(1)
+                .setName(Format.processString("%n%BArena Blocks"))
+                .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
+                .setAction("mchunt.arenaBlocks")
+                .setLores(new ArrayList<String>() {{
+                    add("");
+                    add(Format.processString("%tSet the blocks for the arena"));
+                    add("");
+                    add(Format.processString("%aLEFT %tclick to select a block"));
+                    add(Format.processString("%aRIGHT %tclick to remove a block"));
                 }});
     }
 }

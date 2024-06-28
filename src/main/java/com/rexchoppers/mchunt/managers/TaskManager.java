@@ -2,6 +2,7 @@ package com.rexchoppers.mchunt.managers;
 
 import com.rexchoppers.mchunt.MCHunt;
 import com.rexchoppers.mchunt.tasks.ArenaSetupItemVerificationTask;
+import org.bukkit.Material;
 
 public class TaskManager {
     private final MCHunt plugin;
