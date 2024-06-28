@@ -246,6 +246,7 @@ public class ArenaSetupEventHandler implements Listener {
                             new LocalizationManager(MCHunt.getCurrentLocale())
                                     .getMessage(
                                             "arena.setup.sign_set",
+                                            event.getBlockPlaced().getLocation().getWorld().getName(),
                                             Double.toString(event.getBlockPlaced().getLocation().getX()),
                                             Double.toString(event.getBlockPlaced().getLocation().getY()),
                                             Double.toString(event.getBlockPlaced().getLocation().getZ())
