@@ -58,6 +58,26 @@ public class ArenaSetupEventHandler implements Listener {
     };
 
     @EventHandler
+    public void onPlayerInteractSpawnBlocks(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+
+        // Get location
+        // Get if location is either in: hiderSpawns, seekerSpawns, lobbySpawn, afterGameSpawn
+        // If so, remove from the list
+
+        ArenaSetup arenaSetup = this.plugin.getArenaSetupManager()
+                .getArenaSetupByPlayerUuid(
+                        plugin.getArenaSetupManager().getArenaSetups(),
+                        player.getUniqueId()).orElse(null);
+
+        if (arenaSetup == null) {
+            return;
+        }
+
+
+    }
+
+    @EventHandler
     public void onPlayerInteractItems(PlayerInteractEvent event) throws ArenaSetupNotFoundException {
         Player player = event.getPlayer();
         ItemStack itemInMainHand = player.getInventory().getItemInMainHand();
