@@ -67,6 +67,10 @@ public class ItemBuilder implements Cloneable {
         return this;
     }
 
+    public Material getMaterial() {
+        return this.material;
+    }
+
     public ItemBuilder setAmount(int amount) {
         this.amount = amount;
         return this;

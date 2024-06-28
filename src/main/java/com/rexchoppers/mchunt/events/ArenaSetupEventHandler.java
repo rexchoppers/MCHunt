@@ -14,6 +14,7 @@ import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -290,6 +291,8 @@ public class ArenaSetupEventHandler implements Listener {
         String action = this.plugin.getItemManager().getItemAction(itemInHand);
 
         if (action != null) {
+            BlockData blockData = event.getBlockPlaced().getBlockData().clone();
+
             switch (action) {
                 case "mchunt.setup.arenaSign":
                     arenaSetup.appendArenaSign(event.getBlockPlaced().getLocation());
@@ -323,7 +326,6 @@ public class ArenaSetupEventHandler implements Listener {
                                     )
                     );
 
-                    // Show user fake block
                     player.getInventory().remove(itemInHand);
                     event.setCancelled(true);
                     break;
@@ -343,7 +345,6 @@ public class ArenaSetupEventHandler implements Listener {
                                     )
                     );
 
-                    // Show user fake block
                     event.setCancelled(true);
                     break;
                 case "mchunt.setup.seekerSpawn":
@@ -362,7 +363,6 @@ public class ArenaSetupEventHandler implements Listener {
                                     )
                     );
 
-                    // Show user fake block
                     event.setCancelled(true);
                     break;
                 case "mchunt.setup.afterGameSpawn":
@@ -381,7 +381,6 @@ public class ArenaSetupEventHandler implements Listener {
                                     )
                     );
 
-                    // Show user fake block
                     player.getInventory().remove(itemInHand);
                     event.setCancelled(true);
                     break;
