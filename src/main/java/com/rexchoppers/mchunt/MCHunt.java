@@ -8,6 +8,7 @@ import com.rexchoppers.mchunt.enums.ArenaStatus;
 import com.rexchoppers.mchunt.managers.*;
 import com.rexchoppers.mchunt.serializers.*;
 import fr.minuskube.inv.InventoryManager;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -29,6 +30,8 @@ public final class MCHunt extends JavaPlugin {
     private EventManager eventManager;
 
     private PacketManager packetManager;
+
+    private TaskManager taskManager;
 
     @Override
     public void onEnable() {
@@ -59,6 +62,9 @@ public final class MCHunt extends JavaPlugin {
         this.packetManager = new PacketManager(this);
         this.packetManager.registerPackets();
 
+        this.taskManager = new TaskManager(this);
+        this.taskManager.registerTasks();
+
         this.eventManager = new EventManager(this);
         this.eventManager.registerEvents();
 
@@ -74,7 +80,7 @@ public final class MCHunt extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        Bukkit.getScheduler().cancelTasks(this);
     }
 
     public Gson getGson() {
