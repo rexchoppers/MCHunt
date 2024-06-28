@@ -2,6 +2,7 @@ package com.rexchoppers.mchunt.managers;
 
 import com.rexchoppers.mchunt.MCHunt;
 import com.rexchoppers.mchunt.tasks.ArenaSetupItemVerificationTask;
+import com.rexchoppers.mchunt.tasks.ArenaSetupRenderBlocksTask;
 import org.bukkit.Material;
 
 public class TaskManager {
@@ -13,5 +14,6 @@ public class TaskManager {
 
     public void registerTasks() {
         new ArenaSetupItemVerificationTask(plugin).runTaskTimer(plugin, 0, 20 * 5);
+        new ArenaSetupRenderBlocksTask(plugin).runTaskTimer(plugin, 0, 20);
     }
 }
