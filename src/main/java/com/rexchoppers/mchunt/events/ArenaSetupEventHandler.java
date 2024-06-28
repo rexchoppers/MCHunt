@@ -58,7 +58,7 @@ public class ArenaSetupEventHandler implements Listener {
     };
 
     @EventHandler
-    public void onPlayerInteract(PlayerInteractEvent event) throws ArenaSetupNotFoundException {
+    public void onPlayerInteractItems(PlayerInteractEvent event) throws ArenaSetupNotFoundException {
         Player player = event.getPlayer();
         ItemStack itemInMainHand = player.getInventory().getItemInMainHand();
 
@@ -66,28 +66,29 @@ public class ArenaSetupEventHandler implements Listener {
             return;
         }
 
-        ArenaSetup arenaSetup = this.plugin.getArenaSetupManager()
-                .getArenaSetupByPlayerUuid(
-                        plugin.getArenaSetupManager().getArenaSetups(),
-                        player.getUniqueId()).orElse(null);
-
-        if (arenaSetup == null) {
-            throw new ArenaSetupNotFoundException();
-        }
-
-        long lastTime = lastInteractTimes.getOrDefault(player.getUniqueId(), 0L);
-        long currentTime = System.currentTimeMillis();
-
-        if (currentTime - lastTime < 500) {
-            event.setCancelled(true);
-            return;
-        }
-
-        lastInteractTimes.put(player.getUniqueId(), currentTime);
-
         String action = this.plugin.getItemManager().getItemAction(itemInMainHand);
 
+        // Item actions
         if (action != null) {
+            ArenaSetup arenaSetup = this.plugin.getArenaSetupManager()
+                    .getArenaSetupByPlayerUuid(
+                            plugin.getArenaSetupManager().getArenaSetups(),
+                            player.getUniqueId()).orElse(null);
+
+            if (arenaSetup == null) {
+                throw new ArenaSetupNotFoundException();
+            }
+
+            long lastTime = lastInteractTimes.getOrDefault(player.getUniqueId(), 0L);
+            long currentTime = System.currentTimeMillis();
+
+            if (currentTime - lastTime < 500) {
+                event.setCancelled(true);
+                return;
+            }
+
+            lastInteractTimes.put(player.getUniqueId(), currentTime);
+
             switch (action) {
                 case "mchunt.setup.arenaConfig":
                     if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
