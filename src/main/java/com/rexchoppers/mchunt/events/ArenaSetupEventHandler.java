@@ -110,6 +110,7 @@ public class ArenaSetupEventHandler implements Listener {
             }
         }
 
+        // Seeker spawns
         for (Location location : arenaSetup.getSeekerSpawns()) {
             if(location == null) {
                 continue;
@@ -118,6 +119,8 @@ public class ArenaSetupEventHandler implements Listener {
             if (location.equals(event.getClickedBlock().getLocation())) {
                 arenaSetup.removeSeekerSpawn(location);
                 this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+
+
 
                 sendPlayerAudibleMessage(
                         player,
@@ -134,9 +137,12 @@ public class ArenaSetupEventHandler implements Listener {
             }
         }
 
+        // Lobby spawn
         if (arenaSetup.getLobbySpawn() != null && arenaSetup.getLobbySpawn().equals(event.getClickedBlock().getLocation())) {
             arenaSetup.setLobbySpawn(null);
             this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+
+            player.getInventory().setItem(4, plugin.getItemManager().itemArenaSetupLobbySpawn().build());
 
             sendPlayerAudibleMessage(
                     player,
@@ -155,6 +161,8 @@ public class ArenaSetupEventHandler implements Listener {
         if (arenaSetup.getAfterGameSpawn() != null && arenaSetup.getAfterGameSpawn().equals(event.getClickedBlock().getLocation())) {
             arenaSetup.setAfterGameSpawn(null);
             this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+
+            player.getInventory().setItem(7, plugin.getItemManager().itemArenaSetupAfterGameSpawn().build());
 
             sendPlayerAudibleMessage(
                     player,
