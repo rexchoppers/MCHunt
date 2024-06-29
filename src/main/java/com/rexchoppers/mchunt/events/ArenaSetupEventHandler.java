@@ -74,7 +74,101 @@ public class ArenaSetupEventHandler implements Listener {
             return;
         }
 
+        /*
+        Check if the player has right clicked on a location
+        that is a spawn point. If so, remove it from the list
+         */
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+            return;
+        }
 
+        if (event.getClickedBlock() == null) {
+            return;
+        }
+
+        for (Location location : arenaSetup.getHiderSpawns()) {
+            if(location == null) {
+                continue;
+            }
+
+            if (location.equals(event.getClickedBlock().getLocation())) {
+                arenaSetup.removeHiderSpawn(location);
+                this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+
+                sendPlayerAudibleMessage(
+                        player,
+                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                .getMessage(
+                                        "arena.setup.hider_spawn_removed",
+                                        location.getWorld().getName(),
+                                        Double.toString(location.getX()),
+                                        Double.toString(location.getY()),
+                                        Double.toString(location.getZ())
+                                )
+                );
+                return;
+            }
+        }
+
+        for (Location location : arenaSetup.getSeekerSpawns()) {
+            if(location == null) {
+                continue;
+            }
+
+            if (location.equals(event.getClickedBlock().getLocation())) {
+                arenaSetup.removeSeekerSpawn(location);
+                this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+
+                sendPlayerAudibleMessage(
+                        player,
+                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                .getMessage(
+                                        "arena.setup.seeker_spawn_removed",
+                                        location.getWorld().getName(),
+                                        Double.toString(location.getX()),
+                                        Double.toString(location.getY()),
+                                        Double.toString(location.getZ())
+                                )
+                );
+                return;
+            }
+        }
+
+        if (arenaSetup.getLobbySpawn() != null && arenaSetup.getLobbySpawn().equals(event.getClickedBlock().getLocation())) {
+            arenaSetup.setLobbySpawn(null);
+            this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+
+            sendPlayerAudibleMessage(
+                    player,
+                    new LocalizationManager(MCHunt.getCurrentLocale())
+                            .getMessage(
+                                    "arena.setup.lobby_spawn_removed",
+                                    event.getClickedBlock().getLocation().getWorld().getName(),
+                                    Double.toString(event.getClickedBlock().getLocation().getX()),
+                                    Double.toString(event.getClickedBlock().getLocation().getY()),
+                                    Double.toString(event.getClickedBlock().getLocation().getZ())
+                            )
+            );
+            return;
+        }
+
+        if (arenaSetup.getAfterGameSpawn() != null && arenaSetup.getAfterGameSpawn().equals(event.getClickedBlock().getLocation())) {
+            arenaSetup.setAfterGameSpawn(null);
+            this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+
+            sendPlayerAudibleMessage(
+                    player,
+                    new LocalizationManager(MCHunt.getCurrentLocale())
+                            .getMessage(
+                                    "arena.setup.after_game_spawn_removed",
+                                    event.getClickedBlock().getLocation().getWorld().getName(),
+                                    Double.toString(event.getClickedBlock().getLocation().getX()),
+                                    Double.toString(event.getClickedBlock().getLocation().getY()),
+                                    Double.toString(event.getClickedBlock().getLocation().getZ())
+                            )
+            );
+            return;
+        }
     }
 
     @EventHandler

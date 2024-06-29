@@ -27,33 +27,39 @@ public class ArenaSetupRenderBlocksTask extends BukkitRunnable {
             new BukkitRunnable() {
                 @Override
                 public void run() {
+                    try {
+                        Player player = plugin.getServer().getPlayer(arenaSetup.getPlayerUuid());
+
+                        if (player == null || !player.isOnline()) {
+                            return;
+                        }
+
+                        // Render spawn blocks
+                        if (arenaSetup.getHiderSpawns() != null) {
+                            for (int i = 0; i < arenaSetup.getHiderSpawns().length; i++) {
+                                player.sendBlockChange(arenaSetup.getHiderSpawns()[i], plugin.getItemManager().itemArenaSetupHiderSpawn().getMaterial().createBlockData());
+                            }
+                        }
+
+                        if (arenaSetup.getSeekerSpawns() != null) {
+                            for (int i = 0; i < arenaSetup.getSeekerSpawns().length; i++) {
+                                player.sendBlockChange(arenaSetup.getSeekerSpawns()[i], plugin.getItemManager().itemArenaSetupSeekerSpawn().getMaterial().createBlockData());
+                            }
+                        }
+
+                        if (arenaSetup.getLobbySpawn() != null) {
+                            player.sendBlockChange(arenaSetup.getLobbySpawn(), plugin.getItemManager().itemArenaSetupLobbySpawn().getMaterial().createBlockData());
+                        }
+
+                        if (arenaSetup.getAfterGameSpawn() != null) {
+                            player.sendBlockChange(arenaSetup.getAfterGameSpawn(), plugin.getItemManager().itemArenaSetupAfterGameSpawn().getMaterial().createBlockData());
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        // sendPlayerAudibleMessage(plugin, Bukkit.getPlayer(arenaSetup.getPlayerUuid()), LocalizationManager.get("error.arenaSetupRenderBlocksTask"));
+                    }
                     // This part runs on the main thread
-                    Player player = plugin.getServer().getPlayer(arenaSetup.getPlayerUuid());
 
-                    if (player == null || !player.isOnline()) {
-                        return;
-                    }
-
-                    // Render spawn blocks
-                    if (arenaSetup.getHiderSpawns() != null) {
-                        for (int i = 0; i < arenaSetup.getHiderSpawns().length; i++) {
-                            player.sendBlockChange(arenaSetup.getHiderSpawns()[i], plugin.getItemManager().itemArenaSetupHiderSpawn().getMaterial().createBlockData());
-                        }
-                    }
-
-                    if (arenaSetup.getSeekerSpawns() != null) {
-                        for (int i = 0; i < arenaSetup.getSeekerSpawns().length; i++) {
-                            player.sendBlockChange(arenaSetup.getSeekerSpawns()[i], plugin.getItemManager().itemArenaSetupSeekerSpawn().getMaterial().createBlockData());
-                        }
-                    }
-
-                    if (arenaSetup.getLobbySpawn() != null) {
-                        player.sendBlockChange(arenaSetup.getLobbySpawn(), plugin.getItemManager().itemArenaSetupLobbySpawn().getMaterial().createBlockData());
-                    }
-
-                    if (arenaSetup.getAfterGameSpawn() != null) {
-                        player.sendBlockChange(arenaSetup.getAfterGameSpawn(), plugin.getItemManager().itemArenaSetupAfterGameSpawn().getMaterial().createBlockData());
-                    }
                 }
             }.runTask(plugin);
         }
