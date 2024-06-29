@@ -434,6 +434,19 @@ public class ItemManager {
                 }});
     }
 
+    public ItemBuilder itemArenaSetupParameters() {
+        return new ItemBuilder(this.plugin)
+                .setMaterial(Material.BOOK)
+                .setAmount(1)
+                .setName(Format.processString("%n%BParameters"))
+                .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
+                .setAction("mchunt.setup.parameters")
+                .setLores(new ArrayList<String>() {{
+                    add("");
+                    add(Format.processString("%tSet arena parameters"));
+                }});
+    }
+
     public ItemBuilder itemBackArrow() {
         return new ItemBuilder(this.plugin)
                 .setMaterial(Material.ARROW)

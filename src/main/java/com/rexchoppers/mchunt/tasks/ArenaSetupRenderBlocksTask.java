@@ -42,14 +42,12 @@ public class ArenaSetupRenderBlocksTask extends BukkitRunnable {
                     }
 
                     if (arenaSetup.getSeekerSpawns() != null) {
-                        Bukkit.getConsoleSender().sendMessage("Seeker spawns: " + arenaSetup.getSeekerSpawns().length);
                         for (int i = 0; i < arenaSetup.getSeekerSpawns().length; i++) {
                             player.sendBlockChange(arenaSetup.getSeekerSpawns()[i], plugin.getItemManager().itemArenaSetupSeekerSpawn().getMaterial().createBlockData());
                         }
                     }
 
                     if (arenaSetup.getLobbySpawn() != null) {
-                        Bukkit.getConsoleSender().sendMessage("Lobby spawn: ");
                         player.sendBlockChange(arenaSetup.getLobbySpawn(), plugin.getItemManager().itemArenaSetupLobbySpawn().getMaterial().createBlockData());
                     }
 

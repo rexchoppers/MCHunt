@@ -43,6 +43,10 @@ public class MenuArenaSetupConfig extends MenuBase {
             inventoryContents.set(0, 0, ClickableItem.of(plugin.getItemManager().itemArenaSetupBlocks().build(), e -> {
                 new MenuArenaSetupBlockSelection(plugin).getInventory().open(player);
             }));
+
+            inventoryContents.set(0, 1, ClickableItem.of(plugin.getItemManager().itemArenaSetupParameters().build(), e -> {
+
+            }));
         }
 
         @Override
