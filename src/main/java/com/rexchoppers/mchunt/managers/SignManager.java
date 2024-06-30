@@ -22,18 +22,18 @@ public class SignManager {
         Player player = Bukkit.getPlayer(arenaSetup.getPlayerUuid());
 
         Map<Integer, String> dynamicMessages = new HashMap<>();
-        dynamicMessages.put(2, Format.processString("%nArena currently being setup" + (player != null ? " by %a" + player.getName() : "")));
+        dynamicMessages.put(3, Format.processString("%nArena currently being setup" + (player != null ? " by %a" + player.getName() : "")));
 
 
         ScrollingSign sign = new ScrollingSign(
                 new String[] {
                         Format.processString("%TAG"),
                         Format.processString("%eSetup Mode"),
+                        Format.processString("%a" + arenaSetup.getArenaName()),
                         "DYN",
-                        "Static Line 2"
                 },
                 dynamicMessages,
-                new int[] {2},
+                new int[] {3},
                 location
         );
 
