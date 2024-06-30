@@ -16,18 +16,14 @@ public class SignManager {
     public void addArenaSetupSign(UUID uuid, Location location) {
         List<ScrollingSign> currentArenaSetupSignsList = getArenaSetupSignsByArenaSetupUUID(uuid);
 
+        Map<Integer, String> dynamicMessages = new HashMap<>();
+        dynamicMessages.put(1, "This is a dynamic message that might be quite long and needs to scroll to fit on the sign.");
+        dynamicMessages.put(2, "Another scrolling message that also might be too long for the sign display!");
+
         ScrollingSign sign = new ScrollingSign(
-                new String[] {
-                        "§6§lMCHunt",
-                        "§7§oRight click to",
-                        "§7§oopen arena setup"
-                },
-                new String[] {
-                        "§6§lMCHunt",
-                        "§7§oRight click to",
-                        "§7§oopen arena setup"
-                },
-                new int[] {1, 2},
+                new String[] {"Static Line 1", "Dynamic Line 1", "Dynamic Line 2", "Static Line 2"},
+                dynamicMessages,
+                new int[] {1, 2}, // Lines that have dynamic messages
                 location
         );
 

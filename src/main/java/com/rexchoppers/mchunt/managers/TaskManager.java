@@ -16,6 +16,6 @@ public class TaskManager {
     public void registerTasks() {
         new ArenaSetupItemVerificationTask(plugin).runTaskTimer(plugin, 0, 20 * 5);
         new ArenaSetupRenderBlocksTask(plugin).runTaskTimer(plugin, 0, 20);
-        new SignRenderTask(plugin).runTaskTimer(plugin, 0, 20 * 5);
+        new SignRenderTask(plugin).runTaskTimer(plugin, 0L, 5L);
     }
 }

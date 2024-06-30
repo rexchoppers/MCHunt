@@ -50,7 +50,10 @@ public final class MCHunt extends JavaPlugin {
 
         currentLocale = Locale.getDefault();
 
+
         // Setup managers
+        this.signManager = new SignManager();
+
         this.arenaManager = new ArenaManager(this,
                 this.getDataFolder().getAbsolutePath() + FileSystems.getDefault().getSeparator() + "arenas.json"
         );
@@ -58,8 +61,6 @@ public final class MCHunt extends JavaPlugin {
         this.arenaSetupManager = new ArenaSetupManager(this,
                 this.getDataFolder().getAbsolutePath() + FileSystems.getDefault().getSeparator() + "arenaSetup.json"
         );
-
-        this.signManager = new SignManager();
 
         this.packetManager = new PacketManager(this);
         this.packetManager.registerPackets();

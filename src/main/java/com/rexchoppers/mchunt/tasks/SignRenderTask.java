@@ -4,6 +4,7 @@ import com.rexchoppers.mchunt.MCHunt;
 import com.rexchoppers.mchunt.managers.SignManager;
 import com.rexchoppers.mchunt.models.ArenaSetup;
 import com.rexchoppers.mchunt.signs.ScrollingSign;
+import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
@@ -22,12 +23,14 @@ public class SignRenderTask extends BukkitRunnable {
         List<ArenaSetup> arenaSetups = plugin.getArenaSetupManager().getArenaSetups();
         // Render arena setup signs
         for (ArenaSetup arenaSetup : arenaSetups) {
+            Bukkit.getConsoleSender().sendMessage(arenaSetup.getUUID().toString());
             if (arenaSetup.getArenaSigns() == null || arenaSetup.getArenaSigns().length == 0) continue;
 
             // Update all signs related to this ArenaSetup
             List<ScrollingSign> signs = signManager.getArenaSetupSignsByArenaSetupUUID(arenaSetup.getUUID());
             if (signs != null) {
                 for (ScrollingSign sign : signs) {
+                    Bukkit.getConsoleSender().sendMessage(sign.toString());
                     sign.updateText();
                 }
             }
