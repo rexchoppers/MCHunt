@@ -13,7 +13,9 @@ public class SignManager {
     public SignManager() {
     }
 
-    public void addArenaSetupSign(ArenaSetup arenaSetup) {
+    public void addArenaSetupSign(UUID uuid, Location location) {
+        List<ScrollingSign> currentArenaSetupSignsList = getArenaSetupSignsByArenaSetupUUID(uuid);
+
         ScrollingSign sign = new ScrollingSign(
                 new String[] {
                         "§6§lMCHunt",
@@ -25,17 +27,24 @@ public class SignManager {
                         "§7§oRight click to",
                         "§7§oopen arena setup"
                 },
-                new int[] {1, 2}
+                new int[] {1, 2},
+                location
         );
 
-        List<ScrollingSign> signs = arenaSetupSigns.getOrDefault(arenaSetup.getUUID(), new ArrayList<>());
-        signs.add(sign);
-        arenaSetupSigns.put(arenaSetup.getUUID(), signs);
+        currentArenaSetupSignsList.add(sign);
+
+        arenaSetupSigns.put(uuid, currentArenaSetupSignsList);
     }
 
-    public void updateArenaSetupSigns(ArenaSetup arenaSetup) {
-        // arenaSetupSigns.put(arenaSetup, arenaSetupSigns.get(arenaSetup));
+    public Map<UUID, List<ScrollingSign>> getArenaSetupSigns() {
+        return arenaSetupSigns;
     }
 
+    public List<ScrollingSign> getArenaSetupSignsByArenaSetupUUID(UUID uuid) {
+        if(arenaSetupSigns.containsKey(uuid)) {
+            return arenaSetupSigns.get(uuid);
+        }
+        return new ArrayList<ScrollingSign>();
+    }
 
 }

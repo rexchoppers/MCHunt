@@ -7,6 +7,7 @@ import com.rexchoppers.mchunt.exceptions.PlayerAlreadyInArenaSetupException;
 import com.rexchoppers.mchunt.models.Arena;
 import com.rexchoppers.mchunt.models.ArenaSetup;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 
 import java.io.File;
 import java.io.FileReader;
@@ -49,6 +50,13 @@ public class ArenaSetupManager {
         }
 
         arenaSetups = load();
+
+        // Load signs
+        for (ArenaSetup arenaSetup : arenaSetups) {
+            for (Location location : arenaSetup.getArenaSigns()) {
+                this.plugin.getSignManager().addArenaSetupSign(arenaSetup.getUUID(), location);
+            }
+        }
     }
 
     public Optional<ArenaSetup> getArenaSetupByUUID(UUID uuid) {
@@ -73,8 +81,6 @@ public class ArenaSetupManager {
         arenaSetups.add(arenaSetup);
         save(arenaSetups);
 
-        // Update signs
-        this.plugin.getSignManager().updateArenaSetupSigns(arenaSetup);
     }
 
     private void save(List<ArenaSetup> arenaSetups) {
