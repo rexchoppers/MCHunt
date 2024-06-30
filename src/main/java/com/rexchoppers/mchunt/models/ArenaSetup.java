@@ -11,6 +11,9 @@ import java.util.*;
 
 public class ArenaSetup {
     @Expose
+    private UUID uuid;
+
+    @Expose
     private UUID playerUuid;
 
     @Expose
@@ -45,9 +48,22 @@ public class ArenaSetup {
 
     private Map<Location, BlockData> tmpBoundaryTracking = new HashMap<>();
 
-    public ArenaSetup(UUID playerUuid, ItemStack[] inventory) {
+    public ArenaSetup(
+            UUID uuid,
+            UUID playerUuid,
+            ItemStack[] inventory
+    ) {
+        this.uuid = uuid;
         this.playerUuid = playerUuid;
         this.inventory = inventory;
+    }
+
+    public UUID getUUID() {
+        return uuid;
+    }
+
+    public void setUUID(UUID uuid) {
+        this.uuid = uuid;
     }
 
     public UUID getPlayerUuid() {

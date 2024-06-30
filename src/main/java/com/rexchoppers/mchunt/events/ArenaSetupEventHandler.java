@@ -9,6 +9,7 @@ import com.rexchoppers.mchunt.managers.LocalizationManager;
 import com.rexchoppers.mchunt.menus.MenuArenaSetupBlockSelection;
 import com.rexchoppers.mchunt.menus.MenuArenaSetupConfig;
 import com.rexchoppers.mchunt.models.ArenaSetup;
+import com.rexchoppers.mchunt.signs.ScrollingSign;
 import com.rexchoppers.mchunt.util.BoundaryUtil;
 import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Bukkit;
@@ -420,6 +421,8 @@ public class ArenaSetupEventHandler implements Listener {
                 case "mchunt.setup.arenaSign":
                     arenaSetup.appendArenaSign(event.getBlockPlaced().getLocation());
                     this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+
+                    this.plugin.getSignManager().addArenaSetupSign(arenaSetup);
 
                     sendPlayerAudibleMessage(
                             player,

@@ -51,6 +51,12 @@ public class ArenaSetupManager {
         arenaSetups = load();
     }
 
+    public Optional<ArenaSetup> getArenaSetupByUUID(UUID uuid) {
+        return arenaSetups.stream()
+                .filter(arenaSetup -> arenaSetup.getUUID().equals(uuid))
+                .findFirst();
+    }
+
     public void createArenaSetup(ArenaSetup arenaSetup) throws PlayerAlreadyInArenaSetupException {
         // Check if arena setup already exists
         if(getArenaSetupByPlayerUuid(arenaSetups, arenaSetup.getPlayerUuid()).isPresent()) {
@@ -66,6 +72,9 @@ public class ArenaSetupManager {
         existingArenaSetup.ifPresent(setup -> arenaSetups.remove(setup));
         arenaSetups.add(arenaSetup);
         save(arenaSetups);
+
+        // Update signs
+        this.plugin.getSignManager().updateArenaSetupSigns(arenaSetup);
     }
 
     private void save(List<ArenaSetup> arenaSetups) {

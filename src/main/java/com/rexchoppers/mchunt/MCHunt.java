@@ -26,12 +26,14 @@ public final class MCHunt extends JavaPlugin {
     private ArenaManager arenaManager;
     private ArenaSetupManager arenaSetupManager;
     private ItemManager itemManager;
-    
+
     private EventManager eventManager;
 
     private PacketManager packetManager;
 
     private TaskManager taskManager;
+
+    private SignManager signManager;
 
     @Override
     public void onEnable() {
@@ -48,8 +50,6 @@ public final class MCHunt extends JavaPlugin {
 
         currentLocale = Locale.getDefault();
 
-
-
         // Setup managers
         this.arenaManager = new ArenaManager(this,
                 this.getDataFolder().getAbsolutePath() + FileSystems.getDefault().getSeparator() + "arenas.json"
@@ -58,6 +58,8 @@ public final class MCHunt extends JavaPlugin {
         this.arenaSetupManager = new ArenaSetupManager(this,
                 this.getDataFolder().getAbsolutePath() + FileSystems.getDefault().getSeparator() + "arenaSetup.json"
         );
+
+        this.signManager = new SignManager();
 
         this.packetManager = new PacketManager(this);
         this.packetManager.registerPackets();
@@ -109,5 +111,17 @@ public final class MCHunt extends JavaPlugin {
 
     public EventManager getEventManager() {
         return eventManager;
+    }
+
+    public PacketManager getPacketManager() {
+        return packetManager;
+    }
+
+    public TaskManager getTaskManager() {
+        return taskManager;
+    }
+
+    public SignManager getSignManager() {
+        return signManager;
     }
 }

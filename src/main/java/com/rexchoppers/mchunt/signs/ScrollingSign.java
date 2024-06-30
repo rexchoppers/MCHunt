@@ -1,9 +1,13 @@
 package com.rexchoppers.mchunt.signs;
 
+import org.bukkit.Location;
+
 public class ScrollingSign {
     private String[] staticMessages;
     private String[] dynamicMessages;
     private int[] dynamicLines;
+
+    private Location location;
     private int index = 0;
 
     public ScrollingSign(String[] staticMessages, String[] dynamicMessages, int[] dynamicLines) {

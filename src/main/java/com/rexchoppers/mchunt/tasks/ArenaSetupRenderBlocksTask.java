@@ -23,7 +23,6 @@ public class ArenaSetupRenderBlocksTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        // This code runs asynchronously
         List<ArenaSetup> arenaSetups = plugin.getArenaSetupManager().getArenaSetups();
 
         for (ArenaSetup arenaSetup : arenaSetups) {
