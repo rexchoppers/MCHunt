@@ -1,19 +1,23 @@
 package com.rexchoppers.mchunt.signs;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Sign;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ScrollingSign {
     private String[] staticMessages;
-    private String[] dynamicMessages;
+    private Map<Integer, String> dynamicMessages; // Map line numbers to their messages
     private int[] dynamicLines;
-
     private Location location;
-    private int index = 0;
+    private Map<Integer, Integer> lineIndexes; // Track current index for each line
+    private Map<Integer, Integer> lineDelays; // Track delay counters for each line
 
     public ScrollingSign(
             String[] staticMessages,
-            String[] dynamicMessages,
+            Map<Integer, String> dynamicMessages,
             int[] dynamicLines,
             Location location
     ) {
@@ -21,40 +25,63 @@ public class ScrollingSign {
         this.dynamicMessages = dynamicMessages;
         this.dynamicLines = dynamicLines;
         this.location = location;
-    }
-
-    public String[] getNextLines() {
-        String[] lines = staticMessages.clone();
-        for (int dynamicLine : dynamicLines) {
-            int lineIndex = (index + dynamicLine) % dynamicMessages.length;
-            lines[dynamicLine] = dynamicMessages[lineIndex];
+        this.lineIndexes = new HashMap<>();
+        this.lineDelays = new HashMap<>();
+        for (int line : dynamicLines) {
+            lineIndexes.put(line, 0);
+            lineDelays.put(line, 0);
         }
-        index = (index + 1) % dynamicMessages.length;
-        return lines;
     }
 
     public void updateText() {
-        if (location == null || !location.getChunk().isLoaded()) {
-            return; // Ensure the chunk where the sign is located is loaded
+        if (location == null) {
+            Bukkit.getConsoleSender().sendMessage("Sign location not set.");
+            return;
         }
 
-        Sign sign = (Sign) location.getBlock().getState(); // Get the sign state
+        if (!location.getWorld().isChunkLoaded(location.getBlockX() >> 4, location.getBlockZ() >> 4)) {
+            Bukkit.getConsoleSender().sendMessage("Chunk not loaded at " + location);
+            return; // Avoid force loading the chunk.
+        }
+
+        if (!(location.getBlock().getState() instanceof Sign)) {
+            Bukkit.getConsoleSender().sendMessage("No sign found at " + location);
+            return;
+        }
+
+        Sign sign = (Sign) location.getBlock().getState();
         String[] lines = staticMessages.clone(); // Start with a clone of the static messages
 
-        // Update the dynamic lines with the scrolled text
-        for (int lineIndex : dynamicLines) {
-            if (lineIndex < lines.length) {
-                lines[lineIndex] = dynamicMessages[(index + lineIndex) % dynamicMessages.length];
+        // Handle dynamic line updates without delay
+        for (int line : dynamicLines) {
+            if (line < lines.length) {
+                String fullText = dynamicMessages.get(line);
+                int currentIndex = lineIndexes.get(line);
+                String visibleText = getVisibleText(fullText, currentIndex, 15); // Max 15 chars on a sign
+                lines[line] = visibleText;
+                currentIndex = (currentIndex + 1) % fullText.length();
+                lineIndexes.put(line, currentIndex);
             }
         }
 
-        // Set the new text on the sign
+        // Apply updated text to the sign
         for (int i = 0; i < lines.length; i++) {
             sign.setLine(i, lines[i]);
         }
-        sign.update(); // Make sure to update the sign to show changes
+        sign.update(true, false); // Force the sign update without block physics update
+        Bukkit.getConsoleSender().sendMessage("Sign at " + location + " updated.");
+    }
 
-        // Move to the next index
-        index = (index + 1) % dynamicMessages.length;
+    private String getVisibleText(String text, int startIndex, int length) {
+        if (text.length() <= length) {
+            return text;
+        }
+        // Handle text wrapping around the end
+        if (startIndex + length > text.length()) {
+            int endIndex = startIndex + length - text.length();
+            return text.substring(startIndex) + text.substring(0, endIndex);
+        } else {
+            return text.substring(startIndex, startIndex + length);
+        }
     }
 }
