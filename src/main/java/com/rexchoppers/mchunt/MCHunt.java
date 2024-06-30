@@ -65,7 +65,6 @@ public final class MCHunt extends JavaPlugin {
         );
 
         this.eventBusManager = new EventBusManager(this);
-        this.eventManager.registerEvents();
 
 
         this.packetManager = new PacketManager(this);

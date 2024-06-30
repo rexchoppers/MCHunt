@@ -1,19 +1,26 @@
 package com.rexchoppers.mchunt.managers;
 
+import com.google.common.eventbus.EventBus;
 import com.rexchoppers.mchunt.MCHunt;
-import net.engio.mbassy.bus.MBassador;
+import com.rexchoppers.mchunt.listeners.ArenaSetupUpdatedListener;
+import org.bukkit.Bukkit;
 
 public class EventBusManager {
-    private final MBassador<Object> eventBus;
+    private final EventBus eventBus;
     private final MCHunt plugin;
 
     public EventBusManager(MCHunt plugin) {
-        this.eventBus = new MBassador<>();
+        this.eventBus = new EventBus();
         this.plugin = plugin;
 
+        registerListeners();
+    }
+
+    private void registerListeners() {
+        this.eventBus.register(new ArenaSetupUpdatedListener(this.plugin));
     }
 
     public void publishEvent(Object event) {
-        eventBus.publish(event);
+        eventBus.post(event);
     }
 }
