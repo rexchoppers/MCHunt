@@ -31,7 +31,7 @@ public class SignManager {
                             Format.processString("%a" + arenaSetup.getArenaName()),
                             "DYN",
                     },
-                    new HashMap<>(),
+                    dynamicMessages,
                     new int[] {3},
                     location
             ));
