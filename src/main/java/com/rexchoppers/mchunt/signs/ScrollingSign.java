@@ -62,48 +62,58 @@ public class ScrollingSign {
     }
 
     private String getVisibleText(String text, int startIndex, int length, int line) {
-        String formattedText = Format.processString(text); // Apply initial formatting
-        int endIndex = (startIndex + length) % formattedText.length(); // Circular index for wrapping
+        // Ensure the processed text doesn't lose formatting
+        text = Format.processString(text);
 
+        // Calculate the visible text indices ensuring circular text scrolling
+        int endIndex = (startIndex + length) % text.length();
         String visibleText;
         if (endIndex < startIndex) { // Wraps around
-            visibleText = formattedText.substring(startIndex) + formattedText.substring(0, endIndex);
+            visibleText = text.substring(startIndex) + text.substring(0, endIndex);
         } else {
-            visibleText = formattedText.substring(startIndex, endIndex);
+            visibleText = text.substring(startIndex, Math.min(startIndex + length, text.length()));
         }
 
-        // Extract formatting information for wrapping scenarios
-        String firstFormat = findFirstFormat(visibleText);
-        String lastFormat = findLastFormat(visibleText);
+        // Correct potential splitting of formatting codes
+        visibleText = correctSplitFormattingCodes(visibleText);
 
-        if (!firstFormat.isEmpty()) {
-            this.lastFormat.put(line, firstFormat); // Set the starting format for next wrap
-        }
+        // Maintain continuity of formatting by prepending last known formatting codes
+        String lastKnownFormat = lastFormat.getOrDefault(line, "");
+        visibleText = lastKnownFormat + visibleText;
 
-        if (!lastFormat.isEmpty()) {
-            this.lastFormat.put(line, lastFormat); // Set the ending format to apply on next scroll
-        }
+        // Update last known formatting based on the new visible text
+        lastFormat.put(line, extractLastFormat(visibleText));
 
-        // Apply the last known format at the beginning of the visible text
-        visibleText = this.lastFormat.getOrDefault(line, "") + visibleText;
-
-        return Format.processString(visibleText); // Re-process for any interrupted formatting
+        return visibleText;
     }
 
-    private String findFirstFormat(String text) {
-        Matcher matcher = Pattern.compile("(&[0-9a-fk-or])").matcher(text);
-        if (matcher.find()) {
-            return matcher.group();
+    private String correctSplitFormattingCodes(String visibleText) {
+        int lastFormatPos = visibleText.lastIndexOf('§');
+        if (lastFormatPos != -1 && lastFormatPos == visibleText.length() - 1) {
+            // If the last character is an incomplete formatting code, remove it
+            visibleText = visibleText.substring(0, lastFormatPos);
+        } else if (lastFormatPos != -1 && lastFormatPos < visibleText.length() - 1) {
+            // Check if the character following § is a valid format code
+            if (!isLetterOrColorCode(visibleText.charAt(lastFormatPos + 1))) {
+                // If not a valid format code, remove the solitary §
+                visibleText = visibleText.substring(0, lastFormatPos) + visibleText.substring(lastFormatPos + 1);
+            }
+        }
+        return visibleText;
+    }
+
+    private String extractLastFormat(String text) {
+        int lastFormatIndex = text.lastIndexOf("§");
+        if (lastFormatIndex != -1 && lastFormatIndex < text.length() - 1) {
+            char formatCode = text.charAt(lastFormatIndex + 1);
+            if (isLetterOrColorCode(formatCode)) {
+                return "§" + formatCode;
+            }
         }
         return "";
     }
 
-    private String findLastFormat(String text) {
-        Matcher matcher = Pattern.compile("(&[0-9a-fk-or])").matcher(text);
-        String lastFound = "";
-        while (matcher.find()) {
-            lastFound = matcher.group(); // This captures the last format found
-        }
-        return lastFound;
+    private boolean isLetterOrColorCode(char c) {
+        return (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'k' && c <= 'r');
     }
 }
