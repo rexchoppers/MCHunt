@@ -423,7 +423,7 @@ public class ArenaSetupEventHandler implements Listener {
                     this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
 
                     this.plugin.getSignManager().addArenaSetupSign(
-                            arenaSetup.getUUID(), event.getBlockPlaced().getLocation()
+                            arenaSetup, event.getBlockPlaced().getLocation()
                     );
 
                     sendPlayerAudibleMessage(

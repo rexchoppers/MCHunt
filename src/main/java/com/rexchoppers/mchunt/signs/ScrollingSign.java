@@ -35,17 +35,14 @@ public class ScrollingSign {
 
     public void updateText() {
         if (location == null) {
-            Bukkit.getConsoleSender().sendMessage("Sign location not set.");
             return;
         }
 
         if (!location.getWorld().isChunkLoaded(location.getBlockX() >> 4, location.getBlockZ() >> 4)) {
-            Bukkit.getConsoleSender().sendMessage("Chunk not loaded at " + location);
             return; // Avoid force loading the chunk.
         }
 
         if (!(location.getBlock().getState() instanceof Sign)) {
-            Bukkit.getConsoleSender().sendMessage("No sign found at " + location);
             return;
         }
 
@@ -69,7 +66,6 @@ public class ScrollingSign {
             sign.setLine(i, lines[i]);
         }
         sign.update(true, false); // Force the sign update without block physics update
-        Bukkit.getConsoleSender().sendMessage("Sign at " + location + " updated.");
     }
 
     private String getVisibleText(String text, int startIndex, int length) {

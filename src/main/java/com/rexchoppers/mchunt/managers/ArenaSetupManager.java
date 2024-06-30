@@ -54,7 +54,7 @@ public class ArenaSetupManager {
         // Load signs
         for (ArenaSetup arenaSetup : arenaSetups) {
             for (Location location : arenaSetup.getArenaSigns()) {
-                this.plugin.getSignManager().addArenaSetupSign(arenaSetup.getUUID(), location);
+                this.plugin.getSignManager().addArenaSetupSign(arenaSetup, location);
             }
         }
     }

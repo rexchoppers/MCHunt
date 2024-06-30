@@ -2,7 +2,10 @@ package com.rexchoppers.mchunt.managers;
 
 import com.rexchoppers.mchunt.models.ArenaSetup;
 import com.rexchoppers.mchunt.signs.ScrollingSign;
+import com.rexchoppers.mchunt.util.Format;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 import java.util.*;
 
@@ -13,23 +16,30 @@ public class SignManager {
     public SignManager() {
     }
 
-    public void addArenaSetupSign(UUID uuid, Location location) {
-        List<ScrollingSign> currentArenaSetupSignsList = getArenaSetupSignsByArenaSetupUUID(uuid);
+    public void addArenaSetupSign(ArenaSetup arenaSetup, Location location) {
+        List<ScrollingSign> currentArenaSetupSignsList = getArenaSetupSignsByArenaSetupUUID(arenaSetup.getUUID());
+
+        Player player = Bukkit.getPlayer(arenaSetup.getPlayerUuid());
 
         Map<Integer, String> dynamicMessages = new HashMap<>();
-        dynamicMessages.put(1, "This is a dynamic message that might be quite long and needs to scroll to fit on the sign.");
-        dynamicMessages.put(2, "Another scrolling message that also might be too long for the sign display!");
+        dynamicMessages.put(2, Format.processString("%nArena currently being setup" + (player != null ? " by %a" + player.getName() : "")));
+
 
         ScrollingSign sign = new ScrollingSign(
-                new String[] {"Static Line 1", "Dynamic Line 1", "Dynamic Line 2", "Static Line 2"},
+                new String[] {
+                        Format.processString("%TAG"),
+                        Format.processString("%eSetup Mode"),
+                        "DYN",
+                        "Static Line 2"
+                },
                 dynamicMessages,
-                new int[] {1, 2}, // Lines that have dynamic messages
+                new int[] {2},
                 location
         );
 
         currentArenaSetupSignsList.add(sign);
 
-        arenaSetupSigns.put(uuid, currentArenaSetupSignsList);
+        arenaSetupSigns.put(arenaSetup.getUUID(), currentArenaSetupSignsList);
     }
 
     public Map<UUID, List<ScrollingSign>> getArenaSetupSigns() {
