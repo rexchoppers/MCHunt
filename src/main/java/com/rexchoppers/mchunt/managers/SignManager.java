@@ -11,35 +11,33 @@ import java.util.*;
 
 public class SignManager {
     private Map<UUID, List<ScrollingSign>> arenaSetupSigns = new HashMap<>();
-    private Map<UUID, ScrollingSign> arenaSigns = new HashMap<>();
 
     public SignManager() {
     }
 
-    public void addArenaSetupSign(ArenaSetup arenaSetup, Location location) {
-        List<ScrollingSign> currentArenaSetupSignsList = getArenaSetupSignsByArenaSetupUUID(arenaSetup.getUUID());
-
+    public void initArenaSetupSigns(ArenaSetup arenaSetup) {
         Player player = Bukkit.getPlayer(arenaSetup.getPlayerUuid());
+        Location[] arenaSigns = arenaSetup.getArenaSigns();
+        List<ScrollingSign> currentArenaSetupSignsList = new ArrayList<>();
 
         Map<Integer, String> dynamicMessages = new HashMap<>();
         dynamicMessages.put(3, Format.processString("%nArena currently being setup" + (player != null ? " by %a" + player.getName() : "")));
 
+        for (Location location : arenaSigns) {
+            currentArenaSetupSignsList.add(new ScrollingSign(
+                    new String[] {
+                            Format.processString("%TAG"),
+                            Format.processString("%eSetup Mode"),
+                            Format.processString("%a" + arenaSetup.getArenaName()),
+                            "DYN",
+                    },
+                    new HashMap<>(),
+                    new int[] {3},
+                    location
+            ));
+        }
 
-        ScrollingSign sign = new ScrollingSign(
-                new String[] {
-                        Format.processString("%TAG"),
-                        Format.processString("%eSetup Mode"),
-                        Format.processString("%a" + arenaSetup.getArenaName()),
-                        "DYN",
-                },
-                dynamicMessages,
-                new int[] {3},
-                location
-        );
-
-        currentArenaSetupSignsList.add(sign);
-
-        arenaSetupSigns.put(arenaSetup.getUUID(), currentArenaSetupSignsList);
+        this.arenaSetupSigns.put(arenaSetup.getUUID(), currentArenaSetupSignsList);
     }
 
     public Map<UUID, List<ScrollingSign>> getArenaSetupSigns() {

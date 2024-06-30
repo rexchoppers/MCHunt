@@ -3,6 +3,7 @@ package com.rexchoppers.mchunt.managers;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.rexchoppers.mchunt.MCHunt;
+import com.rexchoppers.mchunt.events.internal.ArenaSetupUpdatedEvent;
 import com.rexchoppers.mchunt.exceptions.PlayerAlreadyInArenaSetupException;
 import com.rexchoppers.mchunt.models.Arena;
 import com.rexchoppers.mchunt.models.ArenaSetup;
@@ -53,9 +54,7 @@ public class ArenaSetupManager {
 
         // Load signs
         for (ArenaSetup arenaSetup : arenaSetups) {
-            for (Location location : arenaSetup.getArenaSigns()) {
-                this.plugin.getSignManager().addArenaSetupSign(arenaSetup, location);
-            }
+            this.plugin.getSignManager().initArenaSetupSigns(arenaSetup);
         }
     }
 
@@ -81,6 +80,7 @@ public class ArenaSetupManager {
         arenaSetups.add(arenaSetup);
         save(arenaSetups);
 
+        this.plugin.getEventBusManager().publishEvent(new ArenaSetupUpdatedEvent(arenaSetup.getUUID()));
     }
 
     private void save(List<ArenaSetup> arenaSetups) {

@@ -1,13 +1,6 @@
 package com.rexchoppers.mchunt.events.internal;
 
-public class ArenaSetupUpdatedEvent {
-    private final String arenaSetupUuid;
+import java.util.UUID;
 
-    public ArenaSetupUpdatedEvent(String arenaSetupUuid) {
-        this.arenaSetupUuid = arenaSetupUuid;
-    }
-
-    public String getArenaSetupUuid() {
-        return arenaSetupUuid;
-    }
+public record ArenaSetupUpdatedEvent(UUID arenaSetupUuid) {
 }

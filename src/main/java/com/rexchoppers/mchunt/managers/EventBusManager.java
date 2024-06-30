@@ -10,7 +10,6 @@ public class EventBusManager {
     public EventBusManager(MCHunt plugin) {
         this.eventBus = new MBassador<>();
         this.plugin = plugin;
-        // Register all event listeners
 
     }
 

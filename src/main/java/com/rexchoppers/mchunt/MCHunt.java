@@ -29,6 +29,8 @@ public final class MCHunt extends JavaPlugin {
 
     private EventManager eventManager;
 
+    private EventBusManager eventBusManager;
+
     private PacketManager packetManager;
 
     private TaskManager taskManager;
@@ -61,6 +63,10 @@ public final class MCHunt extends JavaPlugin {
         this.arenaSetupManager = new ArenaSetupManager(this,
                 this.getDataFolder().getAbsolutePath() + FileSystems.getDefault().getSeparator() + "arenaSetup.json"
         );
+
+        this.eventBusManager = new EventBusManager(this);
+        this.eventManager.registerEvents();
+
 
         this.packetManager = new PacketManager(this);
         this.packetManager.registerPackets();
@@ -124,5 +130,9 @@ public final class MCHunt extends JavaPlugin {
 
     public SignManager getSignManager() {
         return signManager;
+    }
+
+    public EventBusManager getEventBusManager() {
+        return eventBusManager;
     }
 }

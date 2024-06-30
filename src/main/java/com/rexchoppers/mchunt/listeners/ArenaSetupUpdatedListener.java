@@ -2,6 +2,7 @@ package com.rexchoppers.mchunt.listeners;
 
 import com.rexchoppers.mchunt.MCHunt;
 import com.rexchoppers.mchunt.events.internal.ArenaSetupUpdatedEvent;
+import com.rexchoppers.mchunt.models.ArenaSetup;
 import net.engio.mbassy.listener.Handler;
 
 public class ArenaSetupUpdatedListener {
@@ -13,7 +14,8 @@ public class ArenaSetupUpdatedListener {
 
     @Handler
     public void updateArenaSigns(ArenaSetupUpdatedEvent event){
-
+        ArenaSetup arenaSetup = this.plugin.getArenaSetupManager().getArenaSetupByUUID(event.arenaSetupUuid()).orElse(null);
+        if (arenaSetup == null) return;
+        plugin.getSignManager().initArenaSetupSigns(arenaSetup);
     }
-
 }

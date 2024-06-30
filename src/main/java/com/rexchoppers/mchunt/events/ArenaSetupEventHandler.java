@@ -1,6 +1,7 @@
 package com.rexchoppers.mchunt.events;
 
 import com.rexchoppers.mchunt.MCHunt;
+import com.rexchoppers.mchunt.events.internal.ArenaSetupUpdatedEvent;
 import com.rexchoppers.mchunt.exceptions.ArenaSetupNotFoundException;
 import com.rexchoppers.mchunt.items.ItemBuilder;
 import com.rexchoppers.mchunt.managers.ArenaManager;
@@ -257,6 +258,10 @@ public class ArenaSetupEventHandler implements Listener {
                                     arenaSetup.setArenaName(name);
                                     this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
 
+                                    this.plugin.getEventBusManager().publishEvent(new ArenaSetupUpdatedEvent(
+                                            arenaSetup.getUUID()
+                                    ));
+
                                     sendPlayerAudibleMessage(
                                             player,
                                             new LocalizationManager(MCHunt.getCurrentLocale())
@@ -422,9 +427,9 @@ public class ArenaSetupEventHandler implements Listener {
                     arenaSetup.appendArenaSign(event.getBlockPlaced().getLocation());
                     this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
 
-                    this.plugin.getSignManager().addArenaSetupSign(
-                            arenaSetup, event.getBlockPlaced().getLocation()
-                    );
+                    this.plugin.getEventBusManager().publishEvent(new ArenaSetupUpdatedEvent(
+                            arenaSetup.getUUID()
+                    ));
 
                     sendPlayerAudibleMessage(
                             player,
