@@ -7,6 +7,8 @@ import org.bukkit.block.Sign;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ScrollingSign {
     private String[] staticMessages;
@@ -56,44 +58,37 @@ public class ScrollingSign {
     }
 
     private String getVisibleText(String text, int startIndex, int length) {
-        // Apply custom markers before calling Format.processString
-        String formattedText = applyCustomMarkers(text, startIndex, length);
+        // Append a space to the text to create a gap when wrapping
+        text = text + " ";
 
         // Ensure the processed text doesn't lose formatting
-        return Format.processString(formattedText);
+        text = Format.processString(text);
+
+        // Calculate the visible text indices ensuring circular text scrolling
+        int endIndex = (startIndex + length) % text.length();
+        String visibleText;
+        if (endIndex < startIndex) { // Wraps around
+            visibleText = text.substring(startIndex) + text.substring(0, endIndex);
+        } else {
+            visibleText = text.substring(startIndex, Math.min(startIndex + length, text.length()));
+        }
+
+        // Get the first format code from the full text
+        String firstFormat = extractFirstFormat(text);
+        if (!firstFormat.isEmpty()) {
+            visibleText = firstFormat + visibleText;
+        }
+
+        return visibleText;
     }
 
-    private String applyCustomMarkers(String text, int startIndex, int length) {
-        StringBuilder visibleText = new StringBuilder();
-        String currentFormat = "";
-
-        // Find the first relevant format marker before the visible text starts
-        for (int i = startIndex - 1; i >= 0; i--) {
-            if (text.charAt(i) == '%') {
-                currentFormat = "%" + text.charAt(i + 1);
-                break;
-            }
+    private String extractFirstFormat(String text) {
+        // Pattern to find color codes in the text
+        Pattern pattern = Pattern.compile("§[0-9a-fk-or]");
+        Matcher matcher = pattern.matcher(text);
+        if (matcher.find()) {
+            return matcher.group();
         }
-
-        // Build the visible text with the relevant format markers applied
-        for (int i = 0; i < length; i++) {
-            int currentIndex = (startIndex + i) % text.length();
-            char currentChar = text.charAt(currentIndex);
-
-            if (currentChar == '%') {
-                currentFormat = "%" + text.charAt((currentIndex + 1) % text.length());
-                visibleText.append(currentFormat);
-                i++; // Skip the next character as it is part of the custom format code
-            } else {
-                visibleText.append(currentChar);
-            }
-        }
-
-        // Reapply the last known format to ensure continuity
-        if (!currentFormat.isEmpty()) {
-            visibleText.insert(0, currentFormat);
-        }
-
-        return visibleText.toString();
+        return "";
     }
 }
