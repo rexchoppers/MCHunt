@@ -222,69 +222,6 @@ public class ArenaSetupEventHandler implements Listener {
                         event.setCancelled(true);
                     }
                     break;
-                case "mchunt.setup.arenaName":
-                    if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
-                        new AnvilGUI.Builder()
-                                .onClose(stateSnapshot -> {
-                                    String name = stateSnapshot.getText();
-
-                                    if (name == null || name.isEmpty()) {
-                                        sendPlayerError(
-                                                player,
-                                                new LocalizationManager(MCHunt.getCurrentLocale())
-                                                        .getMessage(
-                                                                "arena.setup.name_not_empty"
-                                                        )
-                                        );
-                                        return;
-                                    }
-
-                                    // Check if the name is a duplicate
-                                    ArenaManager arenaManager = this.plugin.getArenaManager();
-                                    if (arenaManager.getArenaByName(arenaManager.getArenas(), name).isPresent()) {
-                                        sendPlayerError(
-                                                player,
-                                                new LocalizationManager(MCHunt.getCurrentLocale())
-                                                        .getMessage(
-                                                                "arena.setup.name_duplicate", name
-                                                        )
-                                        );
-                                        return;
-                                    }
-
-                                    // If no name changes were made, stop
-                                    if (name.equals(arenaSetup.getArenaName())) {
-                                        return;
-                                    }
-
-                                    arenaSetup.setArenaName(name);
-                                    this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
-
-                                    this.plugin.getEventBusManager().publishEvent(new ArenaSetupUpdatedEvent(
-                                            arenaSetup.getUUID()
-                                    ));
-
-                                    sendPlayerAudibleMessage(
-                                            player,
-                                            new LocalizationManager(MCHunt.getCurrentLocale())
-                                                    .getMessage(
-                                                            "arena.setup.name_set", name
-                                                    )
-                                    );
-                                })
-                                .onClick((slot, stateSnapshot) -> {
-                                    if (slot != AnvilGUI.Slot.OUTPUT) {
-                                        return Collections.emptyList();
-                                    }
-
-                                    return Arrays.asList(AnvilGUI.ResponseAction.close());
-                                })
-                                .text(arenaSetup.getArenaName() == null || arenaSetup.getArenaName().isEmpty() ? "Arena" : arenaSetup.getArenaName())
-                                .title("Enter Arena Name")
-                                .plugin(this.plugin)
-                                .open(player);
-                    }
-                    break;
                 // Boundary selection
                 case "mchunt.setup.boundarySelection":
                     if (isBlockClickedEmpty(event)) {
