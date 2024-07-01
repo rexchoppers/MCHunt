@@ -19,4 +19,11 @@ public class ArenaSetupUpdatedListener {
         if (arenaSetup == null) return;
         plugin.getSignManager().initArenaSetupSigns(arenaSetup);
     }
+
+    @Subscribe
+    public void updateArenaSignsOnArenaSetupPlayerJoin(ArenaSetupUpdatedEvent event){
+        ArenaSetup arenaSetup = this.plugin.getArenaSetupManager().getArenaSetupByUUID(event.arenaSetupUuid()).orElse(null);
+        if (arenaSetup == null) return;
+        plugin.getSignManager().initArenaSetupSigns(arenaSetup);
+    }
 }

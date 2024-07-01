@@ -1,6 +1,7 @@
 package com.rexchoppers.mchunt.events;
 
 import com.rexchoppers.mchunt.MCHunt;
+import com.rexchoppers.mchunt.events.internal.ArenaSetupPlayerJoinedEvent;
 import com.rexchoppers.mchunt.events.internal.ArenaSetupUpdatedEvent;
 import com.rexchoppers.mchunt.exceptions.ArenaSetupNotFoundException;
 import com.rexchoppers.mchunt.items.ItemBuilder;
@@ -27,6 +28,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
@@ -361,6 +363,25 @@ public class ArenaSetupEventHandler implements Listener {
                     break;
             }
         }
+    }
+
+    @EventHandler
+    public void onPlayerJointEvent(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
+
+        ArenaSetup arenaSetup = this.plugin.getArenaSetupManager()
+                .getArenaSetupByPlayerUuid(
+                        plugin.getArenaSetupManager().getArenaSetups(),
+                        player.getUniqueId()).orElse(null);
+
+        if (arenaSetup == null) {
+            return;
+        }
+
+        this.plugin.getEventBusManager().publishEvent(new ArenaSetupPlayerJoinedEvent(
+                arenaSetup.getUUID(),
+                player.getUniqueId()
+        ));
     }
 
     @EventHandler
