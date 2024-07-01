@@ -7,8 +7,6 @@ import org.bukkit.block.Sign;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ScrollingSign {
     private String[] staticMessages;
@@ -16,7 +14,6 @@ public class ScrollingSign {
     private int[] dynamicLines;
     private Location location;
     private Map<Integer, Integer> lineIndexes;
-    private Map<Integer, String> lastFormat; // This will store the last effective % format, not color code
 
     public ScrollingSign(String[] staticMessages, Map<Integer, String> dynamicMessages, int[] dynamicLines, Location location) {
         this.staticMessages = staticMessages;
@@ -24,10 +21,8 @@ public class ScrollingSign {
         this.dynamicLines = dynamicLines;
         this.location = location;
         this.lineIndexes = new HashMap<>();
-        this.lastFormat = new HashMap<>();
         for (int line : dynamicLines) {
             lineIndexes.put(line, 0);
-            lastFormat.put(line, "");
         }
     }
 
@@ -47,8 +42,7 @@ public class ScrollingSign {
             if (line < lines.length) {
                 String fullText = dynamicMessages.get(line);
                 int currentIndex = lineIndexes.get(line);
-                String visibleText = getVisibleText(fullText, currentIndex, 15, line);
-                Bukkit.broadcastMessage("Visible text: " + visibleText);
+                String visibleText = getVisibleText(fullText, currentIndex, 15);
                 lines[line] = visibleText;
                 currentIndex = (currentIndex + 1) % fullText.length();
                 lineIndexes.put(line, currentIndex);
@@ -61,59 +55,45 @@ public class ScrollingSign {
         sign.update(true, false);
     }
 
-    private String getVisibleText(String text, int startIndex, int length, int line) {
+    private String getVisibleText(String text, int startIndex, int length) {
+        // Apply custom markers before calling Format.processString
+        String formattedText = applyCustomMarkers(text, startIndex, length);
+
         // Ensure the processed text doesn't lose formatting
-        text = Format.processString(text);
-
-        // Calculate the visible text indices ensuring circular text scrolling
-        int endIndex = (startIndex + length) % text.length();
-        String visibleText;
-        if (endIndex < startIndex) { // Wraps around
-            visibleText = text.substring(startIndex) + text.substring(0, endIndex);
-        } else {
-            visibleText = text.substring(startIndex, Math.min(startIndex + length, text.length()));
-        }
-
-        // Correct potential splitting of formatting codes
-        visibleText = correctSplitFormattingCodes(visibleText);
-
-        // Maintain continuity of formatting by prepending last known formatting codes
-        String lastKnownFormat = lastFormat.getOrDefault(line, "");
-        visibleText = lastKnownFormat + visibleText;
-
-        // Update last known formatting based on the new visible text
-        lastFormat.put(line, extractLastFormat(visibleText));
-
-        return visibleText;
+        return Format.processString(formattedText);
     }
 
-    private String correctSplitFormattingCodes(String visibleText) {
-        int lastFormatPos = visibleText.lastIndexOf('§');
-        if (lastFormatPos != -1 && lastFormatPos == visibleText.length() - 1) {
-            // If the last character is an incomplete formatting code, remove it
-            visibleText = visibleText.substring(0, lastFormatPos);
-        } else if (lastFormatPos != -1 && lastFormatPos < visibleText.length() - 1) {
-            // Check if the character following § is a valid format code
-            if (!isLetterOrColorCode(visibleText.charAt(lastFormatPos + 1))) {
-                // If not a valid format code, remove the solitary §
-                visibleText = visibleText.substring(0, lastFormatPos) + visibleText.substring(lastFormatPos + 1);
+    private String applyCustomMarkers(String text, int startIndex, int length) {
+        StringBuilder visibleText = new StringBuilder();
+        String currentFormat = "";
+
+        // Find the first relevant format marker before the visible text starts
+        for (int i = startIndex - 1; i >= 0; i--) {
+            if (text.charAt(i) == '%') {
+                currentFormat = "%" + text.charAt(i + 1);
+                break;
             }
         }
-        return visibleText;
-    }
 
-    private String extractLastFormat(String text) {
-        int lastFormatIndex = text.lastIndexOf("§");
-        if (lastFormatIndex != -1 && lastFormatIndex < text.length() - 1) {
-            char formatCode = text.charAt(lastFormatIndex + 1);
-            if (isLetterOrColorCode(formatCode)) {
-                return "§" + formatCode;
+        // Build the visible text with the relevant format markers applied
+        for (int i = 0; i < length; i++) {
+            int currentIndex = (startIndex + i) % text.length();
+            char currentChar = text.charAt(currentIndex);
+
+            if (currentChar == '%') {
+                currentFormat = "%" + text.charAt((currentIndex + 1) % text.length());
+                visibleText.append(currentFormat);
+                i++; // Skip the next character as it is part of the custom format code
+            } else {
+                visibleText.append(currentChar);
             }
         }
-        return "";
-    }
 
-    private boolean isLetterOrColorCode(char c) {
-        return (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'k' && c <= 'r');
+        // Reapply the last known format to ensure continuity
+        if (!currentFormat.isEmpty()) {
+            visibleText.insert(0, currentFormat);
+        }
+
+        return visibleText.toString();
     }
 }

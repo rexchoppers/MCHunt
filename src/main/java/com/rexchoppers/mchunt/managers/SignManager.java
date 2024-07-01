@@ -21,7 +21,7 @@ public class SignManager {
         List<ScrollingSign> currentArenaSetupSignsList = new ArrayList<>();
 
         Map<Integer, String> dynamicMessages = new HashMap<>();
-        dynamicMessages.put(3, Format.processString("%nArena currently being setup" + (player != null ? " by %a" + player.getName() : "")));
+        dynamicMessages.put(3, "%nArena currently being setup" + (player != null ? " by " + player.getName() : ""));
 
         for (Location location : arenaSigns) {
             currentArenaSetupSignsList.add(new ScrollingSign(
