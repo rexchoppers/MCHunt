@@ -37,14 +37,12 @@ public class ArenaSetupItemVerificationTask extends BukkitRunnable {
 
                     boolean notify = false;
 
-                    Map<Integer, ItemBuilder> arenaItems = plugin.getItemManager().getArenaSetupItems();
+                    Map<Integer, ItemBuilder> arenaItems = plugin.getItemManager().getDefaultHotbarArenaSetupItems();
 
                     for (Map.Entry<Integer, ItemBuilder> entry : arenaItems.entrySet()) {
                         int slot = entry.getKey();
                         ItemBuilder itemBuilder = entry.getValue();
                         if (player.getInventory().getItem(slot) == null || !player.getInventory().getItem(slot).isSimilar(itemBuilder.build())) {
-                            if (itemBuilder.getAction().equals("mchunt.setup.lobbySpawn") && arenaSetup.getLobbySpawn() != null) continue;
-                            if (itemBuilder.getAction().equals("mchunt.setup.afterGameSpawn") && arenaSetup.getAfterGameSpawn() != null) continue;
 
                             player.getInventory().setItem(slot, itemBuilder.build());
                             notify = true;
