@@ -54,7 +54,6 @@ public class ArenaSetupEventHandler implements Listener {
     }
 
     String[] restrictClickItemActions = {
-            "mchunt.setup.arenaName",
             "mchunt.setup.boundarySelection",
             "mchunt.setup.arenaSign",
             "mchunt.setup.cancelArenaSetup",

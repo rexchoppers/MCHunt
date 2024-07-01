@@ -28,7 +28,6 @@ public class ItemManager {
     public Map<Integer, ItemBuilder> getArenaSetupItems() {
         return new HashMap<>() {{
             put(0, itemArenaSetupSelection());
-            put(1, itemArenaSetupSetName());
             put(2, itemArenaSetupSign());
             put(3, itemArenaSetupConfig());
             put(4, itemArenaSetupLobbySpawn());
