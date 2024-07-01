@@ -25,21 +25,26 @@ public class ItemManager {
         this.plugin = plugin;
     }
 
-    public Map<Integer, ItemBuilder> getArenaSetupItems() {
+    public Map<Integer, ItemBuilder> getDefaultHotbarArenaSetupItems() {
         return new HashMap<>() {{
             put(0, itemArenaSetupSelection());
-            put(2, itemArenaSetupSign());
-            put(3, itemArenaSetupConfig());
-            put(4, itemArenaSetupLobbySpawn());
-            put(5, itemArenaSetupHiderSpawn());
-            put(6, itemArenaSetupSeekerSpawn());
-            put(7, itemArenaSetupAfterGameSpawn());
-            put(8, itemArenaSetupActions());
+            put(1, itemArenaSetupToolSelection());
+            put(2, itemArenaSetupConfig());
+            put(3, itemArenaSetupActions());
+        }};
+    }
+
+    public List<ItemBuilder> getHotbarArenaSetupItems() {
+        return new ArrayList<>() {{
+            itemArenaSetupSelection();
+            itemArenaSetupToolSelection();
+            itemArenaSetupConfig();
+            itemArenaSetupActions();
         }};
     }
 
     public void setArenaSetupItems(Player player) {
-        for (Map.Entry<Integer, ItemBuilder> entry : getArenaSetupItems().entrySet()) {
+        for (Map.Entry<Integer, ItemBuilder> entry : getDefaultHotbarArenaSetupItems().entrySet()) {
             player.getInventory().setItem(entry.getKey(), entry.getValue().build());
         }
 
@@ -443,6 +448,19 @@ public class ItemManager {
                 .setLores(new ArrayList<String>() {{
                     add("");
                     add(Format.processString("%tSet arena parameters"));
+                }});
+    }
+
+    public ItemBuilder itemArenaSetupToolSelection() {
+        return new ItemBuilder(this.plugin)
+                .setMaterial(Material.IRON_AXE)
+                .setAmount(1)
+                .setName(Format.processString("%n%BArena Tool Selection"))
+                .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
+                .setAction("mchunt.setup.toolSelection")
+                .setLores(new ArrayList<String>() {{
+                    add("");
+                    add(Format.processString("%tSelect the tool to use for arena setup"));
                 }});
     }
 

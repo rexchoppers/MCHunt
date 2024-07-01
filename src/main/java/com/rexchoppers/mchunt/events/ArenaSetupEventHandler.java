@@ -560,18 +560,20 @@ public class ArenaSetupEventHandler implements Listener {
 
         String action = this.plugin.getItemManager().getItemAction(itemStack);
 
-        Map<Integer, ItemBuilder> arenaItems = this.plugin.getItemManager().getArenaSetupItems();
+        List<ItemBuilder> arenaItems = this.plugin.getItemManager().getHotbarArenaSetupItems();
 
         if (action != null) {
-            for (Map.Entry<Integer, ItemBuilder> entry : arenaItems.entrySet()) {
-                if (entry.getValue().getAction().equals(action)) {
+            for (ItemBuilder itemBuilder : arenaItems) {
+                if (itemBuilder.getAction().equals(action)) {
                     event.setCancelled(true);
+
                     sendPlayerError(
                             player,
                             new LocalizationManager(MCHunt.getCurrentLocale())
                                     .getMessage(
                                             "player.setup.cannot_drop_setup_items"
                                     ));
+
                     return;
                 }
             }
