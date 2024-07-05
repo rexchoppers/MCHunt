@@ -377,6 +377,7 @@ public class ArenaSetup {
     }
 
     public void setCountdownAfterEnd(int countdownAfterEnd) {
+
         this.countdownAfterEnd = countdownAfterEnd;
     }
 

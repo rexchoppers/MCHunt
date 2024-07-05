@@ -121,7 +121,7 @@ public class MenuArenaSetupConfig extends MenuBase {
             }));
 
             inventoryContents.set(0, 2, ClickableItem.of(plugin.getItemManager().itemArenaSetupParameters().build(), e -> {
-
+                new MenuArenaSetupParameters(plugin).getInventory().open(player);
             }));
         }
 
