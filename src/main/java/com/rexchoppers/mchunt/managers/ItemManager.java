@@ -476,4 +476,61 @@ public class ItemManager {
                 .setAmount(1)
                 .setName(Format.processString("%n%BNext"));
     }
+
+    public ItemBuilder itemNegative1() {
+        return new ItemBuilder(this.plugin)
+                .setMaterial(Material.GOLD_NUGGET)
+                .setAmount(1)
+                .setAction("mchunt.setup.increment.-1")
+                .setName(Format.processString("%e%B-1"));
+    }
+
+    public ItemBuilder itemNegative10() {
+        return new ItemBuilder(this.plugin)
+                .setMaterial(Material.GOLD_NUGGET)
+                .setAmount(1)
+                .setName(Format.processString("%e%B-10"));
+    }
+
+    public ItemBuilder itemNegative100() {
+        return new ItemBuilder(this.plugin)
+                .setMaterial(Material.GOLD_NUGGET)
+                .setAmount(1)
+                .setName(Format.processString("%e%B-100"));
+    }
+
+    public ItemBuilder itemNegative1000() {
+        return new ItemBuilder(this.plugin)
+                .setMaterial(Material.GOLD_NUGGET)
+                .setAmount(1)
+                .setName(Format.processString("%e%B-1000"));
+    }
+
+    public ItemBuilder itemPositive1() {
+        return new ItemBuilder(this.plugin)
+                .setMaterial(Material.GOLD_INGOT)
+                .setAmount(1)
+                .setName(Format.processString("%g%B+1"));
+    }
+
+    public ItemBuilder itemPositive10() {
+        return new ItemBuilder(this.plugin)
+                .setMaterial(Material.GOLD_INGOT)
+                .setAmount(1)
+                .setName(Format.processString("%g%B+10"));
+    }
+
+    public ItemBuilder itemPositive100() {
+        return new ItemBuilder(this.plugin)
+                .setMaterial(Material.GOLD_INGOT)
+                .setAmount(1)
+                .setName(Format.processString("%g%B+100"));
+    }
+
+    public ItemBuilder itemPositive1000() {
+        return new ItemBuilder(this.plugin)
+                .setMaterial(Material.GOLD_INGOT)
+                .setAmount(1)
+                .setName(Format.processString("%g%B+1000"));
+    }
 }
