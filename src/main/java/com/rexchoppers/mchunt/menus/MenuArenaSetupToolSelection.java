@@ -1,6 +1,7 @@
 package com.rexchoppers.mchunt.menus;
 
 import com.rexchoppers.mchunt.MCHunt;
+import com.rexchoppers.mchunt.managers.LocalizationManager;
 import com.rexchoppers.mchunt.models.ArenaSetup;
 import com.rexchoppers.mchunt.util.Format;
 import fr.minuskube.inv.ClickableItem;
@@ -18,6 +19,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.rexchoppers.mchunt.util.PlayerUtil.sendPlayerAudibleMessage;
+import static com.rexchoppers.mchunt.util.PlayerUtil.sendPlayerError;
 
 public class MenuArenaSetupToolSelection extends MenuBase {
 
@@ -42,28 +46,86 @@ public class MenuArenaSetupToolSelection extends MenuBase {
         @Override
         public void init(Player player, InventoryContents inventoryContents) {
             inventoryContents.set(0, 0, ClickableItem.of(plugin.getItemManager().itemArenaSetupToolSelection().build(), e -> {
+                player.getInventory().setItem(0, plugin.getItemManager().itemArenaSetupToolSelection().build());
 
+                sendPlayerAudibleMessage(
+                        player,
+                        new LocalizationManager(MCHunt.getCurrentLocale()).getMessage("arena.setup.updated_tool_selection")
+                );
             }));
 
             inventoryContents.set(0, 1, ClickableItem.of(plugin.getItemManager().itemArenaSetupSign().build(), e -> {
+                player.getInventory().setItem(0, plugin.getItemManager().itemArenaSetupSign().build());
 
+                sendPlayerAudibleMessage(
+                        player,
+                        new LocalizationManager(MCHunt.getCurrentLocale()).getMessage("arena.setup.updated_tool_selection")
+                );
             }));
 
             inventoryContents.set(0, 2, ClickableItem.of(plugin.getItemManager().itemArenaSetupLobbySpawn().build(), e -> {
+                ArenaSetup arenaSetup = plugin.getArenaSetupManager()
+                        .getArenaSetupByPlayerUuid(
+                                plugin.getArenaSetupManager().getArenaSetups(),
+                                player.getUniqueId()).get();
 
+                if(arenaSetup.getLobbySpawn() != null) {
+                    // Warn the user the lobby spawn is already set
+                    sendPlayerError(
+                            player,
+                            new LocalizationManager(MCHunt.getCurrentLocale()).getMessage("arena.setup.lobby_spawn_already_set")
+                    );
+                    getInventory().close(player);
+                } else {
+                    player.getInventory().setItem(0, plugin.getItemManager().itemArenaSetupLobbySpawn().build());
+
+                    sendPlayerAudibleMessage(
+                            player,
+                            new LocalizationManager(MCHunt.getCurrentLocale()).getMessage("arena.setup.updated_tool_selection")
+                    );
+                }
             }));
 
             inventoryContents.set(0, 3, ClickableItem.of(plugin.getItemManager().itemArenaSetupHiderSpawn().build(), e -> {
+                player.getInventory().setItem(0, plugin.getItemManager().itemArenaSetupHiderSpawn().build());
 
+                sendPlayerAudibleMessage(
+                        player,
+                        new LocalizationManager(MCHunt.getCurrentLocale()).getMessage("arena.setup.updated_tool_selection")
+                );
             }));
 
 
             inventoryContents.set(0, 4, ClickableItem.of(plugin.getItemManager().itemArenaSetupSeekerSpawn().build(), e -> {
+                player.getInventory().setItem(0, plugin.getItemManager().itemArenaSetupSeekerSpawn().build());
 
+                sendPlayerAudibleMessage(
+                        player,
+                        new LocalizationManager(MCHunt.getCurrentLocale()).getMessage("arena.setup.updated_tool_selection")
+                );
             }));
 
             inventoryContents.set(0, 5, ClickableItem.of(plugin.getItemManager().itemArenaSetupAfterGameSpawn().build(), e -> {
+                ArenaSetup arenaSetup = plugin.getArenaSetupManager()
+                        .getArenaSetupByPlayerUuid(
+                                plugin.getArenaSetupManager().getArenaSetups(),
+                                player.getUniqueId()).get();
 
+                if(arenaSetup.getAfterGameSpawn() != null) {
+                    // Warn the user the after game spawn is already set
+                    sendPlayerError(
+                            player,
+                            new LocalizationManager(MCHunt.getCurrentLocale()).getMessage("arena.setup.after_game_spawn_already_set")
+                    );
+                    getInventory().close(player);
+                } else {
+                    player.getInventory().setItem(0, plugin.getItemManager().itemArenaSetupAfterGameSpawn().build());
+
+                    sendPlayerAudibleMessage(
+                            player,
+                            new LocalizationManager(MCHunt.getCurrentLocale()).getMessage("arena.setup.updated_tool_selection")
+                    );
+                }
             }));
         }
 
