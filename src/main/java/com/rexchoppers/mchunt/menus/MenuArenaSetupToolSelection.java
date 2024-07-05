@@ -45,8 +45,8 @@ public class MenuArenaSetupToolSelection extends MenuBase {
 
         @Override
         public void init(Player player, InventoryContents inventoryContents) {
-            inventoryContents.set(0, 0, ClickableItem.of(plugin.getItemManager().itemArenaSetupToolSelection().build(), e -> {
-                player.getInventory().setItem(0, plugin.getItemManager().itemArenaSetupToolSelection().build());
+            inventoryContents.set(0, 0, ClickableItem.of(plugin.getItemManager().itemArenaSetupSelection().build(), e -> {
+                player.getInventory().setItem(0, plugin.getItemManager().itemArenaSetupSelection().build());
 
                 sendPlayerAudibleMessage(
                         player,
