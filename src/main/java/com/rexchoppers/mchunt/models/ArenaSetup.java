@@ -349,6 +349,10 @@ public class ArenaSetup {
     }
 
     public int getMinimumPlayers() {
+        if (minimumPlayers < 2) {
+            minimumPlayers = 2;
+        }
+
         return minimumPlayers;
     }
 
@@ -390,6 +394,10 @@ public class ArenaSetup {
     }
 
     public int getMaximumPlayers() {
+        if (maximumPlayers < 2) {
+            maximumPlayers = 2;
+        }
+
         return maximumPlayers;
     }
 

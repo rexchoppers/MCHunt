@@ -65,6 +65,18 @@ public class MenuArenaSetupParameters extends MenuBase {
                                     return Collections.emptyList();
                                 }
 
+                                if (minimumPlayers > arenaSetup.getMaximumPlayers()) {
+                                    sendPlayerError(
+                                            player,
+                                            new LocalizationManager(MCHunt.getCurrentLocale())
+                                                    .getMessage(
+                                                            "arena.setup.minimum_players_not_greater_than_maximum_players"
+                                                    )
+                                    );
+
+                                    return Collections.emptyList();
+                                }
+
                                 arenaSetup.setMinimumPlayers(minimumPlayers);
                                 plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
                                 plugin.getEventBusManager().publishEvent(new ArenaSetupUpdatedEvent(
@@ -97,13 +109,69 @@ public class MenuArenaSetupParameters extends MenuBase {
                             );
                         })
                         .text(Integer.toString(arenaSetup.getMinimumPlayers()))
-                        .title("Enter the minimum number of players")
+                        .title("Set Min Players")
                         .plugin(plugin)
                         .open(player);
             }));
 
             inventoryContents.set(0, 1, ClickableItem.of(plugin.getItemManager().itemArenaSetupParametersMaximumPlayers().build(), e -> {
+                new AnvilGUI.Builder()
+                        .onClick((slot, stateSnapshot) -> {
+                            if (slot != AnvilGUI.Slot.OUTPUT) {
+                                return Collections.emptyList();
+                            }
 
+                            try {
+                                int maximumPlayers = Integer.parseInt(stateSnapshot.getText());
+
+                                if (maximumPlayers < 2) {
+                                    sendPlayerError(
+                                            player,
+                                            new LocalizationManager(MCHunt.getCurrentLocale())
+                                                    .getMessage(
+                                                            "arena.setup.maximum_players_not_less_than_two"
+                                                    )
+                                    );
+
+                                    return Collections.emptyList();
+                                }
+
+                                arenaSetup.setMaximumPlayers(maximumPlayers);
+                                plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+                                plugin.getEventBusManager().publishEvent(new ArenaSetupUpdatedEvent(
+                                        arenaSetup.getUUID()
+                                ));
+
+                                sendPlayerAudibleMessage(
+                                        player,
+                                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                                .getMessage(
+                                                        "arena.setup.value_set", Integer.toString(maximumPlayers)
+                                                )
+                                );
+                            } catch (Exception exception) {
+                                sendPlayerError(
+                                        player,
+                                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                                .getMessage(
+                                                        "arena.setup.not_a_number"
+                                                )
+                                );
+
+                                return Arrays.asList(AnvilGUI.ResponseAction.replaceInputText(Integer.toString(arenaSetup.getMaximumPlayers())));
+                            }
+
+                            return Arrays.asList(
+                                    AnvilGUI.ResponseAction.close(),
+                                    AnvilGUI.ResponseAction.run(() -> {
+                                        getInventory().open(player);
+                                    })
+                            );
+                        })
+                        .text(Integer.toString(arenaSetup.getMaximumPlayers()))
+                        .title("Set Max Players")
+                        .plugin(plugin)
+                        .open(player);
             }));
 
             inventoryContents.set(0, 2, ClickableItem.of(plugin.getItemManager().itemArenaSetupParametersSeekerCount().build(), e -> {
