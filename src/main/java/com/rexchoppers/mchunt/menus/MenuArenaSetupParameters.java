@@ -235,11 +235,125 @@ public class MenuArenaSetupParameters extends MenuBase {
             }));
 
             inventoryContents.set(0, 3, ClickableItem.of(plugin.getItemManager().itemArenaSetupParametersCountdownBeforeGameStart().build(), e -> {
+                new AnvilGUI.Builder()
+                        .onClick((slot, stateSnapshot) -> {
+                            if (slot != AnvilGUI.Slot.OUTPUT) {
+                                return Collections.emptyList();
+                            }
 
+                            try {
+                                int countdownBeforeStart = Integer.parseInt(stateSnapshot.getText());
+
+                                if (countdownBeforeStart < 1) {
+                                    sendPlayerError(
+                                            player,
+                                            new LocalizationManager(MCHunt.getCurrentLocale())
+                                                    .getMessage(
+                                                            "arena.setup.countdown_before_start_not_less_than_one"
+                                                    )
+                                    );
+
+                                    return Collections.emptyList();
+                                }
+
+
+                                arenaSetup.setCountdownBeforeStart(countdownBeforeStart);
+                                plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+                                plugin.getEventBusManager().publishEvent(new ArenaSetupUpdatedEvent(
+                                        arenaSetup.getUUID()
+                                ));
+
+                                sendPlayerAudibleMessage(
+                                        player,
+                                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                                .getMessage(
+                                                        "arena.setup.value_set", Integer.toString(countdownBeforeStart)
+                                                )
+                                );
+                            } catch (Exception exception) {
+                                sendPlayerError(
+                                        player,
+                                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                                .getMessage(
+                                                        "arena.setup.not_a_number"
+                                                )
+                                );
+
+                                return Arrays.asList(AnvilGUI.ResponseAction.replaceInputText(Integer.toString(arenaSetup.getCountdownBeforeStart())));
+                            }
+
+                            return Arrays.asList(
+                                    AnvilGUI.ResponseAction.close(),
+                                    AnvilGUI.ResponseAction.run(() -> {
+                                        getInventory().open(player);
+                                    })
+                            );
+                        })
+                        .text(Integer.toString(arenaSetup.getCountdownBeforeStart()))
+                        .title("Set Countdown Before Start")
+                        .plugin(plugin)
+                        .open(player);
             }));
 
             inventoryContents.set(0, 4, ClickableItem.of(plugin.getItemManager().itemArenaSetupParametersCountdownAfterGameEnd().build(), e -> {
+                new AnvilGUI.Builder()
+                        .onClick((slot, stateSnapshot) -> {
+                            if (slot != AnvilGUI.Slot.OUTPUT) {
+                                return Collections.emptyList();
+                            }
 
+                            try {
+                                int countdownAfterGameEnd = Integer.parseInt(stateSnapshot.getText());
+
+                                if (countdownAfterGameEnd < 1) {
+                                    sendPlayerError(
+                                            player,
+                                            new LocalizationManager(MCHunt.getCurrentLocale())
+                                                    .getMessage(
+                                                            "arena.setup.countdown_after_game_end_not_less_than_one"
+                                                    )
+                                    );
+
+                                    return Collections.emptyList();
+                                }
+
+
+                                arenaSetup.setCountdownAfterEnd(countdownAfterGameEnd);
+                                plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+                                plugin.getEventBusManager().publishEvent(new ArenaSetupUpdatedEvent(
+                                        arenaSetup.getUUID()
+                                ));
+
+                                sendPlayerAudibleMessage(
+                                        player,
+                                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                                .getMessage(
+                                                        "arena.setup.value_set", Integer.toString(countdownAfterGameEnd)
+                                                )
+                                );
+                            } catch (Exception exception) {
+                                sendPlayerError(
+                                        player,
+                                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                                .getMessage(
+                                                        "arena.setup.not_a_number"
+                                                )
+                                );
+
+                                return Arrays.asList(AnvilGUI.ResponseAction.replaceInputText(Integer.toString(arenaSetup.getCountdownAfterEnd())));
+                            }
+
+                            return Arrays.asList(
+                                    AnvilGUI.ResponseAction.close(),
+                                    AnvilGUI.ResponseAction.run(() -> {
+                                        getInventory().open(player);
+                                    })
+                            );
+                        })
+                        .text(Integer.toString(arenaSetup.getCountdownAfterEnd()))
+                        .title("Set Countdown After End")
+                        .plugin(plugin)
+                        .open(player);
             }));
 
             inventoryContents.set(0, 5, ClickableItem.of(plugin.getItemManager().itemArenaSetupParametersRespawnDelay().build(), e -> {

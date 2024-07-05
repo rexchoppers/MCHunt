@@ -373,6 +373,10 @@ public class ArenaSetup {
     }
 
     public int getCountdownBeforeStart() {
+        if (countdownBeforeStart < 1) {
+            countdownBeforeStart = 10;
+        }
+
         return countdownBeforeStart;
     }
 
