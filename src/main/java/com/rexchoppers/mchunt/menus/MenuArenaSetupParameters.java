@@ -45,7 +45,61 @@ public class MenuArenaSetupParameters extends MenuBase {
                             player.getUniqueId()).orElse(null);
 
             inventoryContents.set(0, 0, ClickableItem.of(plugin.getItemManager().itemArenaSetupParametersMinimumPlayers().build(), e -> {
+                new AnvilGUI.Builder()
+                        .onClick((slot, stateSnapshot) -> {
+                            if (slot != AnvilGUI.Slot.OUTPUT) {
+                                return Collections.emptyList();
+                            }
 
+                            try {
+                                int minimumPlayers = Integer.parseInt(stateSnapshot.getText());
+                                if (minimumPlayers < 2) {
+                                    sendPlayerError(
+                                            player,
+                                            new LocalizationManager(MCHunt.getCurrentLocale())
+                                                    .getMessage(
+                                                            "arena.setup.minimum_players_not_less_than_two"
+                                                    )
+                                    );
+
+                                    return Collections.emptyList();
+                                }
+
+                                arenaSetup.setMinimumPlayers(minimumPlayers);
+                                plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+                                plugin.getEventBusManager().publishEvent(new ArenaSetupUpdatedEvent(
+                                        arenaSetup.getUUID()
+                                ));
+
+                                sendPlayerAudibleMessage(
+                                        player,
+                                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                                .getMessage(
+                                                        "arena.setup.value_set", Integer.toString(minimumPlayers)
+                                                )
+                                );
+                            } catch (Exception exception) {
+                                sendPlayerError(
+                                        player,
+                                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                                .getMessage(
+                                                        "arena.setup.not_a_number"
+                                                )
+                                );
+                                return Arrays.asList(AnvilGUI.ResponseAction.replaceInputText(Integer.toString(arenaSetup.getMinimumPlayers())));
+                            }
+
+                            return Arrays.asList(
+                                    AnvilGUI.ResponseAction.close(),
+                                    AnvilGUI.ResponseAction.run(() -> {
+                                        getInventory().open(player);
+                                    })
+                            );
+                        })
+                        .text(Integer.toString(arenaSetup.getMinimumPlayers()))
+                        .title("Enter the minimum number of players")
+                        .plugin(plugin)
+                        .open(player);
             }));
 
             inventoryContents.set(0, 1, ClickableItem.of(plugin.getItemManager().itemArenaSetupParametersMaximumPlayers().build(), e -> {

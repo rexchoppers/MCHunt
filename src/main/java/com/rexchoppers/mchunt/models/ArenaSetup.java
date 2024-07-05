@@ -41,19 +41,19 @@ public class ArenaSetup {
     private Location afterGameSpawn;
 
     @Expose
-    private int minimumPlayers = 2;
+    private int minimumPlayers;
 
     @Expose
-    private int maximumPlayers = 12;
+    private int maximumPlayers;
 
     @Expose
-    private int seekerCount = 1;
+    private int seekerCount;
 
     @Expose
-    private int countdownBeforeStart = 20;
+    private int countdownBeforeStart;
 
     @Expose
-    private int countdownAfterEnd = 20;
+    private int countdownAfterEnd;
 
     @Expose
     private int respawnTime = 5;
