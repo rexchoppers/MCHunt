@@ -41,6 +41,21 @@ public class ArenaSetup {
     private Location afterGameSpawn;
 
     @Expose
+    private int minimumPlayers;
+
+    @Expose
+    private int seekerCount;
+
+    @Expose
+    private int countdownBeforeStart;
+
+    @Expose
+    private int countdownAfterEnd;
+
+    @Expose
+    private int respawnTime;
+
+    @Expose
     private Location locationBoundaryPoint1;
 
     @Expose
@@ -328,5 +343,45 @@ public class ArenaSetup {
 
     public void setAfterGameSpawn(Location afterGameSpawn) {
         this.afterGameSpawn = afterGameSpawn;
+    }
+
+    public int getMinimumPlayers() {
+        return minimumPlayers;
+    }
+
+    public void setMinimumPlayers(int minimumPlayers) {
+        this.minimumPlayers = minimumPlayers;
+    }
+
+    public int getSeekerCount() {
+        return seekerCount;
+    }
+
+    public void setSeekerCount(int seekerCount) {
+        this.seekerCount = seekerCount;
+    }
+
+    public int getCountdownBeforeStart() {
+        return countdownBeforeStart;
+    }
+
+    public void setCountdownBeforeStart(int countdownBeforeStart) {
+        this.countdownBeforeStart = countdownBeforeStart;
+    }
+
+    public int getCountdownAfterEnd() {
+        return countdownAfterEnd;
+    }
+
+    public void setCountdownAfterEnd(int countdownAfterEnd) {
+        this.countdownAfterEnd = countdownAfterEnd;
+    }
+
+    public int getRespawnTime() {
+        return respawnTime;
+    }
+
+    public void setRespawnTime(int respawnTime) {
+        this.respawnTime = respawnTime;
     }
 }
