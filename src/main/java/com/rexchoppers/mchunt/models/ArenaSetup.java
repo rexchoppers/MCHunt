@@ -41,19 +41,22 @@ public class ArenaSetup {
     private Location afterGameSpawn;
 
     @Expose
-    private int minimumPlayers;
+    private int minimumPlayers = 2;
 
     @Expose
-    private int seekerCount;
+    private int maximumPlayers = 12;
 
     @Expose
-    private int countdownBeforeStart;
+    private int seekerCount = 1;
 
     @Expose
-    private int countdownAfterEnd;
+    private int countdownBeforeStart = 20;
 
     @Expose
-    private int respawnTime;
+    private int countdownAfterEnd = 20;
+
+    @Expose
+    private int respawnTime = 5;
 
     @Expose
     private Location locationBoundaryPoint1;
@@ -383,5 +386,13 @@ public class ArenaSetup {
 
     public void setRespawnTime(int respawnTime) {
         this.respawnTime = respawnTime;
+    }
+
+    public int getMaximumPlayers() {
+        return maximumPlayers;
+    }
+
+    public void setMaximumPlayers(int maximumPlayers) {
+        this.maximumPlayers = maximumPlayers;
     }
 }
