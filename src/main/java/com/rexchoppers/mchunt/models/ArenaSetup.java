@@ -361,6 +361,10 @@ public class ArenaSetup {
     }
 
     public int getSeekerCount() {
+        if (seekerCount < 1) {
+            seekerCount = 1;
+        }
+
         return seekerCount;
     }
 

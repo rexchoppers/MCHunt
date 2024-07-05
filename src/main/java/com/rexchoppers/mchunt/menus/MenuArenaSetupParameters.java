@@ -175,7 +175,63 @@ public class MenuArenaSetupParameters extends MenuBase {
             }));
 
             inventoryContents.set(0, 2, ClickableItem.of(plugin.getItemManager().itemArenaSetupParametersSeekerCount().build(), e -> {
+                new AnvilGUI.Builder()
+                        .onClick((slot, stateSnapshot) -> {
+                            if (slot != AnvilGUI.Slot.OUTPUT) {
+                                return Collections.emptyList();
+                            }
 
+                            try {
+                                int seekerCount = Integer.parseInt(stateSnapshot.getText());
+
+                                if (seekerCount < 1) {
+                                    sendPlayerError(
+                                            player,
+                                            new LocalizationManager(MCHunt.getCurrentLocale())
+                                                    .getMessage(
+                                                            "arena.setup.seeker_count_not_less_than_one"
+                                                    )
+                                    );
+
+                                    return Collections.emptyList();
+                                }
+
+                                arenaSetup.setSeekerCount(seekerCount);
+                                plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+                                plugin.getEventBusManager().publishEvent(new ArenaSetupUpdatedEvent(
+                                        arenaSetup.getUUID()
+                                ));
+
+                                sendPlayerAudibleMessage(
+                                        player,
+                                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                                .getMessage(
+                                                        "arena.setup.value_set", Integer.toString(seekerCount)
+                                                )
+                                );
+                            } catch (Exception exception) {
+                                sendPlayerError(
+                                        player,
+                                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                                .getMessage(
+                                                        "arena.setup.not_a_number"
+                                                )
+                                );
+
+                                return Arrays.asList(AnvilGUI.ResponseAction.replaceInputText(Integer.toString(arenaSetup.getSeekerCount())));
+                            }
+
+                            return Arrays.asList(
+                                    AnvilGUI.ResponseAction.close(),
+                                    AnvilGUI.ResponseAction.run(() -> {
+                                        getInventory().open(player);
+                                    })
+                            );
+                        })
+                        .text(Integer.toString(arenaSetup.getSeekerCount()))
+                        .title("Set Seeker Count")
+                        .plugin(plugin)
+                        .open(player);
             }));
 
             inventoryContents.set(0, 3, ClickableItem.of(plugin.getItemManager().itemArenaSetupParametersCountdownBeforeGameStart().build(), e -> {
