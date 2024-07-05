@@ -29,7 +29,7 @@ public class MenuArenaSetupParameters extends MenuBase {
                         .id("mchuntMenuArenaSetupParameters")
                         .manager(plugin.getInventoryManager())
                         .provider(new MenuArenaSetupParametersProvider())
-                        .size(8, 9)
+                        .size(1, 9)
                         .title("MCHunt - Arena Parameters")
                         .closeable(true)
                         .build()
@@ -43,6 +43,30 @@ public class MenuArenaSetupParameters extends MenuBase {
                     .getArenaSetupByPlayerUuid(
                             plugin.getArenaSetupManager().getArenaSetups(),
                             player.getUniqueId()).orElse(null);
+
+            inventoryContents.set(0, 0, ClickableItem.of(plugin.getItemManager().itemArenaSetupParametersMinimumPlayers().build(), e -> {
+
+            }));
+
+            inventoryContents.set(0, 1, ClickableItem.of(plugin.getItemManager().itemArenaSetupParametersMaximumPlayers().build(), e -> {
+
+            }));
+
+            inventoryContents.set(0, 2, ClickableItem.of(plugin.getItemManager().itemArenaSetupParametersSeekerCount().build(), e -> {
+
+            }));
+
+            inventoryContents.set(0, 3, ClickableItem.of(plugin.getItemManager().itemArenaSetupParametersCountdownBeforeGameStart().build(), e -> {
+
+            }));
+
+            inventoryContents.set(0, 4, ClickableItem.of(plugin.getItemManager().itemArenaSetupParametersCountdownAfterGameEnd().build(), e -> {
+
+            }));
+
+            inventoryContents.set(0, 5, ClickableItem.of(plugin.getItemManager().itemArenaSetupParametersRespawnDelay().build(), e -> {
+
+            }));
         }
 
         @Override
