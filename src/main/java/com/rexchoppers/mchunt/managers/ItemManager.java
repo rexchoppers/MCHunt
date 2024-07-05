@@ -27,7 +27,6 @@ public class ItemManager {
 
     public Map<Integer, ItemBuilder> getDefaultHotbarArenaSetupItems() {
         return new HashMap<>() {{
-            put(0, itemArenaSetupSelection());
             put(1, itemArenaSetupToolSelection());
             put(2, itemArenaSetupConfig());
             put(3, itemArenaSetupActions());

@@ -54,13 +54,6 @@ public class ArenaSetupEventHandler implements Listener {
         return event.getClickedBlock() == null || event.getClickedBlock().getType().isAir();
     }
 
-    String[] restrictClickItemActions = {
-            "mchunt.setup.boundarySelection",
-            "mchunt.setup.arenaSign",
-            "mchunt.setup.cancelArenaSetup",
-            "mchunt.setup.saveArenaSetup",
-    };
-
     @EventHandler
     public void onPlayerInteractSpawnBlocks(PlayerInteractEvent event) {
         Player player = event.getPlayer();
@@ -342,6 +335,12 @@ public class ArenaSetupEventHandler implements Listener {
             return;
         }
 
+        String[] restrictClickItemActions = {
+                "mchunt.setup.arenaSign",
+                "mchunt.setup.cancelArenaSetup",
+                "mchunt.setup.saveArenaSetup",
+        };
+
         ItemStack item = event.getCurrentItem();
 
         if (item == null || item.getType().equals(Material.AIR)) {
@@ -350,7 +349,7 @@ public class ArenaSetupEventHandler implements Listener {
 
         String action = this.plugin.getItemManager().getItemAction(item);
 
-        if (action != null && Arrays.asList(this.restrictClickItemActions).contains(action)) {
+        if (action != null && (Arrays.asList(restrictClickItemActions).contains(action) || event.getSlot() == 0)) {
             player.setItemOnCursor(null);
 
             player.updateInventory();
