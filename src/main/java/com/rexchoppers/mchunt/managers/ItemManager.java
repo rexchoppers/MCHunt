@@ -477,60 +477,75 @@ public class ItemManager {
                 .setName(Format.processString("%n%BNext"));
     }
 
-    public ItemBuilder itemNegative1() {
+    public ItemBuilder itemArenaSetupParametersMinimumPlayers() {
         return new ItemBuilder(this.plugin)
-                .setMaterial(Material.GOLD_NUGGET)
+                .setMaterial(Material.PAPER)
                 .setAmount(1)
-                .setAction("mchunt.setup.increment.-1")
-                .setName(Format.processString("%e%B-1"));
+                .setName(Format.processString("%n%BMinimum Players"))
+                .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
+                .setLores(new ArrayList<String>() {{
+                    add("");
+                    add(Format.processString("%tSet the minimum number of players"));
+                }});
     }
 
-    public ItemBuilder itemNegative10() {
+    public ItemBuilder itemArenaSetupParametersMaximumPlayers() {
         return new ItemBuilder(this.plugin)
-                .setMaterial(Material.GOLD_NUGGET)
+                .setMaterial(Material.PAPER)
                 .setAmount(1)
-                .setName(Format.processString("%e%B-10"));
+                .setName(Format.processString("%n%BMaximum Players"))
+                .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
+                .setLores(new ArrayList<String>() {{
+                    add("");
+                    add(Format.processString("%tSet the maximum number of players"));
+                }});
     }
 
-    public ItemBuilder itemNegative100() {
+    public ItemBuilder itemArenaSetupParametersSeekerCount() {
         return new ItemBuilder(this.plugin)
-                .setMaterial(Material.GOLD_NUGGET)
+                .setMaterial(Material.PAPER)
                 .setAmount(1)
-                .setName(Format.processString("%e%B-100"));
+                .setName(Format.processString("%n%BSeeker Count"))
+                .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
+                .setLores(new ArrayList<String>() {{
+                    add("");
+                    add(Format.processString("%tSet the number of seekers on game start"));
+                }});
     }
 
-    public ItemBuilder itemNegative1000() {
+    public ItemBuilder itemArenaSetupParametersCountdownBeforeGameStart() {
         return new ItemBuilder(this.plugin)
-                .setMaterial(Material.GOLD_NUGGET)
+                .setMaterial(Material.PAPER)
                 .setAmount(1)
-                .setName(Format.processString("%e%B-1000"));
+                .setName(Format.processString("%n%BCountdown Before Game Start"))
+                .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
+                .setLores(new ArrayList<String>() {{
+                    add("");
+                    add(Format.processString("%tSet the countdown before the game starts"));
+                }});
     }
 
-    public ItemBuilder itemPositive1() {
+    public ItemBuilder itemArenaSetupParametersCountdownAfterGameEnd() {
         return new ItemBuilder(this.plugin)
-                .setMaterial(Material.GOLD_INGOT)
+                .setMaterial(Material.PAPER)
                 .setAmount(1)
-                .setName(Format.processString("%g%B+1"));
+                .setName(Format.processString("%n%BCountdown After Game End"))
+                .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
+                .setLores(new ArrayList<String>() {{
+                    add("");
+                    add(Format.processString("%tSet the countdown after the game ends"));
+                }});
     }
 
-    public ItemBuilder itemPositive10() {
+    public ItemBuilder itemArenaSetupParametersRespawnDelay() {
         return new ItemBuilder(this.plugin)
-                .setMaterial(Material.GOLD_INGOT)
+                .setMaterial(Material.PAPER)
                 .setAmount(1)
-                .setName(Format.processString("%g%B+10"));
-    }
-
-    public ItemBuilder itemPositive100() {
-        return new ItemBuilder(this.plugin)
-                .setMaterial(Material.GOLD_INGOT)
-                .setAmount(1)
-                .setName(Format.processString("%g%B+100"));
-    }
-
-    public ItemBuilder itemPositive1000() {
-        return new ItemBuilder(this.plugin)
-                .setMaterial(Material.GOLD_INGOT)
-                .setAmount(1)
-                .setName(Format.processString("%g%B+1000"));
+                .setName(Format.processString("%n%BRespawn Delay"))
+                .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
+                .setLores(new ArrayList<String>() {{
+                    add("");
+                    add(Format.processString("%tSet the respawn delay"));
+                }});
     }
 }
