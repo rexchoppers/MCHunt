@@ -336,9 +336,9 @@ public class ArenaSetupEventHandler implements Listener {
         }
 
         String[] restrictClickItemActions = {
-                "mchunt.setup.arenaSign",
-                "mchunt.setup.cancelArenaSetup",
-                "mchunt.setup.saveArenaSetup",
+                plugin.getItemManager().itemArenaSetupToolSelection().getAction(),
+                plugin.getItemManager().itemArenaSetupConfig().getAction(),
+                plugin.getItemManager().itemArenaSetupActions().getAction(),
         };
 
         ItemStack item = event.getCurrentItem();
@@ -349,7 +349,7 @@ public class ArenaSetupEventHandler implements Listener {
 
         String action = this.plugin.getItemManager().getItemAction(item);
 
-        if (action != null && (Arrays.asList(restrictClickItemActions).contains(action) || event.getSlot() == 0)) {
+        if (action != null && (Arrays.asList(restrictClickItemActions).contains(action))) {
             player.setItemOnCursor(null);
 
             player.updateInventory();
