@@ -124,6 +124,10 @@ public class ArenaSetup {
     }
 
     public String getArenaName() {
+        if (arenaName == null || arenaName.isEmpty()) {
+            return "Arena";
+        }
+
         return arenaName;
     }
 
