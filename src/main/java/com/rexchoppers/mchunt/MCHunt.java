@@ -7,10 +7,13 @@ import com.rexchoppers.mchunt.commands.CommandMCHunt;
 import com.rexchoppers.mchunt.enums.ArenaStatus;
 import com.rexchoppers.mchunt.managers.*;
 import com.rexchoppers.mchunt.serializers.*;
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import fr.minuskube.inv.InventoryManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.nio.file.FileSystems;
@@ -37,6 +40,8 @@ public final class MCHunt extends JavaPlugin {
 
     private SignManager signManager;
 
+    private WorldGuard worldGuard;
+
     @Override
     public void onEnable() {
         this.gson = new GsonBuilder()
@@ -50,8 +55,14 @@ public final class MCHunt extends JavaPlugin {
                 .excludeFieldsWithoutExposeAnnotation()
                 .create();
 
-        currentLocale = Locale.getDefault();
+        WorldGuardPlugin wgPlugin = getWorldGuard();
+        if (wgPlugin == null) {
+            getLogger().severe("WorldGuard plugin not found. Disabling plugin.");
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
+        }
 
+        currentLocale = Locale.getDefault();
 
         // Setup managers
         this.signManager = new SignManager();
@@ -133,5 +144,13 @@ public final class MCHunt extends JavaPlugin {
 
     public EventBusManager getEventBusManager() {
         return eventBusManager;
+    }
+
+    public WorldGuardPlugin getWorldGuard() {
+        Plugin plugin = getServer().getPluginManager().getPlugin("WorldGuard");
+        if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
+            return null;
+        }
+        return (WorldGuardPlugin) plugin;
     }
 }
