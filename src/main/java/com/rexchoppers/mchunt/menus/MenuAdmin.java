@@ -59,8 +59,6 @@ public class MenuAdmin extends MenuBase {
                         getInventory().close(player);
 
                         player.setGameMode(GameMode.CREATIVE);
-
-
                     } catch (PlayerAlreadyInArenaSetupException ex) {
                         getInventory().close(player);
                         sendPlayerError(player, ex.getMessage());

@@ -46,14 +46,20 @@ public class MenuArenaSetupActions extends MenuBase {
                     .getArenaSetupByPlayerUuid(
                             plugin.getArenaSetupManager().getArenaSetups(),
                             player.getUniqueId()).orElse(null);
-
-            // Delete the arena setup from file so no logic will be executed on it
-
-
+            
             inventoryContents.set(7, 0, ClickableItem.of(plugin.getItemManager().itemArenaSetupDiscardChanges().build(), e -> {
                 plugin.getArenaSetupManager().removeArenaSetup(arenaSetup.getUUID());
-
                 plugin.getEventBusManager().publishEvent(new ArenaSetupDiscardedEvent(arenaSetup));
+
+                player.closeInventory();
+
+                sendPlayerAudibleMessage(
+                        player,
+                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                .getMessage(
+                                        "arena.setup.discarded"
+                                )
+                );
             }));
 
             inventoryContents.set(8, 0, ClickableItem.of(plugin.getItemManager().itemArenaSetupSave().build(), e -> {
