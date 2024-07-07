@@ -1,9 +1,11 @@
 package com.rexchoppers.mchunt.models;
 
 import com.google.gson.annotations.Expose;
+import com.rexchoppers.mchunt.enums.ArenaPlayerRole;
 import com.rexchoppers.mchunt.enums.ArenaStatus;
 import org.bukkit.Location;
 
+import java.util.List;
 import java.util.UUID;
 
 public class Arena {
@@ -62,7 +64,11 @@ public class Arena {
 
     @Expose
     private Location locationBoundaryPoint2;
+    
+    // Game variables
 
+    // Complete list of players
+    private List<ArenaPlayer> players;
 
     public Arena(
             UUID uuid,
