@@ -56,7 +56,7 @@ public class ArenaSetup {
     private int countdownAfterEnd;
 
     @Expose
-    private int respawnTime = 5;
+    private int respawnDelay = 5;
 
     @Expose
     private Location locationBoundaryPoint1;
@@ -393,12 +393,16 @@ public class ArenaSetup {
         this.countdownAfterEnd = countdownAfterEnd;
     }
 
-    public int getRespawnTime() {
-        return respawnTime;
+    public int getRespawnDelay() {
+        if (respawnDelay < 1) {
+            respawnDelay = 5;
+        }
+
+        return respawnDelay;
     }
 
-    public void setRespawnTime(int respawnTime) {
-        this.respawnTime = respawnTime;
+    public void setRespawnDelay(int respawnDelay) {
+        this.respawnDelay = respawnDelay;
     }
 
     public int getMaximumPlayers() {
