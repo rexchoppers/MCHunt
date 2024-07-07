@@ -6,7 +6,17 @@ import com.rexchoppers.mchunt.events.internal.ArenaSetupPlayerJoinedEvent;
 import com.rexchoppers.mchunt.events.internal.ArenaSetupUpdatedEvent;
 import com.rexchoppers.mchunt.managers.ArenaManager;
 import com.rexchoppers.mchunt.managers.LocalizationManager;
+import com.rexchoppers.mchunt.models.Arena;
 import com.rexchoppers.mchunt.models.ArenaSetup;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldguard.protection.ApplicableRegionSet;
+import com.sk89q.worldguard.protection.managers.RegionManager;
+import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sk89q.worldguard.protection.regions.RegionContainer;
 import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
@@ -161,7 +171,79 @@ public class MenuArenaSetupActions extends MenuBase {
                     return;
                 }
 
+                // Check if WorldGuard region can be setup
+                BlockVector3 min = BlockVector3.at(
+                        arenaSetup.getLocationBoundaryPoint1().getX(),
+                        arenaSetup.getLocationBoundaryPoint1().getY(),
+                        arenaSetup.getLocationBoundaryPoint1().getZ()
+                );
 
+                BlockVector3 max = BlockVector3.at(
+                        arenaSetup.getLocationBoundaryPoint2().getX(),
+                        arenaSetup.getLocationBoundaryPoint2().getY(),
+                        arenaSetup.getLocationBoundaryPoint2().getZ()
+                );
+
+                String regionId = "mchunt_" + arenaSetup.getUUID().toString();
+
+                ProtectedCuboidRegion region = new ProtectedCuboidRegion(regionId, min, max);
+
+                RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
+                RegionManager regions = container.get(BukkitAdapter.adapt(arenaSetup.getLocationBoundaryPoint1().getWorld()));
+
+                if (regions == null) {
+                    sendPlayerError(
+                            player,
+                            new LocalizationManager(MCHunt.getCurrentLocale())
+                                    .getMessage(
+                                            "arena.setup.worldguard_region_manager_not_found"
+                                    )
+                    );
+                    return;
+                }
+
+                // Check if the region intersects with any existing regions
+                ApplicableRegionSet set = regions.getApplicableRegions(region);
+
+                // Loop through all regions and check if the region intersects with any of them
+                if(!set.getRegions().isEmpty()) {
+                    for(ProtectedRegion protectedRegion : set.getRegions()) {
+                        if(protectedRegion.getId().contains("mchunt_")) {
+                            sendPlayerError(
+                                    player,
+                                    new LocalizationManager(MCHunt.getCurrentLocale())
+                                            .getMessage(
+                                                    "arena.setup.selection_intersects_with_existing_arena_region"
+                                            )
+                            );
+                            return;
+                        }
+                    }
+                }
+
+                regions.addRegion(region);
+
+                // Save the arena setup
+                Arena arena = new Arena(
+                        arenaSetup.getUUID(),
+                        arenaSetup.getArenaName(),
+                        regionId,
+                        player.getUniqueId(),
+                        arenaSetup.getArenaSigns(),
+                        arenaSetup.getArenaBlocks(),
+                        arenaSetup.getLobbySpawn(),
+                        arenaSetup.getHiderSpawns(),
+                        arenaSetup.getSeekerSpawns(),
+                        arenaSetup.getAfterGameSpawn(),
+                        arenaSetup.getMinimumPlayers(),
+                        arenaSetup.getMaximumPlayers(),
+                        arenaSetup.getSeekerCount(),
+                        arenaSetup.getCountdownBeforeStart(),
+                        arenaSetup.getCountdownAfterEnd(),
+                        arenaSetup.getRespawnDelay(),
+                        arenaSetup.getLocationBoundaryPoint1(),
+                        arenaSetup.getLocationBoundaryPoint2()
+                );
             }));
         }
 
