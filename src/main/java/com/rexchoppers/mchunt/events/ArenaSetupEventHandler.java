@@ -70,7 +70,8 @@ public class ArenaSetupEventHandler implements Listener {
             return;
         }
 
-        if (!event.getClickedBlock().getType().equals(Material.OAK_WALL_SIGN)) {
+        if (!event.getClickedBlock().getType().equals(Material.OAK_WALL_SIGN) ||
+            !event.getClickedBlock().getType().equals(Material.OAK_SIGN)) {
             return;
         }
 
@@ -151,8 +152,6 @@ public class ArenaSetupEventHandler implements Listener {
                 arenaSetup.removeSeekerSpawn(location);
                 this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
 
-
-
                 sendPlayerAudibleMessage(
                         player,
                         new LocalizationManager(MCHunt.getCurrentLocale())
@@ -173,7 +172,7 @@ public class ArenaSetupEventHandler implements Listener {
             arenaSetup.setLobbySpawn(null);
             this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
 
-            player.getInventory().setItem(4, plugin.getItemManager().itemArenaSetupLobbySpawn().build());
+            player.getInventory().setItem(0, plugin.getItemManager().itemArenaSetupLobbySpawn().build());
 
             sendPlayerAudibleMessage(
                     player,
@@ -193,7 +192,7 @@ public class ArenaSetupEventHandler implements Listener {
             arenaSetup.setAfterGameSpawn(null);
             this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
 
-            player.getInventory().setItem(7, plugin.getItemManager().itemArenaSetupAfterGameSpawn().build());
+            player.getInventory().setItem(0, plugin.getItemManager().itemArenaSetupAfterGameSpawn().build());
 
             sendPlayerAudibleMessage(
                     player,
