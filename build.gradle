@@ -26,8 +26,11 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.jetbrains:annotations:24.0.0'
     compileOnly "org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT"
     compileOnly group: "com.comphenix.protocol", name: "ProtocolLib", version: "4.8.0";
+    compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.6'
+    compileOnly 'com.sk89q.worldedit:worldedit-bukkit:7.2.8'
 
     implementation 'com.google.code.gson:gson:2.9.0'
     implementation "co.aikar:acf-paper:0.5.1-SNAPSHOT"
