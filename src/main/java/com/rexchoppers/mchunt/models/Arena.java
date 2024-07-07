@@ -105,6 +105,10 @@ public class Arena {
         this.locationBoundaryPoint2 = locationBoundaryPoint2;
     }
 
+    public UUID getUuid() {
+        return uuid;
+    }
+
     public String getName() {
         return name;
     }
@@ -119,5 +123,125 @@ public class Arena {
 
     public void setStatus(ArenaStatus status) {
         this.status = status;
+    }
+
+    public String getRegionId() {
+        return regionId;
+    }
+
+    public UUID getCreatedByUuid() {
+        return createdByUuid;
+    }
+
+    public Location[] getArenaSigns() {
+        return arenaSigns;
+    }
+
+    public void setArenaSigns(Location[] arenaSigns) {
+        this.arenaSigns = arenaSigns;
+    }
+
+    public String[] getArenaBlocks() {
+        return arenaBlocks;
+    }
+
+    public void setArenaBlocks(String[] arenaBlocks) {
+        this.arenaBlocks = arenaBlocks;
+    }
+
+    public Location getLobbySpawn() {
+        return lobbySpawn;
+    }
+
+    public void setLobbySpawn(Location lobbySpawn) {
+        this.lobbySpawn = lobbySpawn;
+    }
+
+    public Location[] getHiderSpawns() {
+        return hiderSpawns;
+    }
+
+    public void setHiderSpawns(Location[] hiderSpawns) {
+        this.hiderSpawns = hiderSpawns;
+    }
+
+    public Location[] getSeekerSpawns() {
+        return seekerSpawns;
+    }
+
+    public void setSeekerSpawns(Location[] seekerSpawns) {
+        this.seekerSpawns = seekerSpawns;
+    }
+
+    public Location getAfterGameSpawn() {
+        return afterGameSpawn;
+    }
+
+    public void setAfterGameSpawn(Location afterGameSpawn) {
+        this.afterGameSpawn = afterGameSpawn;
+    }
+
+    public int getMinimumPlayers() {
+        return minimumPlayers;
+    }
+
+    public void setMinimumPlayers(int minimumPlayers) {
+        this.minimumPlayers = minimumPlayers;
+    }
+
+    public int getMaximumPlayers() {
+        return maximumPlayers;
+    }
+
+    public void setMaximumPlayers(int maximumPlayers) {
+        this.maximumPlayers = maximumPlayers;
+    }
+
+    public int getSeekerCount() {
+        return seekerCount;
+    }
+
+    public void setSeekerCount(int seekerCount) {
+        this.seekerCount = seekerCount;
+    }
+
+    public int getCountdownBeforeStart() {
+        return countdownBeforeStart;
+    }
+
+    public void setCountdownBeforeStart(int countdownBeforeStart) {
+        this.countdownBeforeStart = countdownBeforeStart;
+    }
+
+    public int getCountdownAfterEnd() {
+        return countdownAfterEnd;
+    }
+
+    public void setCountdownAfterEnd(int countdownAfterEnd) {
+        this.countdownAfterEnd = countdownAfterEnd;
+    }
+
+    public int getRespawnDelay() {
+        return respawnDelay;
+    }
+
+    public void setRespawnDelay(int respawnDelay) {
+        this.respawnDelay = respawnDelay;
+    }
+
+    public Location getLocationBoundaryPoint1() {
+        return locationBoundaryPoint1;
+    }
+
+    public void setLocationBoundaryPoint1(Location locationBoundaryPoint1) {
+        this.locationBoundaryPoint1 = locationBoundaryPoint1;
+    }
+
+    public Location getLocationBoundaryPoint2() {
+        return locationBoundaryPoint2;
+    }
+
+    public void setLocationBoundaryPoint2(Location locationBoundaryPoint2) {
+        this.locationBoundaryPoint2 = locationBoundaryPoint2;
     }
 }
