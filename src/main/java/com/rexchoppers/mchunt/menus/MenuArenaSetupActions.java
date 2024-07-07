@@ -137,6 +137,29 @@ public class MenuArenaSetupActions extends MenuBase {
                     return;
                 }
 
+                // Boundary point 1
+                if (arenaSetup.getLocationBoundaryPoint1() == null) {
+                    sendPlayerError(
+                            player,
+                            new LocalizationManager(MCHunt.getCurrentLocale())
+                                    .getMessage(
+                                            "arena.setup.boundary_point_1_not_set"
+                                    )
+                    );
+                    return;
+                }
+
+                // Boundary point 2
+                if (arenaSetup.getLocationBoundaryPoint2() == null) {
+                    sendPlayerError(
+                            player,
+                            new LocalizationManager(MCHunt.getCurrentLocale())
+                                    .getMessage(
+                                            "arena.setup.boundary_point_2_not_set"
+                                    )
+                    );
+                    return;
+                }
             }));
         }
 

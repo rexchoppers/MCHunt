@@ -40,7 +40,7 @@ public class ArenaManager {
         }
     }
 
-    public boolean createArena(Arena arena) throws ArenaExistsException {
+  /*  public boolean createArena(Arena arena) throws ArenaExistsException {
         List<Arena> arenas = load();
 
         // Check if arena exists with the same name
@@ -52,7 +52,7 @@ public class ArenaManager {
         save(arenas);
 
         return true;
-    }
+    }*/
 
     public Optional<Arena> getArenaByName(List<Arena> arenas, String name) {
         if (arenas == null) {
