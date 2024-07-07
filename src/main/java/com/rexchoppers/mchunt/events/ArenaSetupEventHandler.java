@@ -54,6 +54,40 @@ public class ArenaSetupEventHandler implements Listener {
         return event.getClickedBlock() == null || event.getClickedBlock().getType().isAir();
     }
 
+    /**
+     * Make sure ALL arena setup signs cannot be right clicked by any player
+     * @param event
+     */
+    @EventHandler
+    public void onPlayerRightClickArenaSetupSign(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+            return;
+        }
+
+        if (event.getClickedBlock() == null) {
+            return;
+        }
+
+        if (!event.getClickedBlock().getType().equals(Material.OAK_WALL_SIGN)) {
+            return;
+        }
+
+        List<ArenaSetup> arenaSetups = this.plugin.getArenaSetupManager().getArenaSetups();
+
+        for (ArenaSetup arenaSetup : arenaSetups) {
+            if (arenaSetup.getArenaSigns() != null) {
+                for (Location location : arenaSetup.getArenaSigns()) {
+                    if (location.equals(event.getClickedBlock().getLocation())) {
+                        event.setCancelled(true);
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
     @EventHandler
     public void onPlayerInteractSpawnBlocks(PlayerInteractEvent event) {
         Player player = event.getPlayer();
