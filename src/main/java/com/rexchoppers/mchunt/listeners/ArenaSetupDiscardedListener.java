@@ -6,6 +6,7 @@ import com.rexchoppers.mchunt.events.internal.ArenaSetupDiscardedEvent;
 import com.rexchoppers.mchunt.events.internal.ArenaSetupPlayerJoinedEvent;
 import com.rexchoppers.mchunt.events.internal.ArenaSetupUpdatedEvent;
 import com.rexchoppers.mchunt.models.ArenaSetup;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
@@ -58,6 +59,26 @@ public class ArenaSetupDiscardedListener {
             if (player != null && player.isOnline()) {
                 player.sendBlockChange(location, blockData);
             }
+        }
+    }
+
+    @Subscribe
+    public void resetLocationMarkers(ArenaSetupDiscardedEvent event){
+        ArenaSetup arenaSetup = event.arenaSetup();
+
+        Player player = Bukkit.getPlayer(arenaSetup.getPlayerUuid());
+        if (player == null) return;
+        if (!player.isOnline()) return;
+
+        player.sendBlockChange(arenaSetup.getLobbySpawn(), arenaSetup.getLobbySpawn().getBlock().getBlockData());
+        player.sendBlockChange(arenaSetup.getAfterGameSpawn(), arenaSetup.getAfterGameSpawn().getBlock().getBlockData());
+
+        for (Location location : arenaSetup.getHiderSpawns()) {
+            player.sendBlockChange(location, location.getBlock().getBlockData());
+        }
+
+        for (Location location : arenaSetup.getSeekerSpawns()) {
+            player.sendBlockChange(location, location.getBlock().getBlockData());
         }
     }
 }
