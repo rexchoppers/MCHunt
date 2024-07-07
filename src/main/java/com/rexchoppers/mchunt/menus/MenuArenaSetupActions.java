@@ -63,6 +63,79 @@ public class MenuArenaSetupActions extends MenuBase {
             }));
 
             inventoryContents.set(0, 8, ClickableItem.of(plugin.getItemManager().itemArenaSetupSave().build(), e -> {
+                // Validate input before creation
+
+                // Area Signs
+                if (arenaSetup.getArenaSigns().length < 2) {
+                    sendPlayerError(
+                            player,
+                            new LocalizationManager(MCHunt.getCurrentLocale())
+                                    .getMessage(
+                                            "arena.setup.signs_not_enough"
+                                    )
+                    );
+                    return;
+                }
+
+                // Arena Blocks
+                if (arenaSetup.getArenaBlocks().length < 2) {
+                    sendPlayerError(
+                            player,
+                            new LocalizationManager(MCHunt.getCurrentLocale())
+                                    .getMessage(
+                                            "arena.setup.blocks_not_enough"
+                                    )
+                    );
+                    return;
+                }
+
+                // Lobby spawn
+                if (arenaSetup.getLobbySpawn() == null) {
+                    sendPlayerError(
+                            player,
+                            new LocalizationManager(MCHunt.getCurrentLocale())
+                                    .getMessage(
+                                            "arena.setup.lobby_spawn_not_set"
+                                    )
+                    );
+                    return;
+                }
+
+                // After game spawn
+                if (arenaSetup.getAfterGameSpawn() == null) {
+                    sendPlayerError(
+                            player,
+                            new LocalizationManager(MCHunt.getCurrentLocale())
+                                    .getMessage(
+                                            "arena.setup.after_game_spawn_not_set"
+                                    )
+                    );
+                    return;
+                }
+
+                // Hider spawns
+                if (arenaSetup.getHiderSpawns().length < 2) {
+                    sendPlayerError(
+                            player,
+                            new LocalizationManager(MCHunt.getCurrentLocale())
+                                    .getMessage(
+                                            "arena.setup.hider_spawns_not_enough"
+                                    )
+                    );
+                    return;
+                }
+
+                // Seeker spawns
+                if (arenaSetup.getSeekerSpawns().length < 2) {
+                    sendPlayerError(
+                            player,
+                            new LocalizationManager(MCHunt.getCurrentLocale())
+                                    .getMessage(
+                                            "arena.setup.seeker_spawns_not_enough"
+                                    )
+                    );
+                    return;
+                }
 
             }));
         }
