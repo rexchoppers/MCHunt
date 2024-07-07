@@ -544,6 +544,38 @@ public class ArenaSetupEventHandler implements Listener {
     }
 
     @EventHandler
+    public void onArenaSetupSignBreak(BlockBreakEvent event) {
+        Player player = event.getPlayer();
+
+        if (!event.getBlock().getType().equals(Material.OAK_SIGN) ||
+            !event.getBlock().getType().equals(Material.OAK_WALL_SIGN)) {
+            return;
+        }
+
+        for (ArenaSetup arenaSetup : this.plugin.getArenaSetupManager().getArenaSetups()) {
+            if (arenaSetup.getArenaSigns() == null) {
+                continue;
+            }
+
+            for (Location location : arenaSetup.getArenaSigns()) {
+                if (!location.equals(event.getBlock().getLocation())) continue;
+                if(arenaSetup.getPlayerUuid() == player.getUniqueId()) continue;
+
+                sendPlayerError(
+                        player,
+                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                .getMessage(
+                                        "arena.setup.cannot_break_signs"
+                                )
+                );
+
+                event.setCancelled(true);
+                return;
+            }
+        }
+    }
+
+    @EventHandler
     public void onBlockBreakEvent(BlockBreakEvent event) {
         Player player = event.getPlayer();
 
