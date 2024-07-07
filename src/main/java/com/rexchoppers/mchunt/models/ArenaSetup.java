@@ -385,6 +385,10 @@ public class ArenaSetup {
     }
 
     public int getCountdownAfterEnd() {
+        if (countdownAfterEnd < 1) {
+            countdownAfterEnd = 10;
+        }
+
         return countdownAfterEnd;
     }
 

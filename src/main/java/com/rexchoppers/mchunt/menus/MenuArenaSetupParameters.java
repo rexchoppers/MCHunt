@@ -389,7 +389,7 @@ public class MenuArenaSetupParameters extends MenuBase {
                                         player,
                                         new LocalizationManager(MCHunt.getCurrentLocale())
                                                 .getMessage(
-                                                        "arena.setup.value_set", Integer.toString(countdownAfterGameEnd)
+                                                        "arena.setup.value_set", Integer.toString(respawnDelay)
                                                 )
                                 );
                             } catch (Exception exception) {
@@ -401,7 +401,7 @@ public class MenuArenaSetupParameters extends MenuBase {
                                                 )
                                 );
 
-                                return Arrays.asList(AnvilGUI.ResponseAction.replaceInputText(Integer.toString(arenaSetup.getCountdownAfterEnd())));
+                                return Arrays.asList(AnvilGUI.ResponseAction.replaceInputText(Integer.toString(arenaSetup.getRespawnDelay())));
                             }
 
                             return Arrays.asList(
@@ -411,8 +411,8 @@ public class MenuArenaSetupParameters extends MenuBase {
                                     })
                             );
                         })
-                        .text(Integer.toString(arenaSetup.getCountdownAfterEnd()))
-                        .title("Set Countdown After End")
+                        .text(Integer.toString(arenaSetup.getRespawnDelay()))
+                        .title("Set Respawn Delay")
                         .plugin(plugin)
                         .open(player);
             }));
