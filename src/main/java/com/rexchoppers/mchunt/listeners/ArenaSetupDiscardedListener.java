@@ -8,7 +8,11 @@ import com.rexchoppers.mchunt.events.internal.ArenaSetupUpdatedEvent;
 import com.rexchoppers.mchunt.models.ArenaSetup;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ArenaSetupDiscardedListener {
     private final MCHunt plugin;
@@ -38,5 +42,22 @@ public class ArenaSetupDiscardedListener {
         }
     }
 
+    @Subscribe
+    public void resetArenaSetupBoundary(ArenaSetupDiscardedEvent event){
+        ArenaSetup arenaSetup = event.arenaSetup();
 
+        Map<Location, BlockData> blocks = arenaSetup.getTmpBoundaryTracking();
+        Player player = plugin.getServer().getPlayer(arenaSetup.getPlayerUuid());
+
+        for (Map.Entry<Location, BlockData> entry : blocks.entrySet()) {
+            Location location = entry.getKey();
+
+            // Get the block data from the location
+            BlockData blockData = location.getBlock().getBlockData();
+
+            if (player != null && player.isOnline()) {
+                player.sendBlockChange(location, blockData);
+            }
+        }
+    }
 }

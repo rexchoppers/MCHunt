@@ -46,8 +46,8 @@ public class MenuArenaSetupActions extends MenuBase {
                     .getArenaSetupByPlayerUuid(
                             plugin.getArenaSetupManager().getArenaSetups(),
                             player.getUniqueId()).orElse(null);
-            
-            inventoryContents.set(7, 0, ClickableItem.of(plugin.getItemManager().itemArenaSetupDiscardChanges().build(), e -> {
+
+            inventoryContents.set(0, 7, ClickableItem.of(plugin.getItemManager().itemArenaSetupDiscardChanges().build(), e -> {
                 plugin.getArenaSetupManager().removeArenaSetup(arenaSetup.getUUID());
                 plugin.getEventBusManager().publishEvent(new ArenaSetupDiscardedEvent(arenaSetup));
 
@@ -62,7 +62,7 @@ public class MenuArenaSetupActions extends MenuBase {
                 );
             }));
 
-            inventoryContents.set(8, 0, ClickableItem.of(plugin.getItemManager().itemArenaSetupSave().build(), e -> {
+            inventoryContents.set(0, 8, ClickableItem.of(plugin.getItemManager().itemArenaSetupSave().build(), e -> {
 
             }));
         }

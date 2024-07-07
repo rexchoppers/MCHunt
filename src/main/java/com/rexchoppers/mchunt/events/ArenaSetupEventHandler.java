@@ -8,6 +8,7 @@ import com.rexchoppers.mchunt.items.ItemBuilder;
 import com.rexchoppers.mchunt.managers.ArenaManager;
 import com.rexchoppers.mchunt.managers.ArenaSetupManager;
 import com.rexchoppers.mchunt.managers.LocalizationManager;
+import com.rexchoppers.mchunt.menus.MenuArenaSetupActions;
 import com.rexchoppers.mchunt.menus.MenuArenaSetupBlockSelection;
 import com.rexchoppers.mchunt.menus.MenuArenaSetupConfig;
 import com.rexchoppers.mchunt.menus.MenuArenaSetupToolSelection;
@@ -246,6 +247,12 @@ public class ArenaSetupEventHandler implements Listener {
                 case "mchunt.setup.arenaConfig":
                     if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
                         new MenuArenaSetupConfig(this.plugin).getInventory().open(player);
+                        event.setCancelled(true);
+                    }
+                    break;
+                case "mchunt.setup.actions":
+                    if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+                        new MenuArenaSetupActions(this.plugin).getInventory().open(player);
                         event.setCancelled(true);
                     }
                     break;
