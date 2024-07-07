@@ -74,6 +74,12 @@ public class ArenaSetupManager {
         save(arenaSetups);
     }
 
+    public void removeArenaSetup(UUID uuid) {
+        Optional<ArenaSetup> existingArenaSetup = getArenaSetupByUUID(uuid);
+        existingArenaSetup.ifPresent(setup -> arenaSetups.remove(setup));
+        save(arenaSetups);
+    }
+
     public void updateArenaSetup(ArenaSetup arenaSetup) {
         Optional<ArenaSetup> existingArenaSetup = getArenaSetupByPlayerUuid(arenaSetups, arenaSetup.getPlayerUuid());
         existingArenaSetup.ifPresent(setup -> arenaSetups.remove(setup));

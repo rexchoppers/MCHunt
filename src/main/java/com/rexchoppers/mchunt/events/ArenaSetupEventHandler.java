@@ -31,6 +31,7 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.*;
 
@@ -55,8 +56,7 @@ public class ArenaSetupEventHandler implements Listener {
     }
 
     /**
-     * Make sure ALL arena setup signs cannot be right clicked by any player
-     * @param event
+     * Make sure ALL arena setup signs cannot be right-clicked for editing by any player
      */
     @EventHandler
     public void onPlayerRightClickArenaSetupSign(PlayerInteractEvent event) {
@@ -70,20 +70,21 @@ public class ArenaSetupEventHandler implements Listener {
             return;
         }
 
-        if (!event.getClickedBlock().getType().equals(Material.OAK_WALL_SIGN) ||
-            !event.getClickedBlock().getType().equals(Material.OAK_SIGN)) {
+        if (!(event.getClickedBlock().getType().equals(Material.OAK_WALL_SIGN) ||
+            event.getClickedBlock().getType().equals(Material.OAK_SIGN))) {
             return;
         }
 
         List<ArenaSetup> arenaSetups = this.plugin.getArenaSetupManager().getArenaSetups();
 
         for (ArenaSetup arenaSetup : arenaSetups) {
-            if (arenaSetup.getArenaSigns() != null) {
-                for (Location location : arenaSetup.getArenaSigns()) {
-                    if (location.equals(event.getClickedBlock().getLocation())) {
-                        event.setCancelled(true);
-                        return;
-                    }
+            if(arenaSetup.getArenaSigns() == null) continue;
+
+            for (Location location : arenaSetup.getArenaSigns()) {
+
+                if (location.equals(event.getClickedBlock().getLocation())) {
+                    event.setCancelled(true);
+                    return;
                 }
             }
         }

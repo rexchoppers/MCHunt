@@ -548,4 +548,28 @@ public class ItemManager {
                     add(Format.processString("%tSet the respawn delay"));
                 }});
     }
+
+    public ItemBuilder itemArenaSetupCreateArena() {
+        return new ItemBuilder(this.plugin)
+                .setMaterial(Material.EMERALD)
+                .setAmount(1)
+                .setName(Format.processString("%n%BCreate Arena"))
+                .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
+                .setLores(new ArrayList<String>() {{
+                    add("");
+                    add(Format.processString("%tCreate the arena"));
+                }});
+    }
+
+    public ItemBuilder itemArenaSetupDiscardChanges() {
+        return new ItemBuilder(this.plugin)
+                .setMaterial(Material.REDSTONE)
+                .setAmount(1)
+                .setName(Format.processString("%n%BDiscard Changes"))
+                .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
+                .setLores(new ArrayList<String>() {{
+                    add("");
+                    add(Format.processString("%tDiscard all changes"));
+                }});
+    }
 }
