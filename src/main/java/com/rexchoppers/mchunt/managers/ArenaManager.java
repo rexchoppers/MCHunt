@@ -9,6 +9,8 @@ import java.io.*;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+
 import com.google.gson.reflect.TypeToken;
 
 public class ArenaManager {
@@ -38,6 +40,27 @@ public class ArenaManager {
                 e.printStackTrace();
             }
         }
+
+        arenas = load();
+    }
+
+    public Optional<Arena> getArenaByUUID(UUID uuid) {
+        if (arenas == null) {
+            return Optional.empty();
+        }
+
+        return arenas.stream()
+                .filter(arena -> arena.getUuid().equals(uuid))
+                .findFirst();
+    }
+
+    public void createArena(Arena arena) {
+        if (getArenaByUUID(arena.getUuid()).isPresent()) {
+            return;
+        }
+
+        arenas.add(arena);
+        save(arenas);
     }
 
   /*  public boolean createArena(Arena arena) throws ArenaExistsException {

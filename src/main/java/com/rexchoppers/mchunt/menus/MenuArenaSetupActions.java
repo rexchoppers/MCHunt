@@ -244,6 +244,23 @@ public class MenuArenaSetupActions extends MenuBase {
                         arenaSetup.getLocationBoundaryPoint1(),
                         arenaSetup.getLocationBoundaryPoint2()
                 );
+
+                plugin.getArenaManager().createArena(arena);
+
+                plugin.getArenaSetupManager().removeArenaSetup(arenaSetup.getUUID());
+                plugin.getEventBusManager().publishEvent(new ArenaSetupDiscardedEvent(arenaSetup));
+
+                sendPlayerAudibleMessage(
+                        player,
+                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                .getMessage(
+                                        "arena.setup.created",
+                                        arena.getName()
+                                )
+
+                );
+
+                player.closeInventory();
             }));
         }
 
