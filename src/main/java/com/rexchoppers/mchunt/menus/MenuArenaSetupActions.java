@@ -77,7 +77,7 @@ public class MenuArenaSetupActions extends MenuBase {
                 // Validate input before creation
 
                 // Area Signs
-                if (arenaSetup.getArenaSigns().length < 2) {
+                if (arenaSetup.getArenaSigns().length < 1) {
                     sendPlayerError(
                             player,
                             new LocalizationManager(MCHunt.getCurrentLocale())
@@ -89,7 +89,7 @@ public class MenuArenaSetupActions extends MenuBase {
                 }
 
                 // Arena Blocks
-                if (arenaSetup.getArenaBlocks().length < 2) {
+                if (arenaSetup.getArenaBlocks().length < 1) {
                     sendPlayerError(
                             player,
                             new LocalizationManager(MCHunt.getCurrentLocale())
@@ -125,7 +125,7 @@ public class MenuArenaSetupActions extends MenuBase {
                 }
 
                 // Hider spawns
-                if (arenaSetup.getHiderSpawns().length < 2) {
+                if (arenaSetup.getHiderSpawns().length < 1) {
                     sendPlayerError(
                             player,
                             new LocalizationManager(MCHunt.getCurrentLocale())
@@ -137,7 +137,7 @@ public class MenuArenaSetupActions extends MenuBase {
                 }
 
                 // Seeker spawns
-                if (arenaSetup.getSeekerSpawns().length < 2) {
+                if (arenaSetup.getSeekerSpawns().length < 1) {
                     sendPlayerError(
                             player,
                             new LocalizationManager(MCHunt.getCurrentLocale())
