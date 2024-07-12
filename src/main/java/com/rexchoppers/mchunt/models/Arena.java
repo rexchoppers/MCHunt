@@ -5,6 +5,7 @@ import com.rexchoppers.mchunt.enums.ArenaPlayerRole;
 import com.rexchoppers.mchunt.enums.ArenaStatus;
 import org.bukkit.Location;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -109,6 +110,8 @@ public class Arena {
         this.respawnDelay = respawnDelay;
         this.locationBoundaryPoint1 = locationBoundaryPoint1;
         this.locationBoundaryPoint2 = locationBoundaryPoint2;
+
+        this.players = new ArrayList<>();
     }
 
     public UUID getUUID() {

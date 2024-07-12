@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 import com.rexchoppers.mchunt.commands.CommandMCHunt;
 import com.rexchoppers.mchunt.enums.ArenaStatus;
 import com.rexchoppers.mchunt.managers.*;
+import com.rexchoppers.mchunt.models.Arena;
 import com.rexchoppers.mchunt.serializers.*;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
@@ -45,7 +46,7 @@ public final class MCHunt extends JavaPlugin {
     @Override
     public void onEnable() {
         this.gson = new GsonBuilder()
-                .registerTypeAdapter(ArenaStatus.class, new ArenaStatusSerializer())
+                .registerTypeAdapter(Arena.class, new ArenaDeserializer())
                 .registerTypeAdapter(ItemStack[].class, new ItemStackArraySerializer())
                 .registerTypeAdapter(ItemStack[].class, new ItemStackArrayDeserializer())
                 .registerTypeAdapter(Location.class, new LocationSerializer())
