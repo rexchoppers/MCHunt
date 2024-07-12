@@ -42,6 +42,11 @@ public class ArenaManager {
         }
 
         arenas = load();
+
+        // Load signs
+        for (Arena arena : arenas) {
+            this.plugin.getSignManager().initArenaSigns(arena);
+        }
     }
 
     public Optional<Arena> getArenaByUUID(UUID uuid) {
@@ -50,12 +55,12 @@ public class ArenaManager {
         }
 
         return arenas.stream()
-                .filter(arena -> arena.getUuid().equals(uuid))
+                .filter(arena -> arena.getUUID().equals(uuid))
                 .findFirst();
     }
 
     public void createArena(Arena arena) {
-        if (getArenaByUUID(arena.getUuid()).isPresent()) {
+        if (getArenaByUUID(arena.getUUID()).isPresent()) {
             return;
         }
 

@@ -1,5 +1,6 @@
 package com.rexchoppers.mchunt.managers;
 
+import com.rexchoppers.mchunt.models.Arena;
 import com.rexchoppers.mchunt.models.ArenaSetup;
 import com.rexchoppers.mchunt.signs.ScrollingSign;
 import com.rexchoppers.mchunt.util.Format;
@@ -28,8 +29,8 @@ public class SignManager {
             currentArenaSetupSignsList.add(new ScrollingSign(
                     new String[] {
                             Format.processString("%TAG"),
-                            Format.processString("%eSetup Mode"),
                             Format.processString("%a" + arenaSetup.getArenaName()),
+                            Format.processString("%eSetup Mode"),
                             "DYN",
                     },
                     dynamicMessages,
@@ -39,6 +40,39 @@ public class SignManager {
         }
 
         this.arenaSetupSigns.put(arenaSetup.getUUID(), currentArenaSetupSignsList);
+    }
+
+    public void initArenaSigns(Arena arena) {
+        Location[] arenaSigns = arena.getArenaSigns();
+        List<ScrollingSign> currentArenaSignsList = new ArrayList<>();
+
+        Map<Integer, String> dynamicMessages = new HashMap<>();
+
+        switch (arena.getStatus()) {
+            case WAITING:
+                dynamicMessages.put(3, "%nWaiting for players to join");
+                break;
+            case OFFLINE:
+                dynamicMessages.put(3, "%eArena is currently offline");
+                break;
+        }
+
+        for (Location location : arenaSigns) {
+            currentArenaSignsList.add(new ScrollingSign(
+                    new String[] {
+                            Format.processString("%TAG"),
+                            Format.processString("%a" + arena.getName()),
+                            Format.processString(
+                                    "%a" + Integer.toString(arena.getPlayers().size()) + "%n/a" + Integer.toString(arena.getMaximumPlayers())),
+                            "DYN"
+                    },
+                    dynamicMessages,
+                    new int[] {3},
+                    location
+            ));
+        }
+
+        this.arenaSigns.put(arena.getUUID(), currentArenaSignsList);
     }
 
     public Map<UUID, List<ScrollingSign>> getArenaSetupSigns() {

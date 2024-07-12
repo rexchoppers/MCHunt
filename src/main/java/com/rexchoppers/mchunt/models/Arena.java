@@ -111,7 +111,7 @@ public class Arena {
         this.locationBoundaryPoint2 = locationBoundaryPoint2;
     }
 
-    public UUID getUuid() {
+    public UUID getUUID() {
         return uuid;
     }
 
@@ -249,5 +249,9 @@ public class Arena {
 
     public void setLocationBoundaryPoint2(Location locationBoundaryPoint2) {
         this.locationBoundaryPoint2 = locationBoundaryPoint2;
+    }
+
+    public List<ArenaPlayer> getPlayers() {
+        return players;
     }
 }
