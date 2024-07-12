@@ -1,6 +1,7 @@
 package com.rexchoppers.mchunt.menus;
 
 import com.rexchoppers.mchunt.MCHunt;
+import com.rexchoppers.mchunt.events.internal.ArenaCreatedEvent;
 import com.rexchoppers.mchunt.events.internal.ArenaSetupDiscardedEvent;
 import com.rexchoppers.mchunt.events.internal.ArenaSetupPlayerJoinedEvent;
 import com.rexchoppers.mchunt.events.internal.ArenaSetupUpdatedEvent;
@@ -248,7 +249,10 @@ public class MenuArenaSetupActions extends MenuBase {
                 plugin.getArenaManager().createArena(arena);
 
                 plugin.getArenaSetupManager().removeArenaSetup(arenaSetup.getUUID());
-                plugin.getEventBusManager().publishEvent(new ArenaSetupDiscardedEvent(arenaSetup));
+                plugin.getEventBusManager().publishEvent(new ArenaCreatedEvent(
+                        arenaSetup,
+                        arena
+                ));
 
                 sendPlayerAudibleMessage(
                         player,
