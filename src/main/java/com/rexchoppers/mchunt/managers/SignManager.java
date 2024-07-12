@@ -50,7 +50,7 @@ public class SignManager {
 
         switch (arena.getStatus()) {
             case WAITING:
-                dynamicMessages.put(3, "%nWaiting for players to join");
+                dynamicMessages.put(3, "%nWaiting for players. Right click to join.");
                 break;
             case OFFLINE:
                 dynamicMessages.put(3, "%eArena is currently offline");
@@ -63,7 +63,7 @@ public class SignManager {
                             Format.processString("%TAG"),
                             Format.processString("%a" + arena.getName()),
                             Format.processString(
-                                    "%a" + Integer.toString(arena.getPlayers().size()) + "%n/a" + Integer.toString(arena.getMaximumPlayers())),
+                                    "%a" + Integer.toString(arena.getPlayers().size()) + "%n/%a" + Integer.toString(arena.getMaximumPlayers())),
                             "DYN"
                     },
                     dynamicMessages,
@@ -90,4 +90,10 @@ public class SignManager {
         return new ArrayList<ScrollingSign>();
     }
 
+    public List<ScrollingSign> getArenaSignsByUUID(UUID uuid) {
+        if(arenaSigns.containsKey(uuid)) {
+            return arenaSigns.get(uuid);
+        }
+        return new ArrayList<ScrollingSign>();
+    }
 }
