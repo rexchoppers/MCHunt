@@ -51,6 +51,13 @@ public class ArenaCreatedListener {
     }
 
     @Subscribe
+    public void removeArenaSetupScrollingSigns(ArenaCreatedEvent event){
+        ArenaSetup arenaSetup = event.arenaSetup();
+
+        plugin.getSignManager().removeArenaSetupScrollingSigns(arenaSetup.getUUID());
+    }
+
+    @Subscribe
     public void resetLocationMarkers(ArenaCreatedEvent event) {
         ArenaSetup arenaSetup = event.arenaSetup();
 

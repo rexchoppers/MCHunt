@@ -44,7 +44,14 @@ public class ArenaSetupDiscardedListener {
     }
 
     @Subscribe
-    public void resetArenaSetupBoundary(ArenaSetupDiscardedEvent event){
+    public void removeArenaSetupScrollingSigns(ArenaSetupDiscardedEvent event){
+        ArenaSetup arenaSetup = event.arenaSetup();
+
+        plugin.getSignManager().removeArenaSetupScrollingSigns(arenaSetup.getUUID());
+    }
+
+    @Subscribe
+    public void resetArenaSetupBoundary(ArenaSetupDiscardedEvent event) {
         ArenaSetup arenaSetup = event.arenaSetup();
 
         Map<Location, BlockData> blocks = arenaSetup.getTmpBoundaryTracking();

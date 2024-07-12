@@ -11,6 +11,7 @@ import java.util.*;
 
 public class SignManager {
     private Map<UUID, List<ScrollingSign>> arenaSetupSigns = new HashMap<>();
+    private Map<UUID, List<ScrollingSign>> arenaSigns = new HashMap<>();
 
     public SignManager() {
     }
@@ -42,6 +43,10 @@ public class SignManager {
 
     public Map<UUID, List<ScrollingSign>> getArenaSetupSigns() {
         return arenaSetupSigns;
+    }
+
+    public void removeArenaSetupScrollingSigns(UUID uuid) {
+        arenaSetupSigns.remove(uuid);
     }
 
     public List<ScrollingSign> getArenaSetupSignsByArenaSetupUUID(UUID uuid) {
