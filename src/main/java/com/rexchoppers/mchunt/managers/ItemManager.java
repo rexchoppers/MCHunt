@@ -561,6 +561,18 @@ public class ItemManager {
                 }});
     }
 
+    public ItemBuilder itemArenaSetupParametersGameLength() {
+        return new ItemBuilder(this.plugin)
+                .setMaterial(Material.PAPER)
+                .setAmount(1)
+                .setName(Format.processString("%n%BGame Length"))
+                .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
+                .setLores(new ArrayList<String>() {{
+                    add("");
+                    add(Format.processString("%tSet the game length"));
+                }});
+    }
+
     public ItemBuilder itemArenaSetupCreateArena() {
         return new ItemBuilder(this.plugin)
                 .setMaterial(Material.EMERALD)
