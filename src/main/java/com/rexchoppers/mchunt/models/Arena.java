@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.rexchoppers.mchunt.enums.ArenaPlayerRole;
 import com.rexchoppers.mchunt.enums.ArenaStatus;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -256,5 +257,9 @@ public class Arena {
 
     public List<ArenaPlayer> getPlayers() {
         return players;
+    }
+
+    public void addPlayer(ArenaPlayer player) {
+        players.add(player);
     }
 }

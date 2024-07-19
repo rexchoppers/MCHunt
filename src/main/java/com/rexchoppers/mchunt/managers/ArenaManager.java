@@ -69,20 +69,6 @@ public class ArenaManager {
         save(arenas);
     }
 
-  /*  public boolean createArena(Arena arena) throws ArenaExistsException {
-        List<Arena> arenas = load();
-
-        // Check if arena exists with the same name
-        if (getArenaByName(arenas, arena.getName()).isPresent()) {
-            throw new ArenaExistsException(arena.getName());
-        }
-
-        arenas.add(arena);
-        save(arenas);
-
-        return true;
-    }*/
-
     public Optional<Arena> getArenaByName(List<Arena> arenas, String name) {
         if (arenas == null) {
             return Optional.empty();

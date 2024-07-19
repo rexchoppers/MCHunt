@@ -9,8 +9,11 @@ public class ArenaPlayer {
 
     private ArenaPlayerRole role;
 
-    public ArenaPlayer(UUID uuid, ArenaPlayerRole role) {
+    public ArenaPlayer(UUID uuid) {
         this.uuid = uuid;
-        this.role = role;
+    }
+
+    public UUID getUUID() {
+        return uuid;
     }
 }
