@@ -2,6 +2,7 @@ package com.rexchoppers.mchunt.events;
 
 import com.rexchoppers.mchunt.MCHunt;
 import com.rexchoppers.mchunt.events.internal.PlayerJoinedArenaEvent;
+import com.rexchoppers.mchunt.managers.LocalizationManager;
 import com.rexchoppers.mchunt.models.Arena;
 import com.rexchoppers.mchunt.models.ArenaPlayer;
 import org.bukkit.Bukkit;
@@ -13,6 +14,8 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.List;
+
+import static com.rexchoppers.mchunt.util.PlayerUtil.sendPlayerError;
 
 public class ArenaSignEventHandler implements Listener {
     private final MCHunt plugin;
@@ -48,7 +51,18 @@ public class ArenaSignEventHandler implements Listener {
             for (int i = 0; i < arena.getArenaSigns().length; i++) {
                 if (event.getClickedBlock().getLocation().equals(arena.getArenaSigns()[i])) {
                     event.setCancelled(true);
-                    Bukkit.broadcastMessage("Arena sign set");
+
+                    // Check if the player is in this specific arena
+                    if (arena.isPlayerInArena(player)) {
+                        sendPlayerError(
+                                player,
+                                new LocalizationManager(MCHunt.getCurrentLocale())
+                                        .getMessage(
+                                                "arena.already_in_arena"
+                                        )
+                        );
+                        return;
+                    }
 
                     // Add player to arena
                     arena.addPlayer(new ArenaPlayer(player.getUniqueId()));

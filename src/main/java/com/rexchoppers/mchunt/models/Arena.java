@@ -262,4 +262,8 @@ public class Arena {
     public void addPlayer(ArenaPlayer player) {
         players.add(player);
     }
+
+    public boolean isPlayerInArena(Player player) {
+        return players.stream().anyMatch(p -> p.getUUID().equals(player.getUniqueId()));
+    }
 }
