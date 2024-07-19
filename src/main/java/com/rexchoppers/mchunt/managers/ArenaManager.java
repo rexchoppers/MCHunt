@@ -12,6 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.google.gson.reflect.TypeToken;
+import org.bukkit.Bukkit;
 
 public class ArenaManager {
     private final MCHunt plugin;

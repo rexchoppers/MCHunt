@@ -45,7 +45,6 @@ public class SignRenderTask extends BukkitRunnable {
             List<ScrollingSign> signs = signManager.getArenaSignsByUUID(arena.getUUID());
             if (signs != null) {
                 for (ScrollingSign sign : signs) {
-                    Bukkit.broadcastMessage("Updating sign text");
                     sign.updateText();
                 }
             }
