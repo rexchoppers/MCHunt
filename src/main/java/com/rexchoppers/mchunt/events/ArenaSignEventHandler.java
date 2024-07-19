@@ -1,6 +1,7 @@
 package com.rexchoppers.mchunt.events;
 
 import com.rexchoppers.mchunt.MCHunt;
+import com.rexchoppers.mchunt.enums.ArenaStatus;
 import com.rexchoppers.mchunt.events.internal.PlayerJoinedArenaEvent;
 import com.rexchoppers.mchunt.managers.LocalizationManager;
 import com.rexchoppers.mchunt.models.Arena;
@@ -51,6 +52,31 @@ public class ArenaSignEventHandler implements Listener {
             for (int i = 0; i < arena.getArenaSigns().length; i++) {
                 if (event.getClickedBlock().getLocation().equals(arena.getArenaSigns()[i])) {
                     event.setCancelled(true);
+
+                    // Check the arena status
+                    if (!(arena.getStatus().equals(ArenaStatus.WAITING) ||
+                            arena.getStatus().equals(ArenaStatus.COUNTDOWN_START))) {
+                        sendPlayerError(
+                                player,
+                                new LocalizationManager(MCHunt.getCurrentLocale())
+                                        .getMessage(
+                                                "arena.game_in_progress"
+                                        )
+                        );
+                        return;
+                    }
+
+                    // Check the maximum players
+                    if (arena.getPlayers().size() >= arena.getMaximumPlayers()) {
+                        sendPlayerError(
+                                player,
+                                new LocalizationManager(MCHunt.getCurrentLocale())
+                                        .getMessage(
+                                                "arena.full"
+                                        )
+                        );
+                        return;
+                    }
 
                     // Check if the player is in this specific arena
                     if (arena.isPlayerInArena(player)) {
