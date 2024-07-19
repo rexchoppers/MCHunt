@@ -35,7 +35,9 @@ public class StartCountdownTask extends BukkitRunnable {
             int currentCountdown = startCountdown.getCountdown();
 
             if (currentCountdown == 0) {
-                // Start game
+                arena.setStatus(ArenaStatus.IN_PROGRESS);
+
+                signManager.initArenaSigns(arena);
             } else {
                 startCountdown.decrementCountdown();
 
