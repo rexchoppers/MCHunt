@@ -48,15 +48,6 @@ public class SignManager {
 
         Map<Integer, String> dynamicMessages = new HashMap<>();
 
-        switch (arena.getStatus()) {
-            case WAITING:
-                dynamicMessages.put(3, "%nWaiting for players. Right click to join.");
-                break;
-            case OFFLINE:
-                dynamicMessages.put(3, "%eArena is currently offline");
-                break;
-        }
-
         for (Location location : arenaSigns) {
             switch (arena.getStatus()) {
                 case WAITING:
@@ -68,7 +59,9 @@ public class SignManager {
                                             "%a" + Integer.toString(arena.getPlayers().size()) + "%n/%a" + Integer.toString(arena.getMaximumPlayers())),
                                     "DYN"
                             },
-                            dynamicMessages,
+                            new HashMap<>() {{
+                                put(3, "%nWaiting for players. Right click to join.");
+                            }},
                             new int[] {3},
                             location
                     ));
@@ -78,11 +71,10 @@ public class SignManager {
                             new String[] {
                                     Format.processString("%TAG"),
                                     Format.processString("%a" + arena.getName()),
-                                    Format.processString("%eArena is currently offline"),
-                                    "DYN"
+                                    Format.processString("%eOffline"),
                             },
-                            dynamicMessages,
-                            new int[] {3},
+                            new HashMap<>(),
+                            new int[] {},
                             location
                     ));
                     break;
@@ -91,11 +83,12 @@ public class SignManager {
                             new String[] {
                                     Format.processString("%TAG"),
                                     Format.processString("%a" + arena.getName()),
-                                    Format.processString("%eGame starting in " + Integer.toString(arena.getStartCountdown().getCountdown()) + " seconds"),
-                                    "DYN"
+                                    Format.processString(
+                                            "%a" + Integer.toString(arena.getPlayers().size()) + "%n/%a" + Integer.toString(arena.getMaximumPlayers())),
+                                    Format.processString("%nStarts in %a" + arena.getStartCountdown().getCountdown() + "%ns")
                             },
-                            dynamicMessages,
-                            new int[] {3},
+                            new HashMap<>(),
+                            new int[] {},
                             location
                     ));
                     break;
