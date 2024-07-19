@@ -58,18 +58,48 @@ public class SignManager {
         }
 
         for (Location location : arenaSigns) {
-            currentArenaSignsList.add(new ScrollingSign(
-                    new String[] {
-                            Format.processString("%TAG"),
-                            Format.processString("%a" + arena.getName()),
-                            Format.processString(
-                                    "%a" + Integer.toString(arena.getPlayers().size()) + "%n/%a" + Integer.toString(arena.getMaximumPlayers())),
-                            "DYN"
-                    },
-                    dynamicMessages,
-                    new int[] {3},
-                    location
-            ));
+            switch (arena.getStatus()) {
+                case WAITING:
+                    currentArenaSignsList.add(new ScrollingSign(
+                            new String[] {
+                                    Format.processString("%TAG"),
+                                    Format.processString("%a" + arena.getName()),
+                                    Format.processString(
+                                            "%a" + Integer.toString(arena.getPlayers().size()) + "%n/%a" + Integer.toString(arena.getMaximumPlayers())),
+                                    "DYN"
+                            },
+                            dynamicMessages,
+                            new int[] {3},
+                            location
+                    ));
+                    break;
+                case OFFLINE:
+                    currentArenaSignsList.add(new ScrollingSign(
+                            new String[] {
+                                    Format.processString("%TAG"),
+                                    Format.processString("%a" + arena.getName()),
+                                    Format.processString("%eArena is currently offline"),
+                                    "DYN"
+                            },
+                            dynamicMessages,
+                            new int[] {3},
+                            location
+                    ));
+                    break;
+                case COUNTDOWN_START:
+                    currentArenaSignsList.add(new ScrollingSign(
+                            new String[] {
+                                    Format.processString("%TAG"),
+                                    Format.processString("%a" + arena.getName()),
+                                    Format.processString("%eGame starting in " + Integer.toString(arena.getStartCountdown().getCountdown()) + " seconds"),
+                                    "DYN"
+                            },
+                            dynamicMessages,
+                            new int[] {3},
+                            location
+                    ));
+                    break;
+            }
         }
 
         this.arenaSigns.put(arena.getUUID(), currentArenaSignsList);

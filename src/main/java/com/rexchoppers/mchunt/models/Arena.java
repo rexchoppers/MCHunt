@@ -72,6 +72,8 @@ public class Arena {
     // Complete list of players
     private List<ArenaPlayer> players;
 
+    private Countdown startCountdown;
+
     public Arena(
             UUID uuid,
             String name,
@@ -265,5 +267,13 @@ public class Arena {
 
     public boolean isPlayerInArena(Player player) {
         return players.stream().anyMatch(p -> p.getUUID().equals(player.getUniqueId()));
+    }
+
+    public Countdown getStartCountdown() {
+        return startCountdown;
+    }
+
+    public void setStartCountdown(Countdown startCountdown) {
+        this.startCountdown = startCountdown;
     }
 }

@@ -2,13 +2,14 @@ package com.rexchoppers.mchunt.listeners;
 
 import com.google.common.eventbus.Subscribe;
 import com.rexchoppers.mchunt.MCHunt;
+import com.rexchoppers.mchunt.enums.ArenaStatus;
 import com.rexchoppers.mchunt.events.internal.PlayerJoinedArenaEvent;
 import com.rexchoppers.mchunt.managers.LocalizationManager;
 import com.rexchoppers.mchunt.models.Arena;
+import com.rexchoppers.mchunt.models.Countdown;
 import org.bukkit.entity.Player;
 
-import static com.rexchoppers.mchunt.util.PlayerUtil.sendPlayerError;
-import static com.rexchoppers.mchunt.util.PlayerUtil.sendPlayerMessage;
+import static com.rexchoppers.mchunt.util.PlayerUtil.*;
 
 public class PlayerJoinedArenaListener {
     private final MCHunt plugin;
@@ -50,5 +51,37 @@ public class PlayerJoinedArenaListener {
         }
 
         plugin.getSignManager().initArenaSigns(arena);
+    }
+
+    @Subscribe
+    public void triggerArenaStart(PlayerJoinedArenaEvent event) {
+        Arena arena = plugin.getArenaManager().getArenaByUUID(event.arenaUuid()).orElse(null);
+
+        if (arena == null) {
+            return;
+        }
+
+        // 1 for testing
+        if (arena.getPlayers().size() >= 1 && arena.getStatus().equals(ArenaStatus.WAITING)) {
+            arena.setStatus(ArenaStatus.COUNTDOWN_START);
+            arena.setStartCountdown(
+                    new Countdown(arena.getCountdownBeforeStart())
+            );
+
+            arena.getPlayers().forEach(player -> {
+                Player serverPlayer = plugin.getServer().getPlayer(player.getUUID());
+
+                if (serverPlayer != null) {
+                    sendPlayerAudibleMessage(
+                            serverPlayer,
+                            new LocalizationManager(MCHunt.getCurrentLocale())
+                                    .getMessage(
+                                            "arena.start_countdown",
+                                            Integer.toString(arena.getCountdownBeforeStart())
+                                    )
+                    );
+                }
+            });
+        }
     }
 }
