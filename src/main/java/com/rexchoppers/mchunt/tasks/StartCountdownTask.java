@@ -3,6 +3,7 @@ package com.rexchoppers.mchunt.tasks;
 import com.rexchoppers.mchunt.MCHunt;
 import com.rexchoppers.mchunt.enums.ArenaStatus;
 import com.rexchoppers.mchunt.managers.ArenaManager;
+import com.rexchoppers.mchunt.managers.LocalizationManager;
 import com.rexchoppers.mchunt.managers.SignManager;
 import com.rexchoppers.mchunt.models.Arena;
 import com.rexchoppers.mchunt.models.Countdown;
@@ -11,6 +12,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
+
+import static com.rexchoppers.mchunt.util.PlayerUtil.sendPlayerAudibleMessage;
 
 public class StartCountdownTask extends BukkitRunnable {
     private final MCHunt plugin;
@@ -38,9 +41,25 @@ public class StartCountdownTask extends BukkitRunnable {
             } else {
                 startCountdown.decrementCountdown();
 
-                Bukkit.broadcastMessage(Integer.toString(startCountdown.getCountdown()));
-
                 signManager.initArenaSigns(arena);
+
+                int[] secondsToDisplay = {10, 5, 4, 3, 2, 1};
+
+                // Only send messages to users if the countdown is in the secondsToDisplay array
+                for (int second : secondsToDisplay) {
+                    if (currentCountdown == second) {
+                        arena.getPlayers().forEach(player -> {
+                            sendPlayerAudibleMessage(
+                                    Bukkit.getPlayer(player.getUUID()),
+                                    new LocalizationManager(MCHunt.getCurrentLocale())
+                                            .getMessage(
+                                                    "arena.countdown",
+                                                    Integer.toString(currentCountdown)
+                                            )
+                            );
+                        });
+                    }
+                }
             }
         }
     }
