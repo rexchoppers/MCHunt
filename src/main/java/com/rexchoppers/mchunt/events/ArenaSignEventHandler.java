@@ -1,7 +1,9 @@
 package com.rexchoppers.mchunt.events;
 
 import com.rexchoppers.mchunt.MCHunt;
+import com.rexchoppers.mchunt.events.internal.PlayerJoinedArenaEvent;
 import com.rexchoppers.mchunt.models.Arena;
+import com.rexchoppers.mchunt.models.ArenaPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -47,7 +49,13 @@ public class ArenaSignEventHandler implements Listener {
                 if (event.getClickedBlock().getLocation().equals(arena.getArenaSigns()[i])) {
                     event.setCancelled(true);
                     Bukkit.broadcastMessage("Arena sign set");
-                    // plugin.getArenaManager().joinArena(player, arena);
+
+                    // Add player to arena
+                    arena.addPlayer(new ArenaPlayer(player.getUniqueId()));
+                    player.teleport(arena.getLobbySpawn());
+
+                    this.plugin.getEventBusManager().publishEvent(new PlayerJoinedArenaEvent(arena.getUUID(), player.getUniqueId()));
+
                     return;
                 }
             }

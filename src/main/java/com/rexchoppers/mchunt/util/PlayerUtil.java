@@ -13,4 +13,8 @@ public class PlayerUtil {
         player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0F, 1.0F);
         player.sendMessage(Format.processString(message));
     }
+
+    public static void sendPlayerMessage(Player player, String message) {
+        player.sendMessage(Format.processString(message));
+    }
 }
