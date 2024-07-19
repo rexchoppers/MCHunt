@@ -416,6 +416,67 @@ public class MenuArenaSetupParameters extends MenuBase {
                         .plugin(plugin)
                         .open(player);
             }));
+
+            inventoryContents.set(0, 6, ClickableItem.of(plugin.getItemManager().itemArenaSetupParametersSeekerReleaseDelay().build(), e -> {
+                new AnvilGUI.Builder()
+                        .onClick((slot, stateSnapshot) -> {
+                            if (slot != AnvilGUI.Slot.OUTPUT) {
+                                return Collections.emptyList();
+                            }
+
+                            try {
+                                int seekerReleaseDelay = Integer.parseInt(stateSnapshot.getText());
+
+                                if (seekerReleaseDelay < 1) {
+                                    sendPlayerError(
+                                            player,
+                                            new LocalizationManager(MCHunt.getCurrentLocale())
+                                                    .getMessage(
+                                                            "arena.setup.seeker_release_delay_not_less_than_one"
+                                                    )
+                                    );
+
+                                    return Collections.emptyList();
+                                }
+
+
+                                arenaSetup.setSeekerReleaseDelay(seekerReleaseDelay);
+                                plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+                                plugin.getEventBusManager().publishEvent(new ArenaSetupUpdatedEvent(
+                                        arenaSetup.getUUID()
+                                ));
+
+                                sendPlayerAudibleMessage(
+                                        player,
+                                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                                .getMessage(
+                                                        "arena.setup.value_set", Integer.toString(seekerReleaseDelay)
+                                                )
+                                );
+                            } catch (Exception exception) {
+                                sendPlayerError(
+                                        player,
+                                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                                .getMessage(
+                                                        "arena.setup.not_a_number"
+                                                )
+                                );
+
+                                return Arrays.asList(AnvilGUI.ResponseAction.replaceInputText(Integer.toString(arenaSetup.getSeekerReleaseDelay())));
+                            }
+
+                            return Arrays.asList(
+                                    AnvilGUI.ResponseAction.close(),
+                                    AnvilGUI.ResponseAction.run(() -> {
+                                        getInventory().open(player);
+                                    })
+                            );
+                        })
+                        .text(Integer.toString(arenaSetup.getSeekerReleaseDelay()))
+                        .title("Set Seeker Release Delay")
+                        .plugin(plugin)
+                        .open(player);
+            }));
         }
 
         @Override

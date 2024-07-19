@@ -242,6 +242,7 @@ public class MenuArenaSetupActions extends MenuBase {
                         arenaSetup.getCountdownBeforeStart(),
                         arenaSetup.getCountdownAfterEnd(),
                         arenaSetup.getRespawnDelay(),
+                        arenaSetup.getSeekerReleaseDelay(),
                         arenaSetup.getLocationBoundaryPoint1(),
                         arenaSetup.getLocationBoundaryPoint2()
                 );

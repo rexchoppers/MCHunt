@@ -16,12 +16,10 @@ import java.util.List;
 import static com.rexchoppers.mchunt.util.PlayerUtil.sendPlayerAudibleMessage;
 
 public class StartCountdownTask extends BukkitRunnable {
-    private final MCHunt plugin;
-    private ArenaManager arenaManager;
-    private SignManager signManager;
+    private final ArenaManager arenaManager;
+    private final SignManager signManager;
 
     public StartCountdownTask(MCHunt plugin) {
-        this.plugin = plugin;
         this.arenaManager = plugin.getArenaManager();
         this.signManager = plugin.getSignManager();
     }
@@ -47,18 +45,18 @@ public class StartCountdownTask extends BukkitRunnable {
 
                 // Only send messages to users if the countdown is in the secondsToDisplay array
                 for (int second : secondsToDisplay) {
-                    if (currentCountdown == second) {
-                        arena.getPlayers().forEach(player -> {
-                            sendPlayerAudibleMessage(
-                                    Bukkit.getPlayer(player.getUUID()),
-                                    new LocalizationManager(MCHunt.getCurrentLocale())
-                                            .getMessage(
-                                                    "arena.countdown",
-                                                    Integer.toString(currentCountdown)
-                                            )
-                            );
-                        });
-                    }
+                    if (currentCountdown != second || currentCountdown != arena.getCountdownBeforeStart())  continue;
+
+                    arena.getPlayers().forEach(player -> {
+                        sendPlayerAudibleMessage(
+                                Bukkit.getPlayer(player.getUUID()),
+                                new LocalizationManager(MCHunt.getCurrentLocale())
+                                        .getMessage(
+                                                "arena.countdown",
+                                                Integer.toString(currentCountdown)
+                                        )
+                        );
+                    });
                 }
             }
         }

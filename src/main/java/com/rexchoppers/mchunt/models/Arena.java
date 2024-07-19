@@ -62,6 +62,9 @@ public class Arena {
     private int respawnDelay;
 
     @Expose
+    private int seekerReleaseDelay;
+
+    @Expose
     private Location locationBoundaryPoint1;
 
     @Expose
@@ -91,6 +94,7 @@ public class Arena {
             int countdownBeforeStart,
             int countdownAfterEnd,
             int respawnDelay,
+            int seekerReleaseDelay,
             Location locationBoundaryPoint1,
             Location locationBoundaryPoint2
     ) {
@@ -111,6 +115,7 @@ public class Arena {
         this.countdownBeforeStart = countdownBeforeStart;
         this.countdownAfterEnd = countdownAfterEnd;
         this.respawnDelay = respawnDelay;
+        this.seekerReleaseDelay = seekerReleaseDelay;
         this.locationBoundaryPoint1 = locationBoundaryPoint1;
         this.locationBoundaryPoint2 = locationBoundaryPoint2;
 
@@ -275,5 +280,17 @@ public class Arena {
 
     public void setStartCountdown(Countdown startCountdown) {
         this.startCountdown = startCountdown;
+    }
+
+    public int getSeekerReleaseDelay() {
+        if (seekerReleaseDelay == 0) {
+            return 20;
+        }
+
+        return seekerReleaseDelay;
+    }
+
+    public void setSeekerReleaseDelay(int seekerReleaseDelay) {
+        this.seekerReleaseDelay = seekerReleaseDelay;
     }
 }

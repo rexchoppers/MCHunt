@@ -32,6 +32,7 @@ public class ArenaDeserializer implements JsonDeserializer<Arena> {
         int countdownBeforeStart = jsonObject.get("countdownBeforeStart").getAsInt();
         int countdownAfterEnd = jsonObject.get("countdownAfterEnd").getAsInt();
         int respawnDelay = jsonObject.get("respawnDelay").getAsInt();
+        int seekerReleaseDelay = jsonObject.get("seekerReleaseDelay").getAsInt();
         Location locationBoundaryPoint1 = context.deserialize(jsonObject.get("locationBoundaryPoint1"), Location.class);
         Location locationBoundaryPoint2 = context.deserialize(jsonObject.get("locationBoundaryPoint2"), Location.class);
 
@@ -52,6 +53,7 @@ public class ArenaDeserializer implements JsonDeserializer<Arena> {
                 countdownBeforeStart,
                 countdownAfterEnd,
                 respawnDelay,
+                seekerReleaseDelay,
                 locationBoundaryPoint1,
                 locationBoundaryPoint2
         );

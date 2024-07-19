@@ -549,6 +549,18 @@ public class ItemManager {
                 }});
     }
 
+    public ItemBuilder itemArenaSetupParametersSeekerReleaseDelay() {
+        return new ItemBuilder(this.plugin)
+                .setMaterial(Material.PAPER)
+                .setAmount(1)
+                .setName(Format.processString("%n%BSeeker Release Delay"))
+                .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
+                .setLores(new ArrayList<String>() {{
+                    add("");
+                    add(Format.processString("%tSet how many seconds before seekers are released"));
+                }});
+    }
+
     public ItemBuilder itemArenaSetupCreateArena() {
         return new ItemBuilder(this.plugin)
                 .setMaterial(Material.EMERALD)

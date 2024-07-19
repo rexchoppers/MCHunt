@@ -59,6 +59,9 @@ public class ArenaSetup {
     private int respawnDelay = 5;
 
     @Expose
+    private int seekerReleaseDelay;
+
+    @Expose
     private Location locationBoundaryPoint1;
 
     @Expose
@@ -423,5 +426,17 @@ public class ArenaSetup {
 
     public void setMaximumPlayers(int maximumPlayers) {
         this.maximumPlayers = maximumPlayers;
+    }
+
+    public int getSeekerReleaseDelay() {
+        if (seekerReleaseDelay == 0) {
+            return 20;
+        }
+
+        return seekerReleaseDelay;
+    }
+
+    public void setSeekerReleaseDelay(int seekerReleaseDelay) {
+        this.seekerReleaseDelay = seekerReleaseDelay;
     }
 }
