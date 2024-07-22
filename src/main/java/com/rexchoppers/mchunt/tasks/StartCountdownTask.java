@@ -38,6 +38,8 @@ public class StartCountdownTask extends BukkitRunnable {
                 arena.setStatus(ArenaStatus.IN_PROGRESS);
 
                 signManager.initArenaSigns(arena);
+
+
             } else {
                 startCountdown.decrementCountdown();
 
