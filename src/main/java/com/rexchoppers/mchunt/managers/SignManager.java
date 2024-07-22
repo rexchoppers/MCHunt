@@ -92,6 +92,20 @@ public class SignManager {
                             location
                     ));
                     break;
+                    case IN_PROGRESS:
+                        currentArenaSignsList.add(new ScrollingSign(
+                                new String[] {
+                                        Format.processString("%TAG"),
+                                        Format.processString("%a" + arena.getName()),
+                                        Format.processString(
+                                                "%a" + Integer.toString(arena.getPlayers().size()) + "%n/%a" + Integer.toString(arena.getMaximumPlayers())),
+                                        Format.processString("")
+                                },
+                                new HashMap<>(),
+                                new int[] {},
+                                location
+                        ));
+                        break;
             }
         }
 

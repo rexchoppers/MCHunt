@@ -77,6 +77,8 @@ public class Arena {
 
     private Countdown startCountdown;
 
+    private int gameTime;
+
     public Arena(
             UUID uuid,
             String name,
@@ -292,5 +294,13 @@ public class Arena {
 
     public void setSeekerReleaseDelay(int seekerReleaseDelay) {
         this.seekerReleaseDelay = seekerReleaseDelay;
+    }
+
+    public int getGameTime() {
+        return gameTime;
+    }
+
+    public void setGameTime(int gameTime) {
+        this.gameTime = gameTime;
     }
 }
