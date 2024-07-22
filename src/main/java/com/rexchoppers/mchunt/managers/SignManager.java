@@ -98,7 +98,7 @@ public class SignManager {
                                 new String[] {
                                         Format.processString("%TAG"),
                                         Format.processString("%a" + arena.getName()),
-                                        Format.processString(TimeUtil.formatTime(arena.getGameTime())),
+                                        Format.processString(TimeUtil.formatTime(arena.getCurrentGameTime())),
                                         Format.processString("%nIn Progress")
                                 },
                                 new HashMap<>(),

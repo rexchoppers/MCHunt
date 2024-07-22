@@ -69,6 +69,9 @@ public class Arena {
 
     @Expose
     private Location locationBoundaryPoint2;
+
+    @Expose
+    private int gameLength;
     
     // Game variables
 
@@ -77,7 +80,7 @@ public class Arena {
 
     private Countdown startCountdown;
 
-    private int gameTime;
+    private int currentGameTime;
 
     public Arena(
             UUID uuid,
@@ -97,6 +100,7 @@ public class Arena {
             int countdownAfterEnd,
             int respawnDelay,
             int seekerReleaseDelay,
+            int gameLength,
             Location locationBoundaryPoint1,
             Location locationBoundaryPoint2
     ) {
@@ -118,6 +122,7 @@ public class Arena {
         this.countdownAfterEnd = countdownAfterEnd;
         this.respawnDelay = respawnDelay;
         this.seekerReleaseDelay = seekerReleaseDelay;
+        this.gameLength = gameLength;
         this.locationBoundaryPoint1 = locationBoundaryPoint1;
         this.locationBoundaryPoint2 = locationBoundaryPoint2;
 
@@ -296,13 +301,23 @@ public class Arena {
         this.seekerReleaseDelay = seekerReleaseDelay;
     }
 
-    public int getGameTime() {
-        return gameTime;
+    public int getCurrentGameTime() {
+        return currentGameTime;
     }
 
-    public void setGameTime(int gameTime) {
-        this.gameTime = gameTime;
+    public void setCurrentGameTime(int currentGameTime) {
+        this.currentGameTime = currentGameTime;
+    }
+
+    public int getGameLength() {
+        return gameLength;
+    }
+
+    public void setGameLength(int gameLength) {
+        this.gameLength = gameLength;
     }
 
     public static final int DEFAULT_SEEKER_RELEASE_DELAY = 20;
+    public static final int DEFAULT_GAME_LENGTH = 300;
+
 }

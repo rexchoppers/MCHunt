@@ -9,6 +9,8 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
+import static com.rexchoppers.mchunt.models.Arena.DEFAULT_GAME_LENGTH;
+
 public class ArenaSetup {
     @Expose
     private UUID uuid;
@@ -66,6 +68,9 @@ public class ArenaSetup {
 
     @Expose
     private Location locationBoundaryPoint2;
+
+    @Expose
+    private int gameLength;
 
     private Map<Location, BlockData> tmpBoundaryTracking = new HashMap<>();
 
@@ -438,5 +443,17 @@ public class ArenaSetup {
 
     public void setSeekerReleaseDelay(int seekerReleaseDelay) {
         this.seekerReleaseDelay = seekerReleaseDelay;
+    }
+
+    public int getGameLength() {
+        if (gameLength < 1) {
+            return DEFAULT_GAME_LENGTH;
+        }
+
+        return gameLength;
+    }
+
+    public void setGameLength(int gameLength) {
+        this.gameLength = gameLength;
     }
 }
