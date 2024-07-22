@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
-import static com.rexchoppers.mchunt.models.Arena.DEFAULT_GAME_LENGTH;
+import static com.rexchoppers.mchunt.models.Arena.*;
 
 public class ArenaSetup {
     @Expose
@@ -374,7 +374,7 @@ public class ArenaSetup {
 
     public int getSeekerCount() {
         if (seekerCount < 1) {
-            seekerCount = 1;
+            seekerCount = DEFAULT_SEEKER_COUNT;
         }
 
         return seekerCount;
@@ -386,7 +386,7 @@ public class ArenaSetup {
 
     public int getCountdownBeforeStart() {
         if (countdownBeforeStart < 1) {
-            countdownBeforeStart = 10;
+            countdownBeforeStart = DEFAULT_COUNTDOWN_BEFORE_START;
         }
 
         return countdownBeforeStart;
@@ -398,7 +398,7 @@ public class ArenaSetup {
 
     public int getCountdownAfterEnd() {
         if (countdownAfterEnd < 1) {
-            countdownAfterEnd = 10;
+            countdownAfterEnd = DEFAULT_COUNTDOWN_AFTER_END;
         }
 
         return countdownAfterEnd;

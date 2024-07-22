@@ -8,8 +8,7 @@ import org.bukkit.Location;
 import java.lang.reflect.Type;
 import java.util.UUID;
 
-import static com.rexchoppers.mchunt.models.Arena.DEFAULT_GAME_LENGTH;
-import static com.rexchoppers.mchunt.models.Arena.DEFAULT_SEEKER_RELEASE_DELAY;
+import static com.rexchoppers.mchunt.models.Arena.*;
 
 public class ArenaDeserializer implements JsonDeserializer<Arena> {
     @Override
@@ -28,9 +27,9 @@ public class ArenaDeserializer implements JsonDeserializer<Arena> {
         Location afterGameSpawn = context.deserialize(jsonObject.get("afterGameSpawn"), Location.class);
         int minimumPlayers = getValueOrDefault(jsonObject, "minimumPlayers", 0);
         int maximumPlayers = getValueOrDefault(jsonObject, "maximumPlayers", 0);
-        int seekerCount = getValueOrDefault(jsonObject, "seekerCount", 0);
-        int countdownBeforeStart = getValueOrDefault(jsonObject, "countdownBeforeStart", 0);
-        int countdownAfterEnd = getValueOrDefault(jsonObject, "countdownAfterEnd", 0);
+        int seekerCount = getValueOrDefault(jsonObject, "seekerCount", DEFAULT_SEEKER_COUNT);
+        int countdownBeforeStart = getValueOrDefault(jsonObject, "countdownBeforeStart", DEFAULT_COUNTDOWN_BEFORE_START);
+        int countdownAfterEnd = getValueOrDefault(jsonObject, "countdownAfterEnd", DEFAULT_COUNTDOWN_AFTER_END);
         int respawnDelay = getValueOrDefault(jsonObject, "respawnDelay", 0);
         int seekerReleaseDelay = getValueOrDefault(jsonObject, "seekerReleaseDelay", DEFAULT_SEEKER_RELEASE_DELAY); // Assuming 20 is the default value
         int gameLength = getValueOrDefault(jsonObject, "gameLength", DEFAULT_GAME_LENGTH);

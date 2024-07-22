@@ -319,5 +319,9 @@ public class Arena {
 
     public static final int DEFAULT_SEEKER_RELEASE_DELAY = 20;
     public static final int DEFAULT_GAME_LENGTH = 300;
+    public static final int DEFAULT_COUNTDOWN_BEFORE_START = 10;
+    public static final int DEFAULT_COUNTDOWN_AFTER_END = 10;
+
+    public static final int DEFAULT_SEEKER_COUNT = 1;
 
 }

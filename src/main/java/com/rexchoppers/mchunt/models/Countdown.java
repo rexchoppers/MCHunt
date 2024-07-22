@@ -15,7 +15,7 @@ public class Countdown {
         this.countdown = countdown;
     }
 
-public void decrementCountdown() {
+    public void decrementCountdown() {
         countdown--;
     }
 
