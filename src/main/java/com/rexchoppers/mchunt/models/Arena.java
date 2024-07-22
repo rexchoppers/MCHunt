@@ -286,7 +286,7 @@ public class Arena {
 
     public int getSeekerReleaseDelay() {
         if (seekerReleaseDelay == 0) {
-            return 20;
+            return DEFAULT_SEEKER_RELEASE_DELAY;
         }
 
         return seekerReleaseDelay;
@@ -303,4 +303,6 @@ public class Arena {
     public void setGameTime(int gameTime) {
         this.gameTime = gameTime;
     }
+
+    public static final int DEFAULT_SEEKER_RELEASE_DELAY = 20;
 }
