@@ -8,6 +8,8 @@ import org.bukkit.Location;
 import java.lang.reflect.Type;
 import java.util.UUID;
 
+import static com.rexchoppers.mchunt.models.Arena.DEFAULT_SEEKER_RELEASE_DELAY;
+
 public class ArenaDeserializer implements JsonDeserializer<Arena> {
     @Override
     public Arena deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -29,7 +31,7 @@ public class ArenaDeserializer implements JsonDeserializer<Arena> {
         int countdownBeforeStart = getValueOrDefault(jsonObject, "countdownBeforeStart", 0);
         int countdownAfterEnd = getValueOrDefault(jsonObject, "countdownAfterEnd", 0);
         int respawnDelay = getValueOrDefault(jsonObject, "respawnDelay", 0);
-        int seekerReleaseDelay = getValueOrDefault(jsonObject, "seekerReleaseDelay", 20); // Assuming 20 is the default value
+        int seekerReleaseDelay = getValueOrDefault(jsonObject, "seekerReleaseDelay", DEFAULT_SEEKER_RELEASE_DELAY); // Assuming 20 is the default value
         Location locationBoundaryPoint1 = context.deserialize(jsonObject.get("locationBoundaryPoint1"), Location.class);
         Location locationBoundaryPoint2 = context.deserialize(jsonObject.get("locationBoundaryPoint2"), Location.class);
 

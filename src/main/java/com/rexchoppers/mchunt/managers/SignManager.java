@@ -4,6 +4,7 @@ import com.rexchoppers.mchunt.models.Arena;
 import com.rexchoppers.mchunt.models.ArenaSetup;
 import com.rexchoppers.mchunt.signs.ScrollingSign;
 import com.rexchoppers.mchunt.util.Format;
+import com.rexchoppers.mchunt.util.TimeUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -97,9 +98,8 @@ public class SignManager {
                                 new String[] {
                                         Format.processString("%TAG"),
                                         Format.processString("%a" + arena.getName()),
-                                        Format.processString(
-                                                "%a" + Integer.toString(arena.getPlayers().size()) + "%n/%a" + Integer.toString(arena.getMaximumPlayers())),
-                                        Format.processString("")
+                                        Format.processString(TimeUtil.formatTime(arena.getGameTime())),
+                                        Format.processString("%nIn Progress")
                                 },
                                 new HashMap<>(),
                                 new int[] {},
