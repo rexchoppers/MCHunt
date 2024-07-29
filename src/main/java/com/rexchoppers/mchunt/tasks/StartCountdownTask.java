@@ -1,14 +1,17 @@
 package com.rexchoppers.mchunt.tasks;
 
 import com.rexchoppers.mchunt.MCHunt;
+import com.rexchoppers.mchunt.enums.ArenaPlayerRole;
 import com.rexchoppers.mchunt.enums.ArenaStatus;
 import com.rexchoppers.mchunt.managers.ArenaManager;
 import com.rexchoppers.mchunt.managers.LocalizationManager;
 import com.rexchoppers.mchunt.managers.SignManager;
 import com.rexchoppers.mchunt.models.Arena;
+import com.rexchoppers.mchunt.models.ArenaPlayer;
 import com.rexchoppers.mchunt.models.Countdown;
 import com.rexchoppers.mchunt.signs.ScrollingSign;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
@@ -43,6 +46,36 @@ public class StartCountdownTask extends BukkitRunnable {
 
                 signManager.initArenaSigns(arena);
 
+                // Get count of players in arena
+                int playerCount = arena.getPlayers().size();
+
+                // Get the seekers count on game start
+                int seekerCount = arena.getSeekerCount();
+
+                // Randomly set the seekers in the arena
+                for (int i = 0; i < seekerCount; i++) {
+                    int randomIndex = (int) (Math.random() * playerCount);
+                    ArenaPlayer seeker = arena.getPlayers().get(randomIndex);
+                    Player player = Bukkit.getPlayer(seeker.getUUID());
+                    seeker.setRole(ArenaPlayerRole.SEEKER);
+
+                    // Teleport the seeker to a random spawn point in the seeker arrays
+                    int randomSpawnIndex = (int) (Math.random() * arena.getSeekerSpawns().length);
+                    player.teleport(arena.getSeekerSpawns()[randomSpawnIndex]);
+                }
+
+                // Set the rest of the players as hiders
+                arena.getPlayers().forEach(player -> {
+                    if (player.getRole().equals(ArenaPlayerRole.HIDER)) return;
+
+                    // If they've already been
+                    if (player.getRole().equals(ArenaPlayerRole.SEEKER)) return;
+
+                    player.setRole(ArenaPlayerRole.HIDER);
+
+                    Bukkit.getServer().getPlayer(player.getUUID()).teleport(
+                            arena.getHiderSpawns()[(int) (Math.random() * arena.getHiderSpawns().length)]);
+                });
 
             } else {
                 startCountdown.decrementCountdown();
@@ -53,7 +86,7 @@ public class StartCountdownTask extends BukkitRunnable {
 
                 // Only send messages to users if the countdown is in the secondsToDisplay array
                 for (int second : secondsToDisplay) {
-                    if (currentCountdown != second)  continue;
+                    if (currentCountdown != second) continue;
 
                     arena.getPlayers().forEach(player -> {
                         sendPlayerAudibleMessage(
