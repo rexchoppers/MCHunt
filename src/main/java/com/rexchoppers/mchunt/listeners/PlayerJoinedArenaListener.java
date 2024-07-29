@@ -67,21 +67,6 @@ public class PlayerJoinedArenaListener {
             arena.setStartCountdown(
                     new Countdown(arena.getCountdownBeforeStart())
             );
-
-            arena.getPlayers().forEach(player -> {
-                Player serverPlayer = plugin.getServer().getPlayer(player.getUUID());
-
-                if (serverPlayer != null) {
-                    sendPlayerAudibleMessage(
-                            serverPlayer,
-                            new LocalizationManager(MCHunt.getCurrentLocale())
-                                    .getMessage(
-                                            "arena.start_countdown",
-                                            Integer.toString(arena.getCountdownBeforeStart())
-                                    )
-                    );
-                }
-            });
         }
     }
 }
