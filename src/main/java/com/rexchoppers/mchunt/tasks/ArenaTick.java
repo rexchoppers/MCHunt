@@ -5,6 +5,7 @@ import com.rexchoppers.mchunt.enums.ArenaStatus;
 import com.rexchoppers.mchunt.managers.ArenaManager;
 import com.rexchoppers.mchunt.managers.SignManager;
 import com.rexchoppers.mchunt.models.Arena;
+import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
@@ -26,7 +27,9 @@ public class ArenaTick extends BukkitRunnable {
             if (!arena.getStatus().equals(ArenaStatus.IN_PROGRESS)) continue;
 
             // Decrease the game time
-            arena.setCurrentGameTime(arena.getGameLength() - 1);
+            arena.setCurrentGameTime(arena.getCurrentGameTime() - 1);
+
+            Bukkit.broadcastMessage("Game time: " + Integer.toString(arena.getCurrentGameTime()));
 
             signManager.initArenaSigns(arena);
         }

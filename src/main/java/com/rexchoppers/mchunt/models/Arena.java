@@ -310,6 +310,10 @@ public class Arena {
     }
 
     public int getGameLength() {
+        if (gameLength < 1) {
+            return DEFAULT_GAME_LENGTH;
+        }
+
         return gameLength;
     }
 
