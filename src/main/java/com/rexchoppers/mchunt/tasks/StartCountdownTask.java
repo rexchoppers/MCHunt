@@ -16,10 +16,13 @@ import java.util.List;
 import static com.rexchoppers.mchunt.util.PlayerUtil.sendPlayerAudibleMessage;
 
 public class StartCountdownTask extends BukkitRunnable {
+    private final MCHunt plugin;
+
     private final ArenaManager arenaManager;
     private final SignManager signManager;
 
     public StartCountdownTask(MCHunt plugin) {
+        this.plugin = plugin;
         this.arenaManager = plugin.getArenaManager();
         this.signManager = plugin.getSignManager();
     }
@@ -56,7 +59,7 @@ public class StartCountdownTask extends BukkitRunnable {
                     Bukkit.broadcastMessage("SEC " + Integer.toString(second));
 
 
-                    if (currentCountdown != second || currentCountdown != arena.getCountdownBeforeStart())  continue;
+                    if (currentCountdown != second)  continue;
 
                     Bukkit.broadcastMessage(
                             new LocalizationManager(MCHunt.getCurrentLocale())
