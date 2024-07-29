@@ -29,8 +29,6 @@ public class ArenaTick extends BukkitRunnable {
             // Decrease the game time
             arena.setCurrentGameTime(arena.getCurrentGameTime() - 1);
 
-            Bukkit.broadcastMessage("Game time: " + Integer.toString(arena.getCurrentGameTime()));
-
             signManager.initArenaSigns(arena);
         }
     }

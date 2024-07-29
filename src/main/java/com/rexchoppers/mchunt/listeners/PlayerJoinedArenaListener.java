@@ -54,6 +54,17 @@ public class PlayerJoinedArenaListener {
     }
 
     @Subscribe
+    public void clearPlayer(PlayerJoinedArenaEvent event) {
+        Player player = plugin.getServer().getPlayer(event.playerUuid());
+
+        if (player == null) {
+            return;
+        }
+
+        player.getInventory().clear();
+    }
+
+    @Subscribe
     public void triggerArenaStart(PlayerJoinedArenaEvent event) {
         Arena arena = plugin.getArenaManager().getArenaByUUID(event.arenaUuid()).orElse(null);
 

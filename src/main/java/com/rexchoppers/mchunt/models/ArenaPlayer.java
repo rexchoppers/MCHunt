@@ -16,4 +16,12 @@ public class ArenaPlayer {
     public UUID getUUID() {
         return uuid;
     }
+
+    public void setRole(ArenaPlayerRole role) {
+        this.role = role;
+    }
+
+    public ArenaPlayerRole getRole() {
+        return role;
+    }
 }
