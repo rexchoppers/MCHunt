@@ -37,9 +37,6 @@ public class StartCountdownTask extends BukkitRunnable {
             Countdown startCountdown = arena.getStartCountdown();
             int currentCountdown = startCountdown.getCountdown();
 
-            Bukkit.broadcastMessage("S " + Integer.toString(arena.getPlayers().size()));
-
-
             if (currentCountdown == 0) {
                 arena.setStatus(ArenaStatus.IN_PROGRESS);
 
@@ -55,24 +52,9 @@ public class StartCountdownTask extends BukkitRunnable {
 
                 // Only send messages to users if the countdown is in the secondsToDisplay array
                 for (int second : secondsToDisplay) {
-                    Bukkit.broadcastMessage("C " + Integer.toString(currentCountdown));
-                    Bukkit.broadcastMessage("SEC " + Integer.toString(second));
-
-
                     if (currentCountdown != second)  continue;
 
-                    Bukkit.broadcastMessage(
-                            new LocalizationManager(MCHunt.getCurrentLocale())
-                                    .getMessage(
-                                            "arena.countdown",
-                                            Integer.toString(currentCountdown)
-                                    ));
-
-                    Bukkit.broadcastMessage("SIZE " + Integer.toString(arena.getPlayers().size()));
-
                     arena.getPlayers().forEach(player -> {
-                        Bukkit.broadcastMessage("P " + player.getUUID().toString() + " " + Integer.toString(currentCountdown));
-
                         sendPlayerAudibleMessage(
                                 Bukkit.getPlayer(player.getUUID()),
                                 new LocalizationManager(MCHunt.getCurrentLocale())
