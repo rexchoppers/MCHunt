@@ -321,6 +321,10 @@ public class Arena {
         this.gameLength = gameLength;
     }
 
+    public void removePlayer(UUID playerUuid) {
+        players.removeIf(player -> player.getUUID().equals(playerUuid));
+    }
+
     public static final int DEFAULT_SEEKER_RELEASE_DELAY = 20;
     public static final int DEFAULT_GAME_LENGTH = 300;
     public static final int DEFAULT_COUNTDOWN_BEFORE_START = 10;

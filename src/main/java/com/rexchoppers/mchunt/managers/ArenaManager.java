@@ -2,7 +2,6 @@ package com.rexchoppers.mchunt.managers;
 
 import com.google.gson.Gson;
 import com.rexchoppers.mchunt.MCHunt;
-import com.rexchoppers.mchunt.exceptions.ArenaExistsException;
 import com.rexchoppers.mchunt.models.Arena;
 
 import java.io.*;
@@ -12,7 +11,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.google.gson.reflect.TypeToken;
-import org.bukkit.Bukkit;
 
 public class ArenaManager {
     private final MCHunt plugin;
@@ -109,11 +107,10 @@ public class ArenaManager {
                         .anyMatch(player -> player.getUUID().equals(playerUUID)));
     }
 
-    public Arena getArenaByPlayer(UUID playerUUID) {
+    public Optional<Arena> getArenaByPlayerUUID(UUID playerUUID) {
         return arenas.stream()
                 .filter(arena -> arena.getPlayers().stream()
                         .anyMatch(player -> player.getUUID().equals(playerUUID)))
-                .findFirst()
-                .orElse(null);
+                .findFirst();
     }
 }

@@ -1,6 +1,8 @@
 package com.rexchoppers.mchunt.events;
 
 import com.rexchoppers.mchunt.MCHunt;
+import com.rexchoppers.mchunt.events.internal.PlayerLeftArenaEvent;
+import com.rexchoppers.mchunt.models.Arena;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,7 +24,10 @@ public class ArenaEventHandler implements Listener {
 
         // Check if player is in an arena
         if (plugin.getArenaManager().isPlayerInArena(playerUUID)) {
+            Arena arena = plugin.getArenaManager().getArenaByPlayerUUID(playerUUID).orElse(null);
+            arena.removePlayer(playerUUID);
 
+            this.plugin.getEventBusManager().publishEvent(new PlayerLeftArenaEvent(arena.getUUID(), playerUUID));
         }
     }
 }
