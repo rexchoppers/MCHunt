@@ -45,9 +45,19 @@ public class PlayerLeftArenaListener {
         });
     }
 
+    @Subscribe
+    public void updateArenaSigns(PlayerLeftArenaEvent event) {
+        Arena arena = plugin.getArenaManager().getArenaByUUID(event.arenaUuid()).orElse(null);
+
+        if (arena == null) {
+            return;
+        }
+
+        plugin.getSignManager().initArenaSigns(arena);
+    }
+
     /**
      * Cancel the start countdown if the player leaves the arena and the min player count is not met
-     * @param event
      */
     @Subscribe
     public void cancelStartCountdown(PlayerLeftArenaEvent event) {
@@ -65,5 +75,7 @@ public class PlayerLeftArenaListener {
 
         arena.setStatus(ArenaStatus.WAITING);
         arena.setStartCountdown(null);
+
+        plugin.getSignManager().initArenaSigns(arena);
     }
 }
