@@ -102,4 +102,18 @@ public class ArenaManager {
     public List<Arena> getArenas() {
         return arenas;
     }
+
+    public boolean isPlayerInArena(UUID playerUUID) {
+        return arenas.stream()
+                .anyMatch(arena -> arena.getPlayers().stream()
+                        .anyMatch(player -> player.getUUID().equals(playerUUID)));
+    }
+
+    public Arena getArenaByPlayer(UUID playerUUID) {
+        return arenas.stream()
+                .filter(arena -> arena.getPlayers().stream()
+                        .anyMatch(player -> player.getUUID().equals(playerUUID)))
+                .findFirst()
+                .orElse(null);
+    }
 }
