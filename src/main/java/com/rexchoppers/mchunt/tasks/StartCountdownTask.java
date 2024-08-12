@@ -59,8 +59,12 @@ public class StartCountdownTask extends BukkitRunnable {
                     Player player = Bukkit.getPlayer(seeker.getUUID());
                     seeker.setRole(ArenaPlayerRole.SEEKER);
 
-                    // Teleport the seeker to a random spawn point in the seeker arrays
-                    // int randomSpawnIndex = (int) (Math.random() * arena.getSeekerSpawns().length);
+                    // Send a message to the seeker
+                    sendPlayerAudibleMessage(
+                            player,
+                            new LocalizationManager(MCHunt.getCurrentLocale())
+                                    .getMessage("arena.seeker")
+                    );
                 }
 
                 // Set the rest of the players as hiders
