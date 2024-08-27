@@ -77,5 +77,18 @@ public class PlayerLeftArenaListener {
         arena.setStartCountdown(null);
 
         plugin.getSignManager().initArenaSigns(arena);
+
+        // Send players message that the countdown has been cancelled
+        arena.getPlayers().forEach(player -> {
+            Player serverPlayer = plugin.getServer().getPlayer(player.getUUID());
+
+            if (serverPlayer != null) {
+                sendPlayerAudibleMessage(
+                        serverPlayer,
+                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                .getMessage("arena.countdown_cancelled")
+                );
+            }
+        });
     }
 }
