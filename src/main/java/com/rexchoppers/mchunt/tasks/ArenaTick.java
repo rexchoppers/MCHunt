@@ -36,6 +36,21 @@ public class ArenaTick extends BukkitRunnable {
 
             signManager.initArenaSigns(arena);
 
+            // Announce the time left at key intervals
+            if (arena.getCurrentGameTime() % 60 == 0 || arena.getCurrentGameTime() == 30 || arena.getCurrentGameTime() == 10 || arena.getCurrentGameTime() <= 5) {
+                arena.getPlayers().forEach(player -> {
+                    Player serverPlayer = Bukkit.getPlayer(player.getUUID());
+
+                    if (serverPlayer != null) {
+                        sendPlayerAudibleMessage(
+                                serverPlayer,
+                                new LocalizationManager(MCHunt.getCurrentLocale())
+                                        .getMessage("arena.time_left", arena.getCurrentGameTime())
+                        );
+                    }
+                });
+            }
+
             // Check if seekers can be released
             if (arena.getCurrentGameTime() == arena.getGameLength() - arena.getSeekerReleaseDelay()) {
                 // Teleport seekers to their spawn points
