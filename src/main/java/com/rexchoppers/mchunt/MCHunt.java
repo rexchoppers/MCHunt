@@ -63,6 +63,9 @@ public final class MCHunt extends JavaPlugin {
             return;
         }
 
+        // Setup Database
+
+
         currentLocale = Locale.getDefault();
 
         // Setup managers

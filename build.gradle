@@ -38,6 +38,8 @@ dependencies {
     implementation 'fr.minuskube.inv:smart-invs:1.2.7'
     implementation 'net.wesjd:anvilgui:1.9.6-SNAPSHOT'
     implementation 'com.google.guava:guava:31.0.1-jre'
+
+    implementation 'org.dizitart:nitrite:4.3.0'
 }
 
 def targetJavaVersion = 21
