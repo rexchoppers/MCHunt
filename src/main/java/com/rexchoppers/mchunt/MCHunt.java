@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 import com.rexchoppers.mchunt.commands.CommandMCHunt;
 import com.rexchoppers.mchunt.managers.*;
 import com.rexchoppers.mchunt.models.Arena;
+import com.rexchoppers.mchunt.security.ED25519Gen;
 import com.rexchoppers.mchunt.serializers.*;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
@@ -53,9 +54,6 @@ public final class MCHunt extends JavaPlugin {
 
     private WorldGuard worldGuard;
 
-    private static final String PRIVATE_KEY_PATH = "keys/ed25519_private.pem";
-    private static final String PUBLIC_KEY_PATH = "keys/ed25519_public.pem";
-
     @Override
     public void onEnable() {
         Security.addProvider(new BouncyCastleProvider());
@@ -88,44 +86,8 @@ public final class MCHunt extends JavaPlugin {
             keysDir.mkdirs();
         }
 
-        // Check if keys exist
-        if (!Files.exists(Paths.get(
-                pluginDir.getAbsolutePath() + FileSystems.getDefault().getSeparator() + PRIVATE_KEY_PATH
-        )) || !Files.exists(Paths.get(pluginDir.getAbsolutePath() + FileSystems.getDefault().getSeparator() + PUBLIC_KEY_PATH))) {
-            System.out.println("Generating Ed25519 key pair...");
-
-            try {
-                File privateKeyFile = new File(pluginDir, PRIVATE_KEY_PATH);
-                File publicKeyFile = new File(pluginDir, PUBLIC_KEY_PATH);
-
-                if (!privateKeyFile.exists() || !publicKeyFile.exists()) {
-                    System.out.println("Generating Ed25519 key pair...");
-
-                    KeyPairGenerator generator = KeyPairGenerator.getInstance("Ed25519", "BC");
-                    KeyPair pair = generator.generateKeyPair();
-
-                    // Save private key as PEM
-                    savePem("PRIVATE KEY", pair.getPrivate().getEncoded(), privateKeyFile.getAbsolutePath());
-
-                    // Save public key in OpenSSH format
-                    String openSshPublicKey = generateOpenSSHPublicKey(pair.getPublic(), "mchunt@plugin");
-                    Files.write(publicKeyFile.toPath(), openSshPublicKey.getBytes());
-
-                    System.out.println("Keys generated.");
-                } else {
-                    System.out.println("Keys already exist.");
-                }
-            } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
-
-        } else {
-            System.out.println("Keys already exist.");
-        }
-
+        ED25519Gen ed25519Gen = new ED25519Gen(this);
+        ed25519Gen.generateKeys();
 
         currentLocale = Locale.getDefault();
 
@@ -160,13 +122,6 @@ public final class MCHunt extends JavaPlugin {
         // Setup commands
         PaperCommandManager manager = new PaperCommandManager(this);
         manager.registerCommand(new CommandMCHunt(this));
-    }
-
-    private static void savePem(String type, byte[] bytes, String path) throws IOException {
-        try (PemWriter writer = new PemWriter(new FileWriter(path))) {
-            PemObject object = new PemObject(type, bytes);
-            writer.writeObject(object);
-        }
     }
 
     @Override
@@ -224,43 +179,5 @@ public final class MCHunt extends JavaPlugin {
             return null;
         }
         return (WorldGuardPlugin) plugin;
-    }
-
-    private static String generateOpenSSHPublicKey(PublicKey pubKey, String comment) {
-        byte[] encoded = pubKey.getEncoded();
-
-        // Strip X.509 prefix to get raw Ed25519 key (last 32 bytes)
-        byte[] rawKey = new byte[32];
-        System.arraycopy(encoded, encoded.length - 32, rawKey, 0, 32);
-
-        try {
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-
-            writeSshString(out, "ssh-ed25519");
-            writeSshBytes(out, rawKey);
-
-            String b64 = Base64.getEncoder().encodeToString(out.toByteArray());
-            return "ssh-ed25519 " + b64 + " " + comment;
-        } catch (IOException e) {
-            throw new RuntimeException("Error generating OpenSSH key", e);
-        }
-    }
-
-    private static void writeSshString(ByteArrayOutputStream out, String str) throws IOException {
-        byte[] bytes = str.getBytes("UTF-8");
-        writeSshInt(out, bytes.length);
-        out.write(bytes);
-    }
-
-    private static void writeSshBytes(ByteArrayOutputStream out, byte[] bytes) throws IOException {
-        writeSshInt(out, bytes.length);
-        out.write(bytes);
-    }
-
-    private static void writeSshInt(ByteArrayOutputStream out, int value) {
-        out.write((value >>> 24) & 0xFF);
-        out.write((value >>> 16) & 0xFF);
-        out.write((value >>> 8) & 0xFF);
-        out.write(value & 0xFF);
     }
 }
