@@ -33,6 +33,7 @@ public class ApiClient {
         Bukkit.getConsoleSender().sendMessage(jsonBody);
 
         String responseJson = post("/server/register", jsonBody);
+
         return this.gson.fromJson(responseJson, RegisterServerResponse.class);
     }
 
