@@ -3,6 +3,7 @@ package com.rexchoppers.mchunt;
 import co.aikar.commands.PaperCommandManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.rexchoppers.mchunt.adapters.InstantTypeAdapter;
 import com.rexchoppers.mchunt.commands.CommandMCHunt;
 import com.rexchoppers.mchunt.managers.*;
 import com.rexchoppers.mchunt.models.Arena;
@@ -12,23 +13,15 @@ import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import fr.minuskube.inv.InventoryManager;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.bouncycastle.util.io.pem.PemObject;
-import org.bouncycastle.util.io.pem.PemWriter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.security.*;
-import java.util.Base64;
+import java.time.Instant;
 import java.util.Locale;
 
 public final class MCHunt extends JavaPlugin {
@@ -59,6 +52,8 @@ public final class MCHunt extends JavaPlugin {
         Security.addProvider(new BouncyCastleProvider());
 
         this.gson = new GsonBuilder()
+                .registerTypeAdapter(Instant.class, new InstantTypeAdapter())
+
                 .registerTypeAdapter(Arena.class, new ArenaDeserializer())
                 .registerTypeAdapter(ItemStack[].class, new ItemStackArraySerializer())
                 .registerTypeAdapter(ItemStack[].class, new ItemStackArrayDeserializer())
@@ -86,8 +81,11 @@ public final class MCHunt extends JavaPlugin {
             keysDir.mkdirs();
         }
 
+        // Generate keys if they don't exist
         ED25519Gen ed25519Gen = new ED25519Gen(this);
         ed25519Gen.generateKeys();
+
+
 
         currentLocale = Locale.getDefault();
 
