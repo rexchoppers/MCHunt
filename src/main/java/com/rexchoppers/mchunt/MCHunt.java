@@ -7,6 +7,7 @@ import com.rexchoppers.mchunt.adapters.InstantTypeAdapter;
 import com.rexchoppers.mchunt.commands.CommandMCHunt;
 import com.rexchoppers.mchunt.http.ApiClient;
 import com.rexchoppers.mchunt.http.requests.RegisterServerRequest;
+import com.rexchoppers.mchunt.http.responses.RegisterServerResponse;
 import com.rexchoppers.mchunt.managers.*;
 import com.rexchoppers.mchunt.models.Arena;
 import com.rexchoppers.mchunt.security.ED25519;
@@ -86,6 +87,11 @@ public final class MCHunt extends JavaPlugin {
             keysDir.mkdirs();
         }
 
+        /**
+         * Create default configuration. We won't use this much
+         */
+        saveDefaultConfig();
+
         // Generate keys if they don't exist
         ED25519 ed25519 = new ED25519(this);
         ed25519.generateKeys();
@@ -96,22 +102,19 @@ public final class MCHunt extends JavaPlugin {
                 this.gson
         );
 
-        // Get contents of public key
-        String publicKeyContents = ed25519.getPublicKeyContents();
-
-        Bukkit.getConsoleSender().sendMessage("Public key contents: " + publicKeyContents);
-
         // Register server
-        RegisterServerRequest registerServerRequest = new RegisterServerRequest(publicKeyContents);
         try {
-            Bukkit.getConsoleSender().sendMessage(registerServerRequest.getPublicKey());
-            Bukkit.getConsoleSender().sendMessage(gson.toJson(registerServerRequest));
+            // Get contents of public key
+            String publicKeyContents = ed25519.getPublicKeyContents();
 
-            this.apiClient.registerServer(registerServerRequest);
+            RegisterServerRequest registerServerRequest = new RegisterServerRequest(publicKeyContents);
+            RegisterServerResponse registerServerResponse = this.apiClient.registerServer(registerServerRequest);
+
+            getConfig().set("server.uuid", registerServerResponse.uuid);
+            saveConfig();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
 
         currentLocale = Locale.getDefault();
 
