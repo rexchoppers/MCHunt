@@ -49,6 +49,8 @@ public class ApiClient {
             throw new RuntimeException(e);
         }
 
+        Bukkit.getConsoleSender().sendMessage(responseJson);
+
         if (responseJson == null) {
             return null;
         }
@@ -75,10 +77,8 @@ public class ApiClient {
         Request request = requestBuilder.build();
 
         try (Response response = client.newCall(request).execute()) {
-            Bukkit.getConsoleSender().sendMessage(response.body().string());
-
             if (!response.isSuccessful() &&
-                    response.code() != 400 &&
+                    response.code() != 404 &&
                     response.code() != 403
             ) {
                 throw new IOException("Unexpected response code: " + response.code());
