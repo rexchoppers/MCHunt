@@ -53,7 +53,7 @@ public class SignManager {
             switch (arena.getStatus()) {
                 case WAITING:
                     currentArenaSignsList.add(new ScrollingSign(
-                            new String[] {
+                            new String[]{
                                     Format.processString("%TAG"),
                                     Format.processString("%a" + arena.getName()),
                                     Format.processString(

@@ -3,7 +3,6 @@ package com.rexchoppers.mchunt.menus;
 import com.rexchoppers.mchunt.MCHunt;
 import com.rexchoppers.mchunt.exceptions.PlayerAlreadyInArenaSetupException;
 import com.rexchoppers.mchunt.models.ArenaSetup;
-import com.rexchoppers.mchunt.util.BoundaryUtil;
 import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
@@ -13,13 +12,15 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
 import java.util.UUID;
 
 import static com.rexchoppers.mchunt.util.PlayerUtil.sendPlayerError;
 
+/*
+Main menu for admins to access various features and settings of the plugin.
+This menu is accessible only to players with the appropriate permissions.
+ */
 public class MenuAdmin extends MenuBase {
     private final MCHunt plugin;
 
@@ -41,6 +42,12 @@ public class MenuAdmin extends MenuBase {
         @Override
         public void init(Player player, InventoryContents contents) {
             contents.fillBorders(ClickableItem.empty(new ItemStack(Material.BLACK_STAINED_GLASS_PANE)));
+
+            try {
+                plugin.getApiClient().getArenaSetupByPlayerId(player.getUniqueId().toString());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
 
             if (player.hasPermission(plugin.getItemManager().itemEnterArenaSetup().getPermission())) {
                 contents.set(1, 7, ClickableItem.of(plugin.getItemManager().itemEnterArenaSetup().build(), e -> {
