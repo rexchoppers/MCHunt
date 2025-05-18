@@ -33,6 +33,15 @@ public class ED25519 {
         }
     }
 
+    public String getPrivateKeyContents() {
+        try {
+            File privateKeyFile = new File(this.plugin.getDataFolder(), PRIVATE_KEY_PATH);
+            return new String(Files.readAllBytes(privateKeyFile.toPath()));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void generateKeys() {
         File pluginDir = new File(this.plugin.getDataFolder().getAbsolutePath());
 

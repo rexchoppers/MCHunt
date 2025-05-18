@@ -53,6 +53,9 @@ public final class MCHunt extends JavaPlugin {
 
     private WorldGuard worldGuard;
 
+    private String publicKey;
+    private String privateKey;
+
     @Override
     public void onEnable() {
         Security.addProvider(new BouncyCastleProvider());
@@ -87,8 +90,8 @@ public final class MCHunt extends JavaPlugin {
             keysDir.mkdirs();
         }
 
-        /**
-         * Create default configuration. We won't use this much
+        /*
+          Create the default configuration. We won't use this much
          */
         saveDefaultConfig();
 
@@ -97,20 +100,23 @@ public final class MCHunt extends JavaPlugin {
         ed25519.generateKeys();
 
         // Create API client
-        this.apiClient = new ApiClient(
+        apiClient = new ApiClient(
                 "http://host.docker.internal:8080",
                 this.gson
         );
 
         // Register server
         try {
-            // Get contents of public key
-            String publicKeyContents = ed25519.getPublicKeyContents();
+            // Get contents of public + private key
+            this.publicKey = ed25519.getPublicKeyContents();
+            this.privateKey = ed25519.getPrivateKeyContents();
 
-            RegisterServerRequest registerServerRequest = new RegisterServerRequest(publicKeyContents);
-            RegisterServerResponse registerServerResponse = this.apiClient.registerServer(registerServerRequest);
+            RegisterServerRequest registerServerRequest = new RegisterServerRequest(this.publicKey);
+            RegisterServerResponse registerServerResponse = apiClient.registerServer(registerServerRequest);
 
             getConfig().set("server.uuid", registerServerResponse.uuid);
+            apiClient.setServerUuid(registerServerResponse.uuid);
+            apiClient.setPrivateKey(this.privateKey);
             saveConfig();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -162,6 +168,10 @@ public final class MCHunt extends JavaPlugin {
 
     public static Locale getCurrentLocale() {
         return currentLocale;
+    }
+
+    public ApiClient getApiClient() {
+        return apiClient;
     }
 
     public ArenaManager getArenaManager() {
