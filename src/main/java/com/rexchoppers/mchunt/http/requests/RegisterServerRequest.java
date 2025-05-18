@@ -1,21 +1,16 @@
 package com.rexchoppers.mchunt.http.requests;
 
-import com.google.gson.annotations.SerializedName;
+import com.google.gson.annotations.Expose;
 
-import java.time.Instant;
-
-public class RegisterRequest {
+public class RegisterServerRequest {
+    @Expose
     private String publicKey;
 
-    public RegisterRequest(String publicKey) {
+    public RegisterServerRequest(String publicKey) {
         this.publicKey = publicKey;
     }
 
     public String getPublicKey() {
         return publicKey;
-    }
-
-    public void setPublicKey(String publicKey) {
-        this.publicKey = publicKey;
     }
 }

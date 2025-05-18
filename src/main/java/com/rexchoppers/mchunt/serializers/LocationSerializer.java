@@ -1,24 +1,15 @@
 package com.rexchoppers.mchunt.serializers;
 
-import com.google.gson.*;
-import com.rexchoppers.mchunt.enums.ArenaStatus;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
 import org.bukkit.Location;
 
-import java.lang.reflect.Type;
-import java.util.Map;
+import java.io.IOException;
 
-public class LocationSerializer implements JsonSerializer<Location> {
+public class LocationSerializer extends JsonSerializer<Location> {
     @Override
-    public JsonElement serialize(Location src, Type typeOfSrc, JsonSerializationContext context) {
-        Map<String, Object> serializedData = src.serialize();
-
-        JsonObject jsonLocation = new JsonObject();
-
-        for (Map.Entry<String, Object> entry : serializedData.entrySet()) {
-            JsonElement element = context.serialize(entry.getValue());
-            jsonLocation.add(entry.getKey(), element);
-        }
-
-        return jsonLocation;
+    public void serialize(Location location, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
+        jsonGenerator.writeObject(location.serialize());
     }
 }

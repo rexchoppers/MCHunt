@@ -5,9 +5,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.rexchoppers.mchunt.adapters.InstantTypeAdapter;
 import com.rexchoppers.mchunt.commands.CommandMCHunt;
+import com.rexchoppers.mchunt.http.ApiClient;
+import com.rexchoppers.mchunt.http.requests.RegisterServerRequest;
 import com.rexchoppers.mchunt.managers.*;
 import com.rexchoppers.mchunt.models.Arena;
-import com.rexchoppers.mchunt.security.ED25519Gen;
+import com.rexchoppers.mchunt.security.ED25519;
 import com.rexchoppers.mchunt.serializers.*;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
@@ -19,7 +21,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.FileSystems;
+import java.nio.file.Paths;
 import java.security.*;
 import java.time.Instant;
 import java.util.Locale;
@@ -34,6 +38,7 @@ public final class MCHunt extends JavaPlugin {
     private ArenaManager arenaManager;
     private ArenaSetupManager arenaSetupManager;
     private ItemManager itemManager;
+    private ApiClient apiClient;
 
     private EventManager eventManager;
 
@@ -82,9 +87,30 @@ public final class MCHunt extends JavaPlugin {
         }
 
         // Generate keys if they don't exist
-        ED25519Gen ed25519Gen = new ED25519Gen(this);
-        ed25519Gen.generateKeys();
+        ED25519 ed25519 = new ED25519(this);
+        ed25519.generateKeys();
 
+        // Create API client
+        this.apiClient = new ApiClient(
+                "http://host.docker.internal:8080",
+                this.gson
+        );
+
+        // Get contents of public key
+        String publicKeyContents = ed25519.getPublicKeyContents();
+
+        Bukkit.getConsoleSender().sendMessage("Public key contents: " + publicKeyContents);
+
+        // Register server
+        RegisterServerRequest registerServerRequest = new RegisterServerRequest(publicKeyContents);
+        try {
+            Bukkit.getConsoleSender().sendMessage(registerServerRequest.getPublicKey());
+            Bukkit.getConsoleSender().sendMessage(gson.toJson(registerServerRequest));
+
+            this.apiClient.registerServer(registerServerRequest);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
 
         currentLocale = Locale.getDefault();

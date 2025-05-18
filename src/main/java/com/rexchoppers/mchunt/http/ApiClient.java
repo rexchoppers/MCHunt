@@ -1,9 +1,10 @@
 package com.rexchoppers.mchunt.http;
 
 import com.google.gson.Gson;
-import com.rexchoppers.mchunt.http.requests.RegisterRequest;
+import com.rexchoppers.mchunt.http.requests.RegisterServerRequest;
 import com.rexchoppers.mchunt.http.responses.RegisterServerResponse;
 import okhttp3.*;
+import org.bukkit.Bukkit;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -26,8 +27,11 @@ public class ApiClient {
                 .build();
     }
 
-    public RegisterServerResponse registerServer(RegisterRequest registerRequest) throws IOException {
+    public RegisterServerResponse registerServer(RegisterServerRequest registerRequest) throws IOException {
         String jsonBody = this.gson.toJson(registerRequest);
+
+        Bukkit.getConsoleSender().sendMessage(jsonBody);
+
         String responseJson = post("/server/register", jsonBody);
         return this.gson.fromJson(responseJson, RegisterServerResponse.class);
     }

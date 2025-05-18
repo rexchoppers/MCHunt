@@ -1,20 +1,19 @@
 package com.rexchoppers.mchunt.serializers;
 
-import com.google.gson.*;
+import com.fasterxml.jackson.core.JacksonException;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 import org.bukkit.Location;
 
-import java.lang.reflect.Type;
+import java.io.IOException;
 import java.util.Map;
 
-public class LocationDeserializer implements JsonDeserializer<Location> {
+public class LocationDeserializer extends JsonDeserializer<Location> {
+
     @Override
-    public Location deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        JsonObject jsonObject = json.getAsJsonObject();
-
-        // Deserialize the JsonObject back to a Map
-        Map<String, Object> locationMap = context.deserialize(jsonObject, Map.class);
-
-        // Use Bukkit's Location.deserialize method to create a Location object
-        return Location.deserialize(locationMap);
+    public Location deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JacksonException {
+        Map<String, Object> map = jsonParser.readValueAs(Map.class);
+        return Location.deserialize(map);
     }
 }

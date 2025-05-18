@@ -14,14 +14,23 @@ import java.nio.file.Paths;
 import java.security.*;
 import java.util.Base64;
 
-public class ED25519Gen {
+public class ED25519 {
     private static final String PRIVATE_KEY_PATH = "keys/ed25519_private.pem";
     private static final String PUBLIC_KEY_PATH = "keys/ed25519_public.pem";
 
     private final MCHunt plugin;
 
-    public ED25519Gen(MCHunt plugin) {
+    public ED25519(MCHunt plugin) {
         this.plugin = plugin;
+    }
+
+    public String getPublicKeyContents() {
+        try {
+            File publicKeyFile = new File(this.plugin.getDataFolder(), PUBLIC_KEY_PATH);
+            return new String(Files.readAllBytes(publicKeyFile.toPath()));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void generateKeys() {
