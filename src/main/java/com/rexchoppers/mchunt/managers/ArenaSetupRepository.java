@@ -1,19 +1,11 @@
 package com.rexchoppers.mchunt.managers;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.rexchoppers.mchunt.MCHunt;
 import com.rexchoppers.mchunt.events.internal.ArenaSetupUpdatedEvent;
 import com.rexchoppers.mchunt.exceptions.PlayerAlreadyInArenaSetupException;
 import com.rexchoppers.mchunt.models.ArenaSetup;
 import com.rexchoppers.mchunt.repositories.Repository;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -30,6 +22,11 @@ public class ArenaSetupRepository extends Repository<ArenaSetup> {
     }
 
     @Override
+    public void postUpdate(ArenaSetup arenaSetup) {
+        this.getPlugin().getEventBusManager().publishEvent(new ArenaSetupUpdatedEvent(arenaSetup.getUUID()));
+    }
+
+    @Override
     public void create(ArenaSetup arenaSetup) throws Exception {
         if (this.getArenaSetupForPlayer(arenaSetup.getPlayerUuid()).isPresent()) {
             throw new PlayerAlreadyInArenaSetupException();
@@ -43,10 +40,4 @@ public class ArenaSetupRepository extends Repository<ArenaSetup> {
                 .filter(arenaSetup -> arenaSetup.getPlayerUuid().equals(playerUuid))
                 .findFirst();
     }
-
-
-
-    /**
-     *         this.plugin.getEventBusManager().publishEvent(new ArenaSetupUpdatedEvent(arenaSetup.getUUID()));
-     */
 }

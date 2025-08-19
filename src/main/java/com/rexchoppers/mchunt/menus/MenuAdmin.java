@@ -1,23 +1,13 @@
 package com.rexchoppers.mchunt.menus;
 
 import com.rexchoppers.mchunt.MCHunt;
-import com.rexchoppers.mchunt.exceptions.PlayerAlreadyInArenaSetupException;
-import com.rexchoppers.mchunt.http.responses.GetArenaSetupByPlayerIdResponse;
-import com.rexchoppers.mchunt.models.ArenaSetup;
 import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
 import fr.minuskube.inv.content.InventoryProvider;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-
-import java.io.IOException;
-import java.util.UUID;
-
-import static com.rexchoppers.mchunt.util.PlayerUtil.sendPlayerError;
 
 /*
 Main menu for admins to access various features and settings of the plugin.
@@ -45,7 +35,7 @@ public class MenuAdmin extends MenuBase {
         public void init(Player player, InventoryContents contents) {
             contents.fillBorders(ClickableItem.empty(new ItemStack(Material.BLACK_STAINED_GLASS_PANE)));
 
-            try {
+            /*try {
                 GetArenaSetupByPlayerIdResponse arenaSetupResponse = plugin.getApiClient().getArenaSetupByPlayerId(player.getUniqueId().toString());
 
                 // If the player is not in an arena setup, show the option to enter arena setup
@@ -78,7 +68,7 @@ public class MenuAdmin extends MenuBase {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-
+*/
         }
 
         @Override

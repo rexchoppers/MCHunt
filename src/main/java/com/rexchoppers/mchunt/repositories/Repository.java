@@ -91,6 +91,8 @@ public abstract class Repository<T> {
         existingItem.ifPresent(t -> data.remove(t));
         save(item);
         data.add(item);
+
+        postUpdate(item);
     }
 
     private void save(T item) {
@@ -103,7 +105,8 @@ public abstract class Repository<T> {
         }
     }
 
-    public void postInit() {}
+    public abstract void postInit();
+    public abstract void postUpdate(T item);
 
     public List<T> getData() {
         return data;

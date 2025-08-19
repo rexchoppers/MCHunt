@@ -23,6 +23,11 @@ public class ArenaRepository extends Repository<Arena> {
         }
     }
 
+    @Override
+    public void postUpdate(Arena item) {
+
+    }
+
     public Optional<Arena> getArenaByName(List<Arena> arenas, String name) {
         if (arenas == null) {
             return Optional.empty();

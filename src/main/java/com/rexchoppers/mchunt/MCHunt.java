@@ -5,7 +5,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.rexchoppers.mchunt.adapters.InstantTypeAdapter;
 import com.rexchoppers.mchunt.commands.CommandMCHunt;
-import com.rexchoppers.mchunt.http.ApiClient;
 import com.rexchoppers.mchunt.managers.*;
 import com.rexchoppers.mchunt.models.Arena;
 import com.rexchoppers.mchunt.serializers.*;
@@ -34,8 +33,6 @@ public final class MCHunt extends JavaPlugin {
     private ArenaRepository arenaManager;
     private ArenaSetupRepository arenaSetupManager;
     private ItemManager itemManager;
-    private ApiClient apiClient;
-
     private EventManager eventManager;
 
     private EventBusManager eventBusManager;
@@ -132,10 +129,6 @@ public final class MCHunt extends JavaPlugin {
 
     public static Locale getCurrentLocale() {
         return currentLocale;
-    }
-
-    public ApiClient getApiClient() {
-        return apiClient;
     }
 
     public ArenaRepository getArenaManager() {

@@ -24,11 +24,10 @@ public class PacketManager {
                     public void onPacketSending(PacketEvent event) {
                         ArenaSetupRepository arenaSetupManager = PacketManager.this.plugin.getArenaSetupManager();
 
-                        if (!arenaSetupManager.getArenaSetupByPlayerUuid(
-                                arenaSetupManager.getArenaSetups(),
-                                event.getPlayer().getUniqueId()).isPresent()) {
+                        if (arenaSetupManager.getArenaSetupForPlayer(event.getPlayer().getUniqueId()).isEmpty()) {
                             return;
                         }
+
                         if (event.getPlayer().getInventory().getItemInMainHand().getType().isAir()) {
                             return;
                         }
