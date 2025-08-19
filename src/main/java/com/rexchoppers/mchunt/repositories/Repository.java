@@ -1,9 +1,7 @@
 package com.rexchoppers.mchunt.repositories;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.rexchoppers.mchunt.MCHunt;
-import com.rexchoppers.mchunt.models.ArenaSetup;
 import com.rexchoppers.mchunt.util.Identifiable;
 import org.bukkit.Bukkit;
 
@@ -11,7 +9,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.*;
 
 /**
@@ -25,9 +22,16 @@ public abstract class Repository<T extends Identifiable> {
 
     private List<T> data;
 
-    public Repository(MCHunt plugin, String directory) {
+    private final Class<T> type;
+
+    public Repository(
+            MCHunt plugin,
+            String directory,
+            Class<T> type
+    ) {
         this.plugin = plugin;
         this.directory = directory;
+        this.type = type;
 
         init();
     }
@@ -55,7 +59,6 @@ public abstract class Repository<T extends Identifiable> {
 
         for (File f : files) {
             try (FileReader reader = new FileReader(f)) {
-                Type type = new TypeToken<List<T>>() {}.getType();
                 T data = gson.fromJson(reader, type);
 
                 if (data != null) {

@@ -12,7 +12,7 @@ import java.util.UUID;
 
 public class ArenaRepository extends Repository<Arena> {
     public ArenaRepository(MCHunt plugin, String directory) {
-        super(plugin, directory);
+        super(plugin, directory, Arena.class);
     }
 
 

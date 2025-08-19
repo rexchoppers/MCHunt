@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public class ArenaSetupRepository extends Repository<ArenaSetup> {
     public ArenaSetupRepository(MCHunt mchunt, String directory) {
-        super(mchunt, directory);
+        super(mchunt, directory, ArenaSetup.class);
     }
 
     @Override
