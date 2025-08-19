@@ -53,12 +53,31 @@ public class ArenaManager {
             return;
         }
 
-        arenas.add(arena);
         saveArena(arena);
+        arenas.add(arena);
     }
 
     public void updateArena(Arena arena) {
-        // No-op replacement since arenas holds the same reference; just persist
+        if (arenas == null) {
+            arenas = new ArrayList<>();
+        }
+
+        // Replace in-memory instance if a different object with the same UUID was provided
+        for (int i = 0; i < arenas.size(); i++) {
+            if (arenas.get(i).getUUID().equals(arena.getUUID())) {
+                if (arenas.get(i) != arena) {
+                    arenas.set(i, arena);
+                }
+                // Refresh signs to reflect any updated arena state (name, players, status, sign locations, etc.)
+                this.plugin.getSignManager().initArenaSigns(arena);
+                saveArena(arena);
+                return;
+            }
+        }
+
+        // If the arena wasn't present (edge case), add it, init signs, and persist
+        arenas.add(arena);
+        this.plugin.getSignManager().initArenaSigns(arena);
         saveArena(arena);
     }
 
