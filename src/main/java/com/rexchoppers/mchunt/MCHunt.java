@@ -6,11 +6,8 @@ import com.google.gson.GsonBuilder;
 import com.rexchoppers.mchunt.adapters.InstantTypeAdapter;
 import com.rexchoppers.mchunt.commands.CommandMCHunt;
 import com.rexchoppers.mchunt.http.ApiClient;
-import com.rexchoppers.mchunt.http.requests.RegisterServerRequest;
-import com.rexchoppers.mchunt.http.responses.RegisterServerResponse;
 import com.rexchoppers.mchunt.managers.*;
 import com.rexchoppers.mchunt.models.Arena;
-import com.rexchoppers.mchunt.security.ED25519;
 import com.rexchoppers.mchunt.serializers.*;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
@@ -22,9 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.FileSystems;
-import java.nio.file.Paths;
 import java.security.*;
 import java.time.Instant;
 import java.util.Locale;
@@ -36,7 +31,7 @@ public final class MCHunt extends JavaPlugin {
     private static Locale currentLocale;
 
     private InventoryManager inventoryManager;
-    private ArenaManager arenaManager;
+    private ArenaRepository arenaManager;
     private ArenaSetupManager arenaSetupManager;
     private ItemManager itemManager;
     private ApiClient apiClient;
@@ -95,13 +90,13 @@ public final class MCHunt extends JavaPlugin {
         // Setup managers
         this.signManager = new SignManager();
 
-        this.arenaManager = new ArenaManager(
+        this.arenaManager = new ArenaRepository(
                 this,
                 this.getDataFolder().getAbsolutePath() + FileSystems.getDefault().getSeparator() + "arenas"
         );
 
         this.arenaSetupManager = new ArenaSetupManager(this,
-                this.getDataFolder().getAbsolutePath() + FileSystems.getDefault().getSeparator() + "arenaSetup.json"
+                this.getDataFolder().getAbsolutePath() + FileSystems.getDefault().getSeparator() + "arena_setup"
         );
 
         this.eventBusManager = new EventBusManager(this);
@@ -143,7 +138,7 @@ public final class MCHunt extends JavaPlugin {
         return apiClient;
     }
 
-    public ArenaManager getArenaManager() {
+    public ArenaRepository getArenaManager() {
         return arenaManager;
     }
 

@@ -2,7 +2,6 @@ package com.rexchoppers.mchunt.menus;
 
 import com.rexchoppers.mchunt.MCHunt;
 import com.rexchoppers.mchunt.events.internal.ArenaSetupUpdatedEvent;
-import com.rexchoppers.mchunt.managers.ArenaManager;
 import com.rexchoppers.mchunt.managers.LocalizationManager;
 import com.rexchoppers.mchunt.models.ArenaSetup;
 import fr.minuskube.inv.ClickableItem;

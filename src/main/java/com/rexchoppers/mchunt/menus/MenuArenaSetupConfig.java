@@ -2,28 +2,18 @@ package com.rexchoppers.mchunt.menus;
 
 import com.rexchoppers.mchunt.MCHunt;
 import com.rexchoppers.mchunt.events.internal.ArenaSetupUpdatedEvent;
-import com.rexchoppers.mchunt.managers.ArenaManager;
+import com.rexchoppers.mchunt.managers.ArenaRepository;
 import com.rexchoppers.mchunt.managers.LocalizationManager;
 import com.rexchoppers.mchunt.models.ArenaSetup;
-import com.rexchoppers.mchunt.util.Format;
 import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
 import fr.minuskube.inv.content.InventoryProvider;
-import fr.minuskube.inv.content.Pagination;
-import fr.minuskube.inv.content.SlotIterator;
 import net.wesjd.anvilgui.AnvilGUI;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 import static com.rexchoppers.mchunt.util.PlayerUtil.sendPlayerAudibleMessage;
 import static com.rexchoppers.mchunt.util.PlayerUtil.sendPlayerError;
@@ -75,7 +65,7 @@ public class MenuArenaSetupConfig extends MenuBase {
                             }
 
                             // Check if the name is a duplicate
-                            ArenaManager arenaManager = plugin.getArenaManager();
+                            ArenaRepository arenaManager = plugin.getArenaManager();
                             if (arenaManager.getArenaByName(arenaManager.getArenas(), name).isPresent()) {
                                 sendPlayerError(
                                         player,

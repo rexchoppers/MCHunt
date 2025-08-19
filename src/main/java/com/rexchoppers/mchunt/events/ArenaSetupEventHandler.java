@@ -5,18 +5,12 @@ import com.rexchoppers.mchunt.events.internal.ArenaSetupPlayerJoinedEvent;
 import com.rexchoppers.mchunt.events.internal.ArenaSetupUpdatedEvent;
 import com.rexchoppers.mchunt.exceptions.ArenaSetupNotFoundException;
 import com.rexchoppers.mchunt.items.ItemBuilder;
-import com.rexchoppers.mchunt.managers.ArenaManager;
-import com.rexchoppers.mchunt.managers.ArenaSetupManager;
 import com.rexchoppers.mchunt.managers.LocalizationManager;
 import com.rexchoppers.mchunt.menus.MenuArenaSetupActions;
-import com.rexchoppers.mchunt.menus.MenuArenaSetupBlockSelection;
 import com.rexchoppers.mchunt.menus.MenuArenaSetupConfig;
 import com.rexchoppers.mchunt.menus.MenuArenaSetupToolSelection;
 import com.rexchoppers.mchunt.models.ArenaSetup;
-import com.rexchoppers.mchunt.signs.ScrollingSign;
 import com.rexchoppers.mchunt.util.BoundaryUtil;
-import net.wesjd.anvilgui.AnvilGUI;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
@@ -32,7 +26,6 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.util.*;
 

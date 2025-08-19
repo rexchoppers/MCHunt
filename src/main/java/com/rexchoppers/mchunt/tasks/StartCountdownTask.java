@@ -3,13 +3,12 @@ package com.rexchoppers.mchunt.tasks;
 import com.rexchoppers.mchunt.MCHunt;
 import com.rexchoppers.mchunt.enums.ArenaPlayerRole;
 import com.rexchoppers.mchunt.enums.ArenaStatus;
-import com.rexchoppers.mchunt.managers.ArenaManager;
+import com.rexchoppers.mchunt.managers.ArenaRepository;
 import com.rexchoppers.mchunt.managers.LocalizationManager;
 import com.rexchoppers.mchunt.managers.SignManager;
 import com.rexchoppers.mchunt.models.Arena;
 import com.rexchoppers.mchunt.models.ArenaPlayer;
 import com.rexchoppers.mchunt.models.Countdown;
-import com.rexchoppers.mchunt.signs.ScrollingSign;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -21,7 +20,7 @@ import static com.rexchoppers.mchunt.util.PlayerUtil.sendPlayerAudibleMessage;
 public class StartCountdownTask extends BukkitRunnable {
     private final MCHunt plugin;
 
-    private final ArenaManager arenaManager;
+    private final ArenaRepository arenaManager;
     private final SignManager signManager;
 
     public StartCountdownTask(MCHunt plugin) {
