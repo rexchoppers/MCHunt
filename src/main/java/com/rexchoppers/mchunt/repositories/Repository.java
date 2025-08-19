@@ -116,7 +116,7 @@ public abstract class Repository<T extends Identifiable> {
         Optional<T> existingItem = getByUUID(item.getUUID());
         if (existingItem.isPresent()) {
             data.remove(existingItem.get());
-            File file = new File(directory, item.toString() + ".json");
+            File file = new File(directory, item.getUUID().toString() + ".json");
             if (file.exists()) {
                 file.delete();
             }
