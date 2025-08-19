@@ -76,6 +76,7 @@ public class PlayerLeftArenaListener {
         arena.setStatus(ArenaStatus.WAITING);
         arena.setStartCountdown(null);
 
+        plugin.getArenaManager().updateArena(arena);
         plugin.getSignManager().initArenaSigns(arena);
 
         // Send players message that the countdown has been cancelled

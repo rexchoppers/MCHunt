@@ -84,51 +84,20 @@ public final class MCHunt extends JavaPlugin {
             pluginDir.mkdirs();
         }
 
-        // Create keys directory if it doesn't exist
-        File keysDir = new File(pluginDir.getAbsolutePath() + FileSystems.getDefault().getSeparator() + "keys");
-        if (!keysDir.exists()) {
-            keysDir.mkdirs();
-        }
-
         /*
           Create the default configuration. We won't use this much
          */
         saveDefaultConfig();
 
-        // Generate keys if they don't exist
-        ED25519 ed25519 = new ED25519(this);
-        ed25519.generateKeys();
-
-        // Create API client
-        apiClient = new ApiClient(
-                "http://host.docker.internal:8080",
-                this.gson
-        );
-
-        // Register server
-        try {
-            // Get contents of public + private key
-            this.publicKey = ed25519.getPublicKeyContents();
-            this.privateKey = ed25519.getPrivateKeyContents();
-
-            RegisterServerRequest registerServerRequest = new RegisterServerRequest(this.publicKey);
-            RegisterServerResponse registerServerResponse = apiClient.registerServer(registerServerRequest);
-
-            getConfig().set("server.uuid", registerServerResponse.uuid);
-            apiClient.setServerUuid(registerServerResponse.uuid);
-            apiClient.setPrivateKey(this.privateKey);
-            saveConfig();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
 
         currentLocale = Locale.getDefault();
 
         // Setup managers
         this.signManager = new SignManager();
 
-        this.arenaManager = new ArenaManager(this,
-                this.getDataFolder().getAbsolutePath() + FileSystems.getDefault().getSeparator() + "arenas.json"
+        this.arenaManager = new ArenaManager(
+                this,
+                this.getDataFolder().getAbsolutePath() + FileSystems.getDefault().getSeparator() + "arenas"
         );
 
         this.arenaSetupManager = new ArenaSetupManager(this,

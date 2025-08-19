@@ -78,6 +78,7 @@ public class PlayerJoinedArenaListener {
             arena.setStartCountdown(
                     new Countdown(arena.getCountdownBeforeStart())
             );
+            plugin.getArenaManager().updateArena(arena);
         }
     }
 }

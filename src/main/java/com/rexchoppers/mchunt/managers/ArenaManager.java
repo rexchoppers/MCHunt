@@ -5,39 +5,29 @@ import com.rexchoppers.mchunt.MCHunt;
 import com.rexchoppers.mchunt.models.Arena;
 
 import java.io.*;
-import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.google.gson.reflect.TypeToken;
-
 public class ArenaManager {
     private final MCHunt plugin;
-    private final String filePath;
+    private final String directoryPath;
 
     private List<Arena> arenas;
 
-    public ArenaManager(MCHunt plugin, String filePath) {
+    public ArenaManager(MCHunt plugin, String directoryPath) {
         this.plugin = plugin;
-        this.filePath = filePath;
+        this.directoryPath = directoryPath;
 
         init();
     }
 
     private void init() {
-        File file = new File(filePath);
-        File parentDir = file.getParentFile();
-        if (!parentDir.exists()) {
-            parentDir.mkdirs();
-        }
-
-        if (!file.exists()) {
-            try (FileWriter writer = new FileWriter(file)) {
-                writer.write("[]");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        File dir = new File(directoryPath);
+        if (!dir.exists()) {
+            dir.mkdirs();
         }
 
         arenas = load();
@@ -64,7 +54,12 @@ public class ArenaManager {
         }
 
         arenas.add(arena);
-        save(arenas);
+        saveArena(arena);
+    }
+
+    public void updateArena(Arena arena) {
+        // No-op replacement since arenas holds the same reference; just persist
+        saveArena(arena);
     }
 
     public Optional<Arena> getArenaByName(List<Arena> arenas, String name) {
@@ -79,21 +74,45 @@ public class ArenaManager {
 
     private List<Arena> load() {
         Gson gson = plugin.getGson();
-        try (FileReader reader = new FileReader(filePath)) {
-            Type type = new TypeToken<List<Arena>>() {}.getType();
-            return gson.fromJson(reader, type);
+        File dir = new File(directoryPath);
+        File[] files = dir.listFiles((d, name) -> name.toLowerCase().endsWith(".json"));
+        if (files == null || files.length == 0) {
+            return new ArrayList<>();
+        }
+
+        List<Arena> loaded = new ArrayList<>();
+        Arrays.sort(files); // stable order
+        for (File f : files) {
+            try (FileReader reader = new FileReader(f)) {
+                Arena arena = gson.fromJson(reader, Arena.class);
+                if (arena != null) {
+                    loaded.add(arena);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return loaded;
+    }
+
+    private File getArenaFile(UUID uuid) {
+        return new File(directoryPath, uuid.toString() + ".json");
+    }
+
+    public void saveArena(Arena arena) {
+        Gson gson = plugin.getGson();
+        File file = getArenaFile(arena.getUUID());
+        try (FileWriter writer = new FileWriter(file)) {
+            gson.toJson(arena, writer);
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
         }
     }
 
-    private void save(List<Arena> arenas) {
-        Gson gson = plugin.getGson();
-        try (FileWriter writer = new FileWriter(filePath)) {
-            gson.toJson(arenas, writer);
-        } catch (IOException e) {
-            e.printStackTrace();
+    public void saveAll() {
+        if (arenas == null) return;
+        for (Arena arena : arenas) {
+            saveArena(arena);
         }
     }
 
