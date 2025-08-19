@@ -56,7 +56,7 @@ public final class MCHunt extends JavaPlugin {
                 .registerTypeAdapter(Location[].class, new LocationArraySerializer())
                 .registerTypeAdapter(Location[].class, new LocationArrayDeserializer())
                 .registerTypeAdapter(Location.class, new LocationSerializer())
-                // .registerTypeAdapter(Location.class, new LocationDeserializer())
+                .registerTypeAdapter(Location.class, new LocationDeserializer())
                 .excludeFieldsWithoutExposeAnnotation()
                 .create();
 
