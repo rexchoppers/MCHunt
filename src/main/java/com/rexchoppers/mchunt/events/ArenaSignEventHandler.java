@@ -42,7 +42,7 @@ public class ArenaSignEventHandler implements Listener {
             return;
         }
 
-        List<Arena> arenas = plugin.getArenaManager().getArenas();
+        List<Arena> arenas = plugin.getArenaManager().getData();
 
         for (Arena arena : arenas) {
             if (arena.getArenaSigns() == null || arena.getArenaSigns().length == 0) {

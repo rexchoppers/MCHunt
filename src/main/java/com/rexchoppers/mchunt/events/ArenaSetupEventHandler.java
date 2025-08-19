@@ -65,14 +65,14 @@ public class ArenaSetupEventHandler implements Listener {
         }
 
         if (!(event.getClickedBlock().getType().equals(Material.OAK_WALL_SIGN) ||
-            event.getClickedBlock().getType().equals(Material.OAK_SIGN))) {
+                event.getClickedBlock().getType().equals(Material.OAK_SIGN))) {
             return;
         }
 
-        List<ArenaSetup> arenaSetups = this.plugin.getArenaSetupManager().getArenaSetups();
+        List<ArenaSetup> arenaSetups = this.plugin.getArenaSetupManager().getData();
 
         for (ArenaSetup arenaSetup : arenaSetups) {
-            if(arenaSetup.getArenaSigns() == null) continue;
+            if (arenaSetup.getArenaSigns() == null) continue;
 
             for (Location location : arenaSetup.getArenaSigns()) {
 
@@ -93,9 +93,7 @@ public class ArenaSetupEventHandler implements Listener {
         // If so, remove from the list
 
         ArenaSetup arenaSetup = this.plugin.getArenaSetupManager()
-                .getArenaSetupByPlayerUuid(
-                        plugin.getArenaSetupManager().getArenaSetups(),
-                        player.getUniqueId()).orElse(null);
+                .getArenaSetupForPlayer(player.getUniqueId()).orElse(null);
 
         if (arenaSetup == null) {
             return;
@@ -114,13 +112,13 @@ public class ArenaSetupEventHandler implements Listener {
         }
 
         for (Location location : arenaSetup.getHiderSpawns()) {
-            if(location == null) {
+            if (location == null) {
                 continue;
             }
 
             if (location.equals(event.getClickedBlock().getLocation())) {
                 arenaSetup.removeHiderSpawn(location);
-                this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+                this.plugin.getArenaSetupManager().update(arenaSetup);
 
                 sendPlayerAudibleMessage(
                         player,
@@ -139,13 +137,13 @@ public class ArenaSetupEventHandler implements Listener {
 
         // Seeker spawns
         for (Location location : arenaSetup.getSeekerSpawns()) {
-            if(location == null) {
+            if (location == null) {
                 continue;
             }
 
             if (location.equals(event.getClickedBlock().getLocation())) {
                 arenaSetup.removeSeekerSpawn(location);
-                this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+                this.plugin.getArenaSetupManager().update(arenaSetup);
 
                 sendPlayerAudibleMessage(
                         player,
@@ -165,7 +163,7 @@ public class ArenaSetupEventHandler implements Listener {
         // Lobby spawn
         if (arenaSetup.getLobbySpawn() != null && arenaSetup.getLobbySpawn().equals(event.getClickedBlock().getLocation())) {
             arenaSetup.setLobbySpawn(null);
-            this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+            this.plugin.getArenaSetupManager().update(arenaSetup);
 
             player.getInventory().setItem(0, plugin.getItemManager().itemArenaSetupLobbySpawn().build());
 
@@ -185,7 +183,7 @@ public class ArenaSetupEventHandler implements Listener {
 
         if (arenaSetup.getAfterGameSpawn() != null && arenaSetup.getAfterGameSpawn().equals(event.getClickedBlock().getLocation())) {
             arenaSetup.setAfterGameSpawn(null);
-            this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+            this.plugin.getArenaSetupManager().update(arenaSetup);
 
             player.getInventory().setItem(0, plugin.getItemManager().itemArenaSetupAfterGameSpawn().build());
 
@@ -218,9 +216,7 @@ public class ArenaSetupEventHandler implements Listener {
         // Item actions
         if (action != null) {
             ArenaSetup arenaSetup = this.plugin.getArenaSetupManager()
-                    .getArenaSetupByPlayerUuid(
-                            plugin.getArenaSetupManager().getArenaSetups(),
-                            player.getUniqueId()).orElse(null);
+                    .getArenaSetupForPlayer(player.getUniqueId()).orElse(null);
 
             if (arenaSetup == null) {
                 throw new ArenaSetupNotFoundException();
@@ -269,7 +265,7 @@ public class ArenaSetupEventHandler implements Listener {
                     // Left click = Boundary point 1
                     if (event.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
                         arenaSetup.setLocationBoundaryPoint1(event.getClickedBlock().getLocation());
-                        this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+                        this.plugin.getArenaSetupManager().update(arenaSetup);
                         sendPlayerAudibleMessage(
                                 player,
                                 new LocalizationManager(MCHunt.getCurrentLocale())
@@ -287,7 +283,7 @@ public class ArenaSetupEventHandler implements Listener {
                     // Right click = Boundary point 2
                     if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
                         arenaSetup.setLocationBoundaryPoint2(event.getClickedBlock().getLocation());
-                        this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+                        this.plugin.getArenaSetupManager().update(arenaSetup);
                         sendPlayerAudibleMessage(
                                 player,
                                 new LocalizationManager(MCHunt.getCurrentLocale())
@@ -326,7 +322,7 @@ public class ArenaSetupEventHandler implements Listener {
                         }
                     }
 
-                    this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+                    this.plugin.getArenaSetupManager().update(arenaSetup);
                     event.setCancelled(true);
                     break;
                 default:
@@ -340,9 +336,7 @@ public class ArenaSetupEventHandler implements Listener {
         Player player = event.getPlayer();
 
         ArenaSetup arenaSetup = this.plugin.getArenaSetupManager()
-                .getArenaSetupByPlayerUuid(
-                        plugin.getArenaSetupManager().getArenaSetups(),
-                        player.getUniqueId()).orElse(null);
+                .getArenaSetupForPlayer(player.getUniqueId()).orElse(null);
 
         if (arenaSetup == null) {
             return;
@@ -361,9 +355,7 @@ public class ArenaSetupEventHandler implements Listener {
         }
 
         ArenaSetup arenaSetup = this.plugin.getArenaSetupManager()
-                .getArenaSetupByPlayerUuid(
-                        plugin.getArenaSetupManager().getArenaSetups(),
-                        player.getUniqueId()).orElse(null);
+                .getArenaSetupForPlayer(player.getUniqueId()).orElse(null);
 
         if (arenaSetup == null) {
             return;
@@ -405,9 +397,7 @@ public class ArenaSetupEventHandler implements Listener {
         Player player = event.getPlayer();
 
         ArenaSetup arenaSetup = this.plugin.getArenaSetupManager()
-                .getArenaSetupByPlayerUuid(
-                        plugin.getArenaSetupManager().getArenaSetups(),
-                        player.getUniqueId()).orElse(null);
+                .getArenaSetupForPlayer(player.getUniqueId()).orElse(null);
 
         if (arenaSetup == null) {
             return;
@@ -422,7 +412,7 @@ public class ArenaSetupEventHandler implements Listener {
             switch (action) {
                 case "mchunt.setup.arenaSign":
                     arenaSetup.appendArenaSign(event.getBlockPlaced().getLocation());
-                    this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+                    this.plugin.getArenaSetupManager().update(arenaSetup);
 
                     this.plugin.getEventBusManager().publishEvent(new ArenaSetupUpdatedEvent(
                             arenaSetup.getUUID()
@@ -455,7 +445,7 @@ public class ArenaSetupEventHandler implements Listener {
                     }
 
                     arenaSetup.setLobbySpawn(event.getBlockPlaced().getLocation());
-                    this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+                    this.plugin.getArenaSetupManager().update(arenaSetup);
 
                     sendPlayerAudibleMessage(
                             player,
@@ -474,7 +464,7 @@ public class ArenaSetupEventHandler implements Listener {
                     break;
                 case "mchunt.setup.hiderSpawn":
                     arenaSetup.appendHiderSpawn(event.getBlockPlaced().getLocation());
-                    this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+                    this.plugin.getArenaSetupManager().update(arenaSetup);
 
                     sendPlayerAudibleMessage(
                             player,
@@ -492,7 +482,7 @@ public class ArenaSetupEventHandler implements Listener {
                     break;
                 case "mchunt.setup.seekerSpawn":
                     arenaSetup.appendSeekerSpawn(event.getBlockPlaced().getLocation());
-                    this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+                    this.plugin.getArenaSetupManager().update(arenaSetup);
 
                     sendPlayerAudibleMessage(
                             player,
@@ -523,7 +513,7 @@ public class ArenaSetupEventHandler implements Listener {
                     }
 
                     arenaSetup.setAfterGameSpawn(event.getBlockPlaced().getLocation());
-                    this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+                    this.plugin.getArenaSetupManager().update(arenaSetup);
 
                     sendPlayerAudibleMessage(
                             player,
@@ -549,18 +539,18 @@ public class ArenaSetupEventHandler implements Listener {
         Player player = event.getPlayer();
 
         if (!event.getBlock().getType().equals(Material.OAK_SIGN) ||
-            !event.getBlock().getType().equals(Material.OAK_WALL_SIGN)) {
+                !event.getBlock().getType().equals(Material.OAK_WALL_SIGN)) {
             return;
         }
 
-        for (ArenaSetup arenaSetup : this.plugin.getArenaSetupManager().getArenaSetups()) {
+        for (ArenaSetup arenaSetup : this.plugin.getArenaSetupManager().getData()) {
             if (arenaSetup.getArenaSigns() == null) {
                 continue;
             }
 
             for (Location location : arenaSetup.getArenaSigns()) {
                 if (!location.equals(event.getBlock().getLocation())) continue;
-                if(arenaSetup.getPlayerUuid() == player.getUniqueId()) continue;
+                if (arenaSetup.getPlayerUuid() == player.getUniqueId()) continue;
 
                 sendPlayerError(
                         player,
@@ -581,9 +571,7 @@ public class ArenaSetupEventHandler implements Listener {
         Player player = event.getPlayer();
 
         ArenaSetup arenaSetup = this.plugin.getArenaSetupManager()
-                .getArenaSetupByPlayerUuid(
-                        plugin.getArenaSetupManager().getArenaSetups(),
-                        player.getUniqueId()).orElse(null);
+                .getArenaSetupForPlayer(player.getUniqueId()).orElse(null);
 
         if (arenaSetup == null) {
             return;
@@ -595,7 +583,7 @@ public class ArenaSetupEventHandler implements Listener {
             for (Location location : arenaSetup.getArenaSigns()) {
                 if (location.equals(blockLocation)) {
                     arenaSetup.removeArenaSign(location);
-                    this.plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+                    this.plugin.getArenaSetupManager().update(arenaSetup);
 
                     sendPlayerAudibleMessage(
                             player,
@@ -619,9 +607,7 @@ public class ArenaSetupEventHandler implements Listener {
         Player player = event.getPlayer();
 
         ArenaSetup arenaSetup = this.plugin.getArenaSetupManager()
-                .getArenaSetupByPlayerUuid(
-                        plugin.getArenaSetupManager().getArenaSetups(),
-                        player.getUniqueId()).orElse(null);
+                .getArenaSetupForPlayer(player.getUniqueId()).orElse(null);
 
         if (arenaSetup == null) {
             return;

@@ -105,6 +105,27 @@ public abstract class Repository<T> {
         }
     }
 
+    /**
+     * Delete item from the repository and the file system.
+     */
+    public void remove(T item) {
+        Optional<T> existingItem = getByUUID(((UUID) item));
+        if (existingItem.isPresent()) {
+            data.remove(existingItem.get());
+            File file = new File(directory, item.toString() + ".json");
+            if (file.exists()) {
+                file.delete();
+            }
+
+            data.remove(item);
+        }
+    }
+
+    public void removeByUUID(UUID uuid) {
+        Optional<T> item = getByUUID(uuid);
+        item.ifPresent(this::remove);
+    }
+
     public abstract void postInit();
     public abstract void postUpdate(T item);
 

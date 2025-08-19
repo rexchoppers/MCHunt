@@ -65,9 +65,7 @@ public class MenuArenaSetupToolSelection extends MenuBase {
 
             inventoryContents.set(0, 2, ClickableItem.of(plugin.getItemManager().itemArenaSetupLobbySpawn().build(), e -> {
                 ArenaSetup arenaSetup = plugin.getArenaSetupManager()
-                        .getArenaSetupByPlayerUuid(
-                                plugin.getArenaSetupManager().getArenaSetups(),
-                                player.getUniqueId()).get();
+                        .getArenaSetupForPlayer(player.getUniqueId()).orElse(null);
 
                 if(arenaSetup.getLobbySpawn() != null) {
                     // Warn the user the lobby spawn is already set
@@ -107,9 +105,7 @@ public class MenuArenaSetupToolSelection extends MenuBase {
 
             inventoryContents.set(0, 5, ClickableItem.of(plugin.getItemManager().itemArenaSetupAfterGameSpawn().build(), e -> {
                 ArenaSetup arenaSetup = plugin.getArenaSetupManager()
-                        .getArenaSetupByPlayerUuid(
-                                plugin.getArenaSetupManager().getArenaSetups(),
-                                player.getUniqueId()).get();
+                        .getArenaSetupForPlayer(player.getUniqueId()).orElse(null);
 
                 if(arenaSetup.getAfterGameSpawn() != null) {
                     // Warn the user the after game spawn is already set

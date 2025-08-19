@@ -48,7 +48,7 @@ public class MenuArenaSetupActions extends MenuBase {
                     .getArenaSetupForPlayer(player.getUniqueId()).orElse(null);
 
             inventoryContents.set(0, 7, ClickableItem.of(plugin.getItemManager().itemArenaSetupDiscardChanges().build(), e -> {
-                plugin.getArenaSetupManager().removeArenaSetup(arenaSetup.getUUID());
+                plugin.getArenaSetupManager().remove(arenaSetup);
                 plugin.getEventBusManager().publishEvent(new ArenaSetupDiscardedEvent(arenaSetup));
 
                 player.closeInventory();
@@ -243,7 +243,7 @@ public class MenuArenaSetupActions extends MenuBase {
                     throw new RuntimeException(ex);
                 }
 
-                plugin.getArenaSetupManager().removeArenaSetup(arenaSetup.getUUID());
+                plugin.getArenaSetupManager().remove(arenaSetup);
                 plugin.getEventBusManager().publishEvent(new ArenaCreatedEvent(
                         arenaSetup,
                         arena
