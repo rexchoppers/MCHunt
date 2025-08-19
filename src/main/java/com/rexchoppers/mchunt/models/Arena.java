@@ -3,6 +3,7 @@ package com.rexchoppers.mchunt.models;
 import com.google.gson.annotations.Expose;
 import com.rexchoppers.mchunt.enums.ArenaPlayerRole;
 import com.rexchoppers.mchunt.enums.ArenaStatus;
+import com.rexchoppers.mchunt.util.Identifiable;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class Arena {
+public class Arena implements Identifiable {
     @Expose
     private UUID uuid;
 
@@ -129,6 +130,7 @@ public class Arena {
         this.players = new ArrayList<>();
     }
 
+    @Override
     public UUID getUUID() {
         return uuid;
     }

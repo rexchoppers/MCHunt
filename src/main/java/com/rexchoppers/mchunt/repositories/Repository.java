@@ -3,7 +3,9 @@ package com.rexchoppers.mchunt.repositories;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.rexchoppers.mchunt.MCHunt;
-import com.rexchoppers.mchunt.exceptions.PlayerAlreadyInArenaSetupException;
+import com.rexchoppers.mchunt.models.ArenaSetup;
+import com.rexchoppers.mchunt.util.Identifiable;
+import org.bukkit.Bukkit;
 
 import java.io.File;
 import java.io.FileReader;
@@ -16,7 +18,7 @@ import java.util.*;
  * These repositories are used to load and save data from JSON files. All the data will be kept in memory
  * @param <T>
  */
-public abstract class Repository<T> {
+public abstract class Repository<T extends Identifiable> {
 
     private final MCHunt plugin;
     private final String directory;
@@ -73,22 +75,21 @@ public abstract class Repository<T> {
         }
 
         return data.stream()
-                .filter(item -> item instanceof UUID && item.equals(uuid))
+                .filter(item -> item.getUUID().equals(uuid))
                 .findFirst();
     }
 
     public void create(T item) throws Exception{
-        if (getByUUID(((UUID) item)).isPresent()) {
-            return;
-        }
-
         save(item);
         data.add(item);
     }
 
     public void update(T item) {
-        Optional<T> existingItem = getByUUID(((UUID) item));
+        Optional<T> existingItem = getByUUID(item.getUUID());
         existingItem.ifPresent(t -> data.remove(t));
+
+        Bukkit.getConsoleSender().sendMessage(plugin.getGson().toJson(item));
+
         save(item);
         data.add(item);
 
@@ -97,7 +98,7 @@ public abstract class Repository<T> {
 
     private void save(T item) {
         Gson gson = plugin.getGson();
-        File file = new File(directory, item.toString() + ".json");
+        File file = new File(directory, item.getUUID().toString() + ".json");
         try (FileWriter writer = new FileWriter(file)) {
             gson.toJson(item, writer);
         } catch (IOException e) {
@@ -109,7 +110,7 @@ public abstract class Repository<T> {
      * Delete item from the repository and the file system.
      */
     public void remove(T item) {
-        Optional<T> existingItem = getByUUID(((UUID) item));
+        Optional<T> existingItem = getByUUID(item.getUUID());
         if (existingItem.isPresent()) {
             data.remove(existingItem.get());
             File file = new File(directory, item.toString() + ".json");

@@ -64,6 +64,7 @@ public class MenuAdmin extends MenuBase {
                         player.setGameMode(GameMode.CREATIVE);
 
                     } catch (Exception ex) {
+                        ex.printStackTrace();
                         getInventory().close(player);
                         sendPlayerError(player, ex.getMessage());
                     }
