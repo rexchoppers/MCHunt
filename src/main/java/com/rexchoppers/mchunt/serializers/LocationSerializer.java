@@ -1,15 +1,14 @@
 package com.rexchoppers.mchunt.serializers;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
+import com.google.gson.*;
 import org.bukkit.Location;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 
-public class LocationSerializer extends JsonSerializer<Location> {
+public class LocationSerializer implements JsonSerializer<Location> {
     @Override
-    public void serialize(Location location, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-        jsonGenerator.writeObject(location.serialize());
+    public JsonElement serialize(Location src, Type typeOfSrc, JsonSerializationContext context) {
+        return context.serialize(src.serialize());
     }
 }
