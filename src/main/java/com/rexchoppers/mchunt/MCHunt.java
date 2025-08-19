@@ -47,8 +47,6 @@ public final class MCHunt extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        Security.addProvider(new BouncyCastleProvider());
-
         this.gson = new GsonBuilder()
                 .registerTypeAdapter(Instant.class, new InstantTypeAdapter())
 
@@ -57,6 +55,8 @@ public final class MCHunt extends JavaPlugin {
                 .registerTypeAdapter(ItemStack[].class, new ItemStackArrayDeserializer())
                 .registerTypeAdapter(Location[].class, new LocationArraySerializer())
                 .registerTypeAdapter(Location[].class, new LocationArrayDeserializer())
+                .registerTypeAdapter(Location.class, new LocationSerializer())
+                .registerTypeAdapter(Location.class, new LocationDeserializer())
                 .excludeFieldsWithoutExposeAnnotation()
                 .create();
 
