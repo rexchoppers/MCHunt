@@ -16,14 +16,14 @@ public class ArenaSetupUpdatedListener {
 
     @Subscribe
     public void updateArenaSigns(ArenaSetupUpdatedEvent event){
-        ArenaSetup arenaSetup = this.plugin.getArenaSetupManager().getArenaSetupByUUID(event.arenaSetupUuid()).orElse(null);
+        ArenaSetup arenaSetup = this.plugin.getArenaSetupManager().getByUUID(event.arenaSetupUuid()).orElse(null);
         if (arenaSetup == null) return;
         plugin.getSignManager().initArenaSetupSigns(arenaSetup);
     }
 
     @Subscribe
     public void updateArenaSignsOnArenaSetupPlayerJoin(ArenaSetupPlayerJoinedEvent event){
-        ArenaSetup arenaSetup = this.plugin.getArenaSetupManager().getArenaSetupByUUID(event.arenaSetupUuid()).orElse(null);
+        ArenaSetup arenaSetup = this.plugin.getArenaSetupManager().getByUUID(event.arenaSetupUuid()).orElse(null);
         if (arenaSetup == null) return;
         plugin.getSignManager().initArenaSetupSigns(arenaSetup);
     }

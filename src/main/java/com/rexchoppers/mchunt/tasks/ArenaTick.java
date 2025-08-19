@@ -26,7 +26,7 @@ public class ArenaTick extends BukkitRunnable {
 
     @Override
     public void run() {
-        List<Arena> arenas = arenaManager.getArenas();
+        List<Arena> arenas = arenaManager.getData();
 
         for (Arena arena : arenas) {
             if (!arena.getStatus().equals(ArenaStatus.IN_PROGRESS)) continue;

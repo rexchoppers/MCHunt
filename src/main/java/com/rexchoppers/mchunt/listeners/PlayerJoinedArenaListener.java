@@ -20,7 +20,7 @@ public class PlayerJoinedArenaListener {
 
     @Subscribe
     public void broadcastToPlayersInArena(PlayerJoinedArenaEvent event) {
-        Arena arena = plugin.getArenaManager().getArenaByUUID(event.arenaUuid()).orElse(null);
+        Arena arena = plugin.getArenaManager().getByUUID(event.arenaUuid()).orElse(null);
 
         if (arena == null) {
             return;
@@ -44,7 +44,7 @@ public class PlayerJoinedArenaListener {
 
     @Subscribe
     public void updateArenaSigns(PlayerJoinedArenaEvent event) {
-        Arena arena = plugin.getArenaManager().getArenaByUUID(event.arenaUuid()).orElse(null);
+        Arena arena = plugin.getArenaManager().getByUUID(event.arenaUuid()).orElse(null);
 
         if (arena == null) {
             return;
@@ -66,7 +66,7 @@ public class PlayerJoinedArenaListener {
 
     @Subscribe
     public void triggerArenaStart(PlayerJoinedArenaEvent event) {
-        Arena arena = plugin.getArenaManager().getArenaByUUID(event.arenaUuid()).orElse(null);
+        Arena arena = plugin.getArenaManager().getByUUID(event.arenaUuid()).orElse(null);
 
         if (arena == null) {
             return;
@@ -78,7 +78,7 @@ public class PlayerJoinedArenaListener {
             arena.setStartCountdown(
                     new Countdown(arena.getCountdownBeforeStart())
             );
-            plugin.getArenaManager().updateArena(arena);
+            plugin.getArenaManager().update(arena);
         }
     }
 }

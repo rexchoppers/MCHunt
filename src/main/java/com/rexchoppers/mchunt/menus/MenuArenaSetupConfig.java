@@ -40,9 +40,7 @@ public class MenuArenaSetupConfig extends MenuBase {
         @Override
         public void init(Player player, InventoryContents inventoryContents) {
             ArenaSetup arenaSetup = plugin.getArenaSetupManager()
-                    .getArenaSetupByPlayerUuid(
-                            plugin.getArenaSetupManager().getArenaSetups(),
-                            player.getUniqueId()).orElse(null);
+                    .getArenaSetupForPlayer(player.getUniqueId()).orElse(null);
 
             inventoryContents.set(0, 0, ClickableItem.of(plugin.getItemManager().itemArenaSetupBlocks().build(), e -> {
                 new MenuArenaSetupBlockSelection(plugin).getInventory().open(player);
@@ -66,7 +64,7 @@ public class MenuArenaSetupConfig extends MenuBase {
 
                             // Check if the name is a duplicate
                             ArenaRepository arenaManager = plugin.getArenaManager();
-                            if (arenaManager.getArenaByName(arenaManager.getArenas(), name).isPresent()) {
+                            if (arenaManager.getArenaByName(arenaManager.getData(), name).isPresent()) {
                                 sendPlayerError(
                                         player,
                                         new LocalizationManager(MCHunt.getCurrentLocale())
@@ -83,7 +81,7 @@ public class MenuArenaSetupConfig extends MenuBase {
                             }
 
                             arenaSetup.setArenaName(name);
-                            plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+                            plugin.getArenaSetupManager().update(arenaSetup);
 
                             plugin.getEventBusManager().publishEvent(new ArenaSetupUpdatedEvent(
                                     arenaSetup.getUUID()

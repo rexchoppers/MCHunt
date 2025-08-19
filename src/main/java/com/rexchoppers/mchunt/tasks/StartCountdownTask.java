@@ -31,7 +31,7 @@ public class StartCountdownTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        List<Arena> arenas = arenaManager.getArenas();
+        List<Arena> arenas = arenaManager.getData();
 
         for (Arena arena : arenas) {
             if (!arena.getStatus().equals(ArenaStatus.COUNTDOWN_START)) continue;
@@ -43,7 +43,7 @@ public class StartCountdownTask extends BukkitRunnable {
                 arena.setStatus(ArenaStatus.IN_PROGRESS);
                 arena.setCurrentGameTime(arena.getGameLength());
 
-                arenaManager.updateArena(arena);
+                arenaManager.update(arena);
                 signManager.initArenaSigns(arena);
 
                 // Get count of players in arena

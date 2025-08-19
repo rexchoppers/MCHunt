@@ -22,7 +22,7 @@ public class ArenaSetupItemVerificationTask extends BukkitRunnable {
     @Override
     public void run() {
         // This code runs asynchronously
-        List<ArenaSetup> arenaSetups = plugin.getArenaSetupManager().getArenaSetups();
+        List<ArenaSetup> arenaSetups = plugin.getArenaSetupManager().getData();
 
         for (ArenaSetup arenaSetup : arenaSetups) {
             new BukkitRunnable() {

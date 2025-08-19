@@ -49,9 +49,7 @@ public class MenuArenaSetupBlockSelection extends MenuBase {
 
             // Get block materials already selected for the arena
             ArenaSetup arenaSetup = plugin.getArenaSetupManager()
-                    .getArenaSetupByPlayerUuid(
-                            plugin.getArenaSetupManager().getArenaSetups(),
-                            player.getUniqueId()).orElse(null);
+                    .getArenaSetupForPlayer(player.getUniqueId()).orElse(null);
 
             if (arenaSetup == null) {
                 // Throw something here, this is bad
@@ -114,7 +112,7 @@ public class MenuArenaSetupBlockSelection extends MenuBase {
                             arenaSetup.removeArenaBlock(material.toString());
                         }
 
-                        plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+                        plugin.getArenaSetupManager().update(arenaSetup);
                         player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0F, 1.0F);
 
                         // Reopen the inventory

@@ -39,9 +39,7 @@ public class MenuArenaSetupParameters extends MenuBase {
         @Override
         public void init(Player player, InventoryContents inventoryContents) {
             ArenaSetup arenaSetup = plugin.getArenaSetupManager()
-                    .getArenaSetupByPlayerUuid(
-                            plugin.getArenaSetupManager().getArenaSetups(),
-                            player.getUniqueId()).orElse(null);
+                    .getArenaSetupForPlayer(player.getUniqueId()).orElse(null);
 
             inventoryContents.set(0, 0, ClickableItem.of(plugin.getItemManager().itemArenaSetupParametersMinimumPlayers().build(), e -> {
                 new AnvilGUI.Builder()
@@ -77,7 +75,7 @@ public class MenuArenaSetupParameters extends MenuBase {
                                 }
 
                                 arenaSetup.setMinimumPlayers(minimumPlayers);
-                                plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+                                plugin.getArenaSetupManager().update(arenaSetup);
                                 plugin.getEventBusManager().publishEvent(new ArenaSetupUpdatedEvent(
                                         arenaSetup.getUUID()
                                 ));
@@ -136,7 +134,7 @@ public class MenuArenaSetupParameters extends MenuBase {
                                 }
 
                                 arenaSetup.setMaximumPlayers(maximumPlayers);
-                                plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+                                plugin.getArenaSetupManager().update(arenaSetup);
                                 plugin.getEventBusManager().publishEvent(new ArenaSetupUpdatedEvent(
                                         arenaSetup.getUUID()
                                 ));
@@ -196,7 +194,7 @@ public class MenuArenaSetupParameters extends MenuBase {
                                 }
 
                                 arenaSetup.setSeekerCount(seekerCount);
-                                plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+                                plugin.getArenaSetupManager().update(arenaSetup);
                                 plugin.getEventBusManager().publishEvent(new ArenaSetupUpdatedEvent(
                                         arenaSetup.getUUID()
                                 ));
@@ -257,7 +255,7 @@ public class MenuArenaSetupParameters extends MenuBase {
 
 
                                 arenaSetup.setCountdownBeforeStart(countdownBeforeStart);
-                                plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+                                plugin.getArenaSetupManager().update(arenaSetup);
                                 plugin.getEventBusManager().publishEvent(new ArenaSetupUpdatedEvent(
                                         arenaSetup.getUUID()
                                 ));
@@ -318,7 +316,7 @@ public class MenuArenaSetupParameters extends MenuBase {
 
 
                                 arenaSetup.setCountdownAfterEnd(countdownAfterGameEnd);
-                                plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+                                plugin.getArenaSetupManager().update(arenaSetup);
                                 plugin.getEventBusManager().publishEvent(new ArenaSetupUpdatedEvent(
                                         arenaSetup.getUUID()
                                 ));
@@ -379,7 +377,7 @@ public class MenuArenaSetupParameters extends MenuBase {
 
 
                                 arenaSetup.setRespawnDelay(respawnDelay);
-                                plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+                                plugin.getArenaSetupManager().update(arenaSetup);
                                 plugin.getEventBusManager().publishEvent(new ArenaSetupUpdatedEvent(
                                         arenaSetup.getUUID()
                                 ));
@@ -440,7 +438,7 @@ public class MenuArenaSetupParameters extends MenuBase {
 
 
                                 arenaSetup.setSeekerReleaseDelay(seekerReleaseDelay);
-                                plugin.getArenaSetupManager().updateArenaSetup(arenaSetup);
+                                plugin.getArenaSetupManager().update(arenaSetup);
                                 plugin.getEventBusManager().publishEvent(new ArenaSetupUpdatedEvent(
                                         arenaSetup.getUUID()
                                 ));

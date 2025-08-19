@@ -21,7 +21,7 @@ public class SignRenderTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        List<ArenaSetup> arenaSetups = plugin.getArenaSetupManager().getArenaSetups();
+        List<ArenaSetup> arenaSetups = plugin.getArenaSetupManager().getData();
         // Render arena setup signs
         for (ArenaSetup arenaSetup : arenaSetups) {
             if (arenaSetup.getArenaSigns() == null || arenaSetup.getArenaSigns().length == 0) continue;
@@ -35,7 +35,7 @@ public class SignRenderTask extends BukkitRunnable {
             }
         }
 
-        List<Arena> arenas = plugin.getArenaManager().getArenas();
+        List<Arena> arenas = plugin.getArenaManager().getData();
 
         // Render arena signs
         for (Arena arena : arenas) {

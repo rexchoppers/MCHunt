@@ -45,9 +45,7 @@ public class MenuArenaSetupActions extends MenuBase {
         @Override
         public void init(Player player, InventoryContents inventoryContents) {
             ArenaSetup arenaSetup = plugin.getArenaSetupManager()
-                    .getArenaSetupByPlayerUuid(
-                            plugin.getArenaSetupManager().getArenaSetups(),
-                            player.getUniqueId()).orElse(null);
+                    .getArenaSetupForPlayer(player.getUniqueId()).orElse(null);
 
             inventoryContents.set(0, 7, ClickableItem.of(plugin.getItemManager().itemArenaSetupDiscardChanges().build(), e -> {
                 plugin.getArenaSetupManager().removeArenaSetup(arenaSetup.getUUID());
@@ -239,7 +237,11 @@ public class MenuArenaSetupActions extends MenuBase {
                         arenaSetup.getLocationBoundaryPoint2()
                 );
 
-                plugin.getArenaManager().createArena(arena);
+                try {
+                    plugin.getArenaManager().create(arena);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
 
                 plugin.getArenaSetupManager().removeArenaSetup(arenaSetup.getUUID());
                 plugin.getEventBusManager().publishEvent(new ArenaCreatedEvent(
