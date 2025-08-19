@@ -1,13 +1,20 @@
 package com.rexchoppers.mchunt.menus;
 
 import com.rexchoppers.mchunt.MCHunt;
+import com.rexchoppers.mchunt.exceptions.PlayerAlreadyInArenaSetupException;
+import com.rexchoppers.mchunt.models.ArenaSetup;
 import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
 import fr.minuskube.inv.content.InventoryProvider;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.UUID;
+
+import static com.rexchoppers.mchunt.util.PlayerUtil.sendPlayerError;
 
 /*
 Main menu for admins to access various features and settings of the plugin.
@@ -35,40 +42,33 @@ public class MenuAdmin extends MenuBase {
         public void init(Player player, InventoryContents contents) {
             contents.fillBorders(ClickableItem.empty(new ItemStack(Material.BLACK_STAINED_GLASS_PANE)));
 
-            /*try {
-                GetArenaSetupByPlayerIdResponse arenaSetupResponse = plugin.getApiClient().getArenaSetupByPlayerId(player.getUniqueId().toString());
+            // If the player is not in an arena setup, show the option to enter arena setup
+            if(plugin.getArenaSetupManager().getArenaSetupForPlayer(player.getUniqueId()).isEmpty() &&
+                    player.hasPermission(plugin.getItemManager().itemEnterArenaSetup().getPermission())) {
+                contents.set(1, 7, ClickableItem.of(plugin.getItemManager().itemEnterArenaSetup().build(), e -> {
+                    try {
+                        ArenaSetup arenaSetup = new ArenaSetup(
+                                UUID.randomUUID(),
+                                player.getUniqueId(),
+                                player.getInventory().getContents()
+                        );
 
-                // If the player is not in an arena setup, show the option to enter arena setup
-                if (arenaSetupResponse == null) {
-                    if (player.hasPermission(plugin.getItemManager().itemEnterArenaSetup().getPermission())) {
-                        contents.set(1, 7, ClickableItem.of(plugin.getItemManager().itemEnterArenaSetup().build(), e -> {
-                            try {
-                                ArenaSetup arenaSetup = new ArenaSetup(
-                                        UUID.randomUUID(),
-                                        player.getUniqueId(),
-                                        player.getInventory().getContents()
-                                );
+                        plugin.getArenaSetupManager().create(arenaSetup);
 
-                                plugin.getArenaSetupManager().createArenaSetup(arenaSetup);
-                                player.getInventory().clear();
+                        player.getInventory().clear();
 
-                                plugin.getItemManager().setArenaSetupItems(player);
+                        plugin.getItemManager().setArenaSetupItems(player);
 
-                                getInventory().close(player);
+                        getInventory().close(player);
 
-                                player.setGameMode(GameMode.CREATIVE);
-                            } catch (PlayerAlreadyInArenaSetupException ex) {
-                                getInventory().close(player);
-                                sendPlayerError(player, ex.getMessage());
-                            }
-                        }));
+                        player.setGameMode(GameMode.CREATIVE);
+
+                    } catch (Exception ex) {
+                        getInventory().close(player);
+                        sendPlayerError(player, ex.getMessage());
                     }
-                }
-
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                }));
             }
-*/
         }
 
         @Override

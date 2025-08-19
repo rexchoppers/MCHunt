@@ -45,9 +45,6 @@ public final class MCHunt extends JavaPlugin {
 
     private WorldGuard worldGuard;
 
-    private String publicKey;
-    private String privateKey;
-
     @Override
     public void onEnable() {
         Security.addProvider(new BouncyCastleProvider());
@@ -169,7 +166,7 @@ public final class MCHunt extends JavaPlugin {
 
     public WorldGuardPlugin getWorldGuard() {
         Plugin plugin = getServer().getPluginManager().getPlugin("WorldGuard");
-        if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
+        if (!(plugin instanceof WorldGuardPlugin)) {
             return null;
         }
         return (WorldGuardPlugin) plugin;
