@@ -189,7 +189,6 @@ public class ItemManager {
                 Material.SCULK_SENSOR.name(),
                 Material.CALIBRATED_SCULK_SENSOR.name(),
                 Material.TRAPPED_CHEST.name(),
-
         };
 
         List<Material> blockMaterials = new ArrayList<>();
