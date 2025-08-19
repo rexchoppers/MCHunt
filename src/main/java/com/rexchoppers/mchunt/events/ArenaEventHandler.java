@@ -24,7 +24,7 @@ public class ArenaEventHandler implements Listener {
 
         // Check if player is in an arena
         if (plugin.getArenaManager().isPlayerInArena(playerUUID)) {
-            Arena arena = plugin.getArenaManager().getArenaByPlayerUUID(playerUUID).orElse(null);
+            Arena arena = plugin.getArenaManager().getArenaPlayerIsIn(playerUUID).orElse(null);
             arena.removePlayer(playerUUID);
 
             this.plugin.getEventBusManager().publishEvent(new PlayerLeftArenaEvent(arena.getUUID(), playerUUID));

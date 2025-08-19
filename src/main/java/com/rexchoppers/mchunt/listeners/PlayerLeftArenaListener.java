@@ -23,7 +23,7 @@ public class PlayerLeftArenaListener {
 
     @Subscribe
     public void broadcastToPlayersInArena(PlayerLeftArenaEvent event) {
-        Arena arena = plugin.getArenaManager().getArenaByUUID(event.arenaUuid()).orElse(null);
+        Arena arena = plugin.getArenaManager().getByUUID(event.arenaUuid()).orElse(null);
 
         if (arena == null) {
             return;
@@ -47,7 +47,7 @@ public class PlayerLeftArenaListener {
 
     @Subscribe
     public void updateArenaSigns(PlayerLeftArenaEvent event) {
-        Arena arena = plugin.getArenaManager().getArenaByUUID(event.arenaUuid()).orElse(null);
+        Arena arena = plugin.getArenaManager().getByUUID(event.arenaUuid()).orElse(null);
 
         if (arena == null) {
             return;
@@ -61,7 +61,7 @@ public class PlayerLeftArenaListener {
      */
     @Subscribe
     public void cancelStartCountdown(PlayerLeftArenaEvent event) {
-        Arena arena = plugin.getArenaManager().getArenaByUUID(event.arenaUuid()).orElse(null);
+        Arena arena = plugin.getArenaManager().getByUUID(event.arenaUuid()).orElse(null);
 
         if (arena == null) {
             return;
@@ -76,7 +76,7 @@ public class PlayerLeftArenaListener {
         arena.setStatus(ArenaStatus.WAITING);
         arena.setStartCountdown(null);
 
-        plugin.getArenaManager().updateArena(arena);
+        plugin.getArenaManager().update(arena);
         plugin.getSignManager().initArenaSigns(arena);
 
         // Send players message that the countdown has been cancelled
