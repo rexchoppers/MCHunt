@@ -24,19 +24,11 @@ public class ArenaManager {
         init();
     }
 
-    private void init() {
-        File dir = new File(directoryPath);
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
 
-        arenas = load();
-
-        // Load signs
-        for (Arena arena : arenas) {
+    // Load signs
+       /* for (Arena arena : arenas) {
             this.plugin.getSignManager().initArenaSigns(arena);
-        }
-    }
+        }*/
 
     public Optional<Arena> getArenaByUUID(UUID uuid) {
         if (arenas == null) {
@@ -58,26 +50,7 @@ public class ArenaManager {
     }
 
     public void updateArena(Arena arena) {
-        if (arenas == null) {
-            arenas = new ArrayList<>();
-        }
-
-        // Replace in-memory instance if a different object with the same UUID was provided
-        for (int i = 0; i < arenas.size(); i++) {
-            if (arenas.get(i).getUUID().equals(arena.getUUID())) {
-                if (arenas.get(i) != arena) {
-                    arenas.set(i, arena);
-                }
-                // Refresh signs to reflect any updated arena state (name, players, status, sign locations, etc.)
-                this.plugin.getSignManager().initArenaSigns(arena);
-                saveArena(arena);
-                return;
-            }
-        }
-
-        // If the arena wasn't present (edge case), add it, init signs, and persist
-        arenas.add(arena);
-        this.plugin.getSignManager().initArenaSigns(arena);
+        // No-op replacement since arenas holds the same reference; just persist
         saveArena(arena);
     }
 
@@ -91,28 +64,6 @@ public class ArenaManager {
                 .findFirst();
     }
 
-    private List<Arena> load() {
-        Gson gson = plugin.getGson();
-        File dir = new File(directoryPath);
-        File[] files = dir.listFiles((d, name) -> name.toLowerCase().endsWith(".json"));
-        if (files == null || files.length == 0) {
-            return new ArrayList<>();
-        }
-
-        List<Arena> loaded = new ArrayList<>();
-        Arrays.sort(files); // stable order
-        for (File f : files) {
-            try (FileReader reader = new FileReader(f)) {
-                Arena arena = gson.fromJson(reader, Arena.class);
-                if (arena != null) {
-                    loaded.add(arena);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return loaded;
-    }
 
     private File getArenaFile(UUID uuid) {
         return new File(directoryPath, uuid.toString() + ".json");
