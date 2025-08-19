@@ -32,7 +32,7 @@ public final class MCHunt extends JavaPlugin {
 
     private InventoryManager inventoryManager;
     private ArenaRepository arenaManager;
-    private ArenaSetupManager arenaSetupManager;
+    private ArenaSetupRepository arenaSetupManager;
     private ItemManager itemManager;
     private ApiClient apiClient;
 
@@ -95,7 +95,7 @@ public final class MCHunt extends JavaPlugin {
                 this.getDataFolder().getAbsolutePath() + FileSystems.getDefault().getSeparator() + "arenas"
         );
 
-        this.arenaSetupManager = new ArenaSetupManager(this,
+        this.arenaSetupManager = new ArenaSetupRepository(this,
                 this.getDataFolder().getAbsolutePath() + FileSystems.getDefault().getSeparator() + "arena_setup"
         );
 
@@ -150,7 +150,7 @@ public final class MCHunt extends JavaPlugin {
         return itemManager;
     }
 
-    public ArenaSetupManager getArenaSetupManager() {
+    public ArenaSetupRepository getArenaSetupManager() {
         return arenaSetupManager;
     }
 

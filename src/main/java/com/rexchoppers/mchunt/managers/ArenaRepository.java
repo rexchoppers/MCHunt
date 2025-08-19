@@ -40,11 +40,10 @@ public class ArenaRepository extends Repository<Arena> {
                         .anyMatch(player -> player.getUUID().equals(playerUUID)));
     }
 
-    public Arena getArenaPlayerIsIn(UUID playerUUID) {
+    public Optional<Arena> getArenaPlayerIsIn(UUID playerUUID) {
         return this.getData().stream()
                 .filter(arena -> arena.getPlayers().stream()
                         .anyMatch(player -> player.getUUID().equals(playerUUID)))
-                .findFirst()
-                .orElse(null);
+                .findFirst();
     }
 }

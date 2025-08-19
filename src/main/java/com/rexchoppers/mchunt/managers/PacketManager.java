@@ -22,7 +22,7 @@ public class PacketManager {
                 new PacketAdapter(plugin, PacketType.Play.Server.OPEN_SIGN_EDITOR) {
                     @Override
                     public void onPacketSending(PacketEvent event) {
-                        ArenaSetupManager arenaSetupManager = PacketManager.this.plugin.getArenaSetupManager();
+                        ArenaSetupRepository arenaSetupManager = PacketManager.this.plugin.getArenaSetupManager();
 
                         if (!arenaSetupManager.getArenaSetupByPlayerUuid(
                                 arenaSetupManager.getArenaSetups(),

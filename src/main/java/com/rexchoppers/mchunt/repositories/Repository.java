@@ -3,6 +3,7 @@ package com.rexchoppers.mchunt.repositories;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.rexchoppers.mchunt.MCHunt;
+import com.rexchoppers.mchunt.exceptions.PlayerAlreadyInArenaSetupException;
 
 import java.io.File;
 import java.io.FileReader;
@@ -76,7 +77,7 @@ public abstract class Repository<T> {
                 .findFirst();
     }
 
-    public void create(T item) {
+    public void create(T item) throws Exception{
         if (getByUUID(((UUID) item)).isPresent()) {
             return;
         }
