@@ -2,6 +2,7 @@ package com.rexchoppers.mchunt.menus;
 
 import com.rexchoppers.mchunt.MCHunt;
 import com.rexchoppers.mchunt.exceptions.PlayerAlreadyInArenaSetupException;
+import com.rexchoppers.mchunt.managers.LocalizationManager;
 import com.rexchoppers.mchunt.models.ArenaSetup;
 import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
@@ -14,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;
 
-import static com.rexchoppers.mchunt.util.PlayerUtil.sendPlayerError;
+import static com.rexchoppers.mchunt.util.PlayerUtil.*;
 
 /*
 Main menu for admins to access various features and settings of the plugin.
@@ -47,6 +48,7 @@ public class MenuAdmin extends MenuBase {
                     player.hasPermission(plugin.getItemManager().itemEnterArenaSetup().getPermission())) {
                 contents.set(1, 7, ClickableItem.of(plugin.getItemManager().itemEnterArenaSetup().build(), e -> {
                     try {
+                        // Create arena setup
                         ArenaSetup arenaSetup = new ArenaSetup(
                                 UUID.randomUUID(),
                                 player.getUniqueId(),
@@ -55,13 +57,20 @@ public class MenuAdmin extends MenuBase {
 
                         plugin.getArenaSetupManager().create(arenaSetup);
 
+                        // Sort out player's inventory and set arena setup items
                         player.getInventory().clear();
-
                         plugin.getItemManager().setArenaSetupItems(player);
-
                         getInventory().close(player);
-
                         player.setGameMode(GameMode.CREATIVE);
+
+                        // Send message to player
+                        sendPlayerAudibleMessage(
+                                player,
+                                new LocalizationManager(MCHunt.getCurrentLocale())
+                                        .getMessage(
+                                                "arena.setup.now_in_arena_setup_mode"
+                                        )
+                        );
 
                     } catch (Exception ex) {
                         ex.printStackTrace();
