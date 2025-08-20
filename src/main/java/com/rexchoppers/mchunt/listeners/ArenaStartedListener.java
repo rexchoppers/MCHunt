@@ -7,7 +7,12 @@ import com.rexchoppers.mchunt.events.internal.ArenaStartedEvent;
 import com.rexchoppers.mchunt.managers.LocalizationManager;
 import com.rexchoppers.mchunt.models.Arena;
 import com.rexchoppers.mchunt.models.ArenaPlayer;
+import me.libraryaddict.disguise.DisguiseAPI;
+import me.libraryaddict.disguise.DisguiseConfig;
+import me.libraryaddict.disguise.disguisetypes.DisguiseType;
+import me.libraryaddict.disguise.disguisetypes.MiscDisguise;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import static com.rexchoppers.mchunt.util.PlayerUtil.sendPlayerAudibleMessage;
@@ -38,14 +43,18 @@ public record ArenaStartedListener(MCHunt plugin) {
             );
         }
 
-        // Set the rest of the players as hiders
+        // Set the rest of the players as hiders, skip them
         arena.getPlayers().forEach(player -> {
             if (player.getRole().equals(ArenaPlayerRole.HIDER)) return;
 
-            // If they've already been
+            // If they've already been assigned, skip them
             if (player.getRole().equals(ArenaPlayerRole.SEEKER)) return;
 
             player.setRole(ArenaPlayerRole.HIDER);
+
+          /*  MiscDisguise disguise = new MiscDisguise(DisguiseType.FALLING_BLOCK, Material.REDSTONE_BLOCK);
+            disguise.setNotifyBar(DisguiseConfig.NotifyBar.NONE);
+            DisguiseAPI.disguiseToAll(player, disguise);*/
 
             Bukkit.getServer().getPlayer(player.getUUID()).teleport(
                     arena.getHiderSpawns()[(int) (Math.random() * arena.getHiderSpawns().length)]);

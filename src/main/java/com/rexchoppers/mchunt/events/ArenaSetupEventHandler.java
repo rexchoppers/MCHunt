@@ -639,7 +639,7 @@ public class ArenaSetupEventHandler implements Listener {
                             player,
                             new LocalizationManager(MCHunt.getCurrentLocale())
                                     .getMessage(
-                                            "player.setup.cannot_drop_setup_items"
+                                            "player.cannot_drop_item"
                                     ));
 
                     return;
