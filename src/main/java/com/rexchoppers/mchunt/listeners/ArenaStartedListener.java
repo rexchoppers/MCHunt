@@ -43,23 +43,45 @@ public record ArenaStartedListener(MCHunt plugin) {
             );
         }
 
-        // Set the rest of the players as hiders, skip them
+        Bukkit.broadcastMessage("Total players: " + playerCount);
+
         arena.getPlayers().forEach(player -> {
-            if (player.getRole().equals(ArenaPlayerRole.HIDER)) return;
-
-            // If they've already been assigned, skip them
-            if (player.getRole().equals(ArenaPlayerRole.SEEKER)) return;
-
-            player.setRole(ArenaPlayerRole.HIDER);
-
-          /*  MiscDisguise disguise = new MiscDisguise(DisguiseType.FALLING_BLOCK, Material.REDSTONE_BLOCK);
-            disguise.setNotifyBar(DisguiseConfig.NotifyBar.NONE);
-            DisguiseAPI.disguiseToAll(player, disguise);*/
-
-            Bukkit.getServer().getPlayer(player.getUUID()).teleport(
-                    arena.getHiderSpawns()[(int) (Math.random() * arena.getHiderSpawns().length)]);
+            Bukkit.broadcastMessage("Player: " + player.getUUID().toString() + " - Role: " + player.getRole());
         });
 
+
+
+        // Set the rest of the players as hiders, skip them
+        arena.getPlayers().forEach(hider -> {
+
+            Player player = Bukkit.getPlayer(hider.getUUID());
+
+            if (hider.getRole() != null && hider.getRole().equals(ArenaPlayerRole.SEEKER)) return;
+
+            hider.setRole(ArenaPlayerRole.HIDER);
+
+            // Get blocks for disguise
+            String[] blocks = arena.getArenaBlocks();
+
+            // Randomly set user's disguise
+            if (blocks.length > 0) {
+                String randomBlock = blocks[(int) (Math.random() * blocks.length)];
+                Material disguiseMaterial = Material.getMaterial(randomBlock.toUpperCase());
+
+                if (disguiseMaterial != null) {
+                    MiscDisguise disguise = new MiscDisguise(DisguiseType.FALLING_BLOCK, disguiseMaterial);
+                    disguise.setNotifyBar(DisguiseConfig.NotifyBar.NONE);
+                    DisguiseAPI.disguiseToAll(player, disguise);
+                } else {
+                    // Fallback to a default block if the material is invalid
+                    MiscDisguise disguise = new MiscDisguise(DisguiseType.FALLING_BLOCK, Material.STONE);
+                    disguise.setNotifyBar(DisguiseConfig.NotifyBar.NONE);
+                    DisguiseAPI.disguiseToAll(player, disguise);
+                }
+            }
+
+            player.teleport(arena.getHiderSpawns()[(int) (Math.random() * arena.getHiderSpawns().length)]);
+        });
     }
 
     @Subscribe
