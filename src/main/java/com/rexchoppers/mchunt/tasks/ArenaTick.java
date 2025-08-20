@@ -3,6 +3,7 @@ package com.rexchoppers.mchunt.tasks;
 import com.rexchoppers.mchunt.MCHunt;
 import com.rexchoppers.mchunt.enums.ArenaPlayerRole;
 import com.rexchoppers.mchunt.enums.ArenaStatus;
+import com.rexchoppers.mchunt.events.internal.ArenaSeekersReleasedEvent;
 import com.rexchoppers.mchunt.managers.ArenaRepository;
 import com.rexchoppers.mchunt.managers.LocalizationManager;
 import com.rexchoppers.mchunt.managers.SignManager;
@@ -16,10 +17,12 @@ import java.util.List;
 import static com.rexchoppers.mchunt.util.PlayerUtil.sendPlayerAudibleMessage;
 
 public class ArenaTick extends BukkitRunnable {
+    private final MCHunt plugin;
     private final ArenaRepository arenaManager;
     private final SignManager signManager;
 
     public ArenaTick(MCHunt plugin) {
+        this.plugin = plugin;
         this.arenaManager = plugin.getArenaManager();
         this.signManager = plugin.getSignManager();
     }
@@ -66,16 +69,9 @@ public class ArenaTick extends BukkitRunnable {
                             }
                         });
 
-                arena.getPlayers().forEach(player -> {
-                    // Broadcast that the seekers have been released
-                    Player serverPlayer = Bukkit.getPlayer(player.getUUID());
+                this.plugin.getEventBusManager().publishEvent(new ArenaSeekersReleasedEvent(arena));
 
-                    sendPlayerAudibleMessage(
-                            serverPlayer,
-                            new LocalizationManager(MCHunt.getCurrentLocale())
-                                    .getMessage("arena.seekers_released")
-                    );
-                });
+
             }
         }
     }

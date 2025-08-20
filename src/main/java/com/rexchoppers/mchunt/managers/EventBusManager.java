@@ -3,6 +3,7 @@ package com.rexchoppers.mchunt.managers;
 import com.google.common.eventbus.EventBus;
 import com.rexchoppers.mchunt.MCHunt;
 import com.rexchoppers.mchunt.events.internal.ArenaCreatedEvent;
+import com.rexchoppers.mchunt.events.internal.ArenaSeekersReleasedEvent;
 import com.rexchoppers.mchunt.events.internal.PlayerJoinedArenaEvent;
 import com.rexchoppers.mchunt.listeners.*;
 import org.bukkit.Bukkit;
@@ -24,6 +25,7 @@ public class EventBusManager {
         this.eventBus.register(new ArenaCreatedListener(this.plugin));
         this.eventBus.register(new PlayerJoinedArenaListener(this.plugin));
         this.eventBus.register(new PlayerLeftArenaListener(this.plugin));
+        this.eventBus.register(new ArenaSeekersReleasedListener(this.plugin));
     }
 
     public void publishEvent(Object event) {
