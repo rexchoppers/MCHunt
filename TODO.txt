@@ -3,3 +3,6 @@
 - What to do if all seekers leave?
 - Dep injection
 - Don't let users go outside of the arena
+- Disable PVP flag
+- In-game menu
+   - Leave arena
