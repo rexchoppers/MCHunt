@@ -11,7 +11,6 @@ import com.rexchoppers.mchunt.serializers.*;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import fr.minuskube.inv.InventoryManager;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;

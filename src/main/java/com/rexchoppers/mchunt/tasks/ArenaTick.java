@@ -70,8 +70,6 @@ public class ArenaTick extends BukkitRunnable {
                         });
 
                 this.plugin.getEventBusManager().publishEvent(new ArenaSeekersReleasedEvent(arena));
-
-
             }
         }
     }

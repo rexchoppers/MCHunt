@@ -25,6 +25,12 @@ public class ItemManager {
         this.plugin = plugin;
     }
 
+    public Map<Integer, ItemBuilder> getSeekerHotbarItems() {
+        return new HashMap<>() {{
+            put(0, itemSeekerWeapon());
+        }};
+    }
+
     public Map<Integer, ItemBuilder> getDefaultHotbarArenaSetupItems() {
         return new HashMap<>() {{
             put(1, itemArenaSetupToolSelection());
@@ -48,6 +54,12 @@ public class ItemManager {
         }
 
         // TODO - Create method to do actions
+    }
+
+    public void setSeekerItems(Player player) {
+        for (Map.Entry<Integer, ItemBuilder> entry : getSeekerHotbarItems().entrySet()) {
+            player.getInventory().setItem(entry.getKey(), entry.getValue().build());
+        }
     }
 
     public String getItemAction(ItemStack itemStack) {
@@ -224,6 +236,20 @@ public class ItemManager {
     }
 
     // Items
+    public ItemBuilder itemSeekerWeapon() {
+        return new ItemBuilder(this.plugin)
+                .setMaterial(Material.IRON_SWORD)
+                .setAmount(1)
+                .setDroppable(false)
+                .setMovable(false)
+                .setName(Format.processString("%n%gSeeker Weapon"))
+                .setTag("weapon-seeker")
+                .setLores(new ArrayList<>() {{
+                    add("");
+                    add(Format.processString("%tThis is your weapon as a seeker"));
+                }});
+    }
+
     public ItemBuilder itemNavigateToAdmin() {
         return new ItemBuilder(this.plugin)
                 .setMaterial(Material.CRAFTING_TABLE)

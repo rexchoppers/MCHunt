@@ -18,6 +18,10 @@ public class ItemBuilder implements Cloneable {
     private int type;
     private ArrayList<String> lores;
 
+    private boolean droppable = true;
+
+    private boolean movable = true;
+
     /**
      * Check if a item needs a permission to
      * be viewed
@@ -119,6 +123,25 @@ public class ItemBuilder implements Cloneable {
 
     public ItemBuilder setTag(String tag) {
         this.tag = tag;
+        return this;
+    }
+
+    public boolean isDroppable() {
+        return droppable;
+    }
+
+    public ItemBuilder setDroppable(boolean droppable) {
+        this.droppable = droppable;
+        return this;
+    }
+
+
+    public boolean isMovable() {
+        return movable;
+    }
+
+    public ItemBuilder setMovable(boolean movable) {
+        this.movable = movable;
         return this;
     }
 }

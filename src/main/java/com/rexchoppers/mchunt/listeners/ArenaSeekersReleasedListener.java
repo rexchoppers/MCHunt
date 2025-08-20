@@ -31,4 +31,18 @@ public record ArenaSeekersReleasedListener(MCHunt plugin) {
             );
         });
     }
+
+    @Subscribe
+    public void giveSeekersItems(ArenaSeekersReleasedEvent event) {
+        Arena arena = event.arena();
+
+        // Give seekers their items
+        arena.getPlayers().stream()
+                .filter(player -> player.getRole().equals(ArenaPlayerRole.SEEKER))
+                .map(player -> Bukkit.getPlayer(player.getUUID()))
+                .filter(player -> player != null && player.isOnline())
+                .forEach(player -> {
+                    plugin.getItemManager().setSeekerItems(player);
+                });
+    }
 }
