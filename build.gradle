@@ -7,6 +7,9 @@ group = 'com.rexchoppers'
 version = '1.0-SNAPSHOT'
 
 repositories {
+    maven {
+        url "https://repo.md-5.net/content/groups/public/"
+    }
     mavenCentral()
     maven {
         name = "spigotmc-repo"
@@ -16,29 +19,31 @@ repositories {
         name = "sonatype"
         url = "https://oss.sonatype.org/content/groups/public/"
     }
-    maven {
-        name = "codemc-snapshots"
-        url = "https://repo.codemc.io/repository/maven-snapshots/"
-    }
+
     maven { url "https://repo.dmulloy2.net/repository/public/" }
     maven { url = "https://repo.aikar.co/content/groups/aikar/" }
     maven { url 'https://jitpack.io' }
 
+
+    maven { url = uri("https://repo.codemc.io/repository/maven-releases/") }
+
+    maven { url = uri("https://repo.codemc.io/repository/maven-snapshots/") }
 }
 
 dependencies {
     implementation 'org.jetbrains:annotations:24.0.0'
+
     compileOnly "org.spigotmc:spigot-api:1.21.8-R0.1-SNAPSHOT"
     compileOnly group: "com.comphenix.protocol", name: "ProtocolLib", version: "4.8.0";
     compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.6'
     compileOnly 'com.sk89q.worldedit:worldedit-bukkit:7.2.8'
+    compileOnly 'me.libraryaddict.disguises:libsdisguises:11.0.7'
 
     implementation 'com.google.code.gson:gson:2.9.0'
     implementation "co.aikar:acf-paper:0.5.1-SNAPSHOT"
     implementation "co.aikar:acf-core:0.5.1-SNAPSHOT"
     implementation 'net.wesjd:anvilgui:1.10.8-SNAPSHOT'
     implementation 'com.google.guava:guava:31.0.1-jre'
-
     implementation 'com.github.rexchoppers:SmartInvs:2.0.0-alpha.3'
 
 }
