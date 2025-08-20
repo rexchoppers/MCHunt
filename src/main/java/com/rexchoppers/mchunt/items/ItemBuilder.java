@@ -51,6 +51,13 @@ public class ItemBuilder implements Cloneable {
             meta.getPersistentDataContainer().set(key, PersistentDataType.STRING, this.tag);
         }
 
+        NamespacedKey droppableKey = new NamespacedKey(this.plugin, "mchunt_droppable");
+        meta.getPersistentDataContainer().set(droppableKey, PersistentDataType.BOOLEAN, this.droppable);
+
+        NamespacedKey movableKey = new NamespacedKey(this.plugin, "mchunt_movable");
+        meta.getPersistentDataContainer().set(movableKey, PersistentDataType.BOOLEAN, this.movable);
+
+
         item.setItemMeta(meta);
 
         return item;

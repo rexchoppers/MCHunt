@@ -4,6 +4,7 @@ import com.rexchoppers.mchunt.MCHunt;
 import com.rexchoppers.mchunt.events.ArenaEventHandler;
 import com.rexchoppers.mchunt.events.ArenaSetupEventHandler;
 import com.rexchoppers.mchunt.events.ArenaSignEventHandler;
+import com.rexchoppers.mchunt.events.DroppableEventHandler;
 import org.bukkit.Bukkit;
 
 public class EventManager {
@@ -17,5 +18,6 @@ public class EventManager {
         Bukkit.getPluginManager().registerEvents(new ArenaSetupEventHandler(this.plugin), this.plugin);
         Bukkit.getPluginManager().registerEvents(new ArenaSignEventHandler(this.plugin), this.plugin);
         Bukkit.getPluginManager().registerEvents(new ArenaEventHandler(this.plugin), this.plugin);
+        Bukkit.getPluginManager().registerEvents(new DroppableEventHandler(this.plugin), this.plugin);
     }
 }

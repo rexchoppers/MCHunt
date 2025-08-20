@@ -80,6 +80,23 @@ public class ItemManager {
         return null;
     }
 
+    public boolean getItemDroppable(ItemStack itemStack) {
+        NamespacedKey key = new NamespacedKey(this.plugin, "mchunt_droppable");
+        ItemMeta itemMeta = itemStack.getItemMeta();
+
+        if(itemMeta == null) {
+            return true;
+        }
+
+        PersistentDataContainer container = itemMeta.getPersistentDataContainer();
+
+        if(container.has(key, PersistentDataType.BOOLEAN)) {
+            return container.get(key, PersistentDataType.BOOLEAN);
+        }
+
+        return true;
+    }
+
     public List<Material> getBlockMaterials() {
         String[] excludedBlocks = {
                 Material.AIR.name(),
