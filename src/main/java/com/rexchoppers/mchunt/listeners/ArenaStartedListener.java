@@ -45,7 +45,33 @@ public record ArenaStartedListener(MCHunt plugin) {
             );
         }
 
+        ArenaPlayer[] seekers = arena.getPlayers().stream()
+                .filter(player -> player.getRole() != null && player.getRole().equals(ArenaPlayerRole.SEEKER))
+                .toArray(ArenaPlayer[]::new);
+
+        // Broadcast to all players but the seekers that the seekers have been selected
+        String seekerList = String.join(", ",
+                arena.getPlayers().stream()
+                        .filter(player -> player.getRole() != null && player.getRole().equals(ArenaPlayerRole.SEEKER))
+                        .map(player -> Bukkit.getPlayer(player.getUUID()).getName())
+                        .toList());
+
+        // Remove the last comma and space if there are multiple seekers
+        if (seekerList.endsWith(", ")) {
+            seekerList = seekerList.substring(0, seekerList.length() - 2);
+        }
+
+        String seekerMessage = new LocalizationManager(MCHunt.getCurrentLocale())
+                .getMessage("arena.seeker_selected_single", seekerList);
+
+        if (seekers.length > 1) {
+            seekerMessage = new LocalizationManager(MCHunt.getCurrentLocale())
+                    .getMessage("arena.seeker_selected_multiple", seekerList);
+        }
+
         // Set the rest of the players as hiders, skip them
+        String finalSeekerMessage = seekerMessage;
+
         arena.getPlayers().forEach(hider -> {
             Player player = Bukkit.getPlayer(hider.getUUID());
 
@@ -53,6 +79,12 @@ public record ArenaStartedListener(MCHunt plugin) {
             if (hider.getRole() != null && hider.getRole().equals(ArenaPlayerRole.SEEKER)) return;
 
             hider.setRole(ArenaPlayerRole.HIDER);
+
+            // Broadcast the message to all players in the arena apart from the seekers
+            sendPlayerAudibleMessage(
+                    player,
+                    finalSeekerMessage
+            );
 
             // Get blocks for disguise
             String[] blocks = arena.getArenaBlocks();
