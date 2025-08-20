@@ -54,7 +54,7 @@ public class PlayerJoinedArenaListener {
     }
 
     @Subscribe
-    public void clearPlayer(PlayerJoinedArenaEvent event) {
+    public void setupPlayer(PlayerJoinedArenaEvent event) {
         Player player = plugin.getServer().getPlayer(event.playerUuid());
 
         if (player == null) {
@@ -62,6 +62,8 @@ public class PlayerJoinedArenaListener {
         }
 
         player.getInventory().clear();
+        player.setFoodLevel(20);
+        player.setHealth(20.0);
     }
 
     @Subscribe

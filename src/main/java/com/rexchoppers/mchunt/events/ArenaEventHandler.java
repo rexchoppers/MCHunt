@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.UUID;
@@ -41,6 +42,16 @@ public record ArenaEventHandler(MCHunt plugin) implements Listener {
     public void onBlockPlaceEvent(BlockPlaceEvent event) {
         Player player = event.getPlayer();
 
+        if (plugin.getArenaManager().isPlayerInArena(player.getUniqueId())) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onFoodLevelChangeEvent(FoodLevelChangeEvent event) {
+        if (!(event.getEntity() instanceof Player player)) return;
+
+        // Prevent food level changes in arenas
         if (plugin.getArenaManager().isPlayerInArena(player.getUniqueId())) {
             event.setCancelled(true);
         }
