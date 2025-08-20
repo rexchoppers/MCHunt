@@ -602,49 +602,4 @@ public class ArenaSetupEventHandler implements Listener {
             }
         }
     }
-
-    @EventHandler
-    public void onPlayerDropItemEvent(PlayerDropItemEvent event) {
-        Player player = event.getPlayer();
-
-        ArenaSetup arenaSetup = this.plugin.getArenaSetupManager()
-                .getArenaSetupForPlayer(player.getUniqueId()).orElse(null);
-
-        if (arenaSetup == null) {
-            return;
-        }
-
-        Bukkit.getConsoleSender().sendMessage("Player " + player.getName() + " dropped an item in arena setup.");
-
-        Item itemDrop = event.getItemDrop();
-        ItemStack itemStack = itemDrop.getItemStack();
-
-        String action = this.plugin.getItemManager().getItemAction(itemStack);
-
-        List<ItemBuilder> arenaItems = this.plugin.getItemManager().getHotbarArenaSetupItems();
-
-        // Also add the tools to the arena items
-        arenaItems.add(this.plugin.getItemManager().itemArenaSetupSign());
-        arenaItems.add(this.plugin.getItemManager().itemArenaSetupHiderSpawn());
-        arenaItems.add(this.plugin.getItemManager().itemArenaSetupSeekerSpawn());
-        arenaItems.add(this.plugin.getItemManager().itemArenaSetupLobbySpawn());
-        arenaItems.add(this.plugin.getItemManager().itemArenaSetupAfterGameSpawn());
-
-        if (action != null) {
-            for (ItemBuilder itemBuilder : arenaItems) {
-                if (itemBuilder.getAction().equals(action)) {
-                    event.setCancelled(true);
-
-                    sendPlayerError(
-                            player,
-                            new LocalizationManager(MCHunt.getCurrentLocale())
-                                    .getMessage(
-                                            "player.cannot_drop_item"
-                                    ));
-
-                    return;
-                }
-            }
-        }
-    }
 }
