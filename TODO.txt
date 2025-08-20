@@ -6,3 +6,4 @@
 - Disable PVP flag
 - In-game menu
    - Leave arena
+- Random blocks for hiders
