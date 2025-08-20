@@ -34,12 +34,12 @@ public class ItemManager {
     }
 
     public List<ItemBuilder> getHotbarArenaSetupItems() {
-        return new ArrayList<>() {{
-            itemArenaSetupSelection();
-            itemArenaSetupToolSelection();
-            itemArenaSetupConfig();
-            itemArenaSetupActions();
-        }};
+        List<ItemBuilder> items = new ArrayList<>();
+        items.add(itemArenaSetupSelection());
+        items.add(itemArenaSetupToolSelection());
+        items.add(itemArenaSetupConfig());
+        items.add(itemArenaSetupActions());
+        return items;
     }
 
     public void setArenaSetupItems(Player player) {

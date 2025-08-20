@@ -11,6 +11,7 @@ import com.rexchoppers.mchunt.menus.MenuArenaSetupConfig;
 import com.rexchoppers.mchunt.menus.MenuArenaSetupToolSelection;
 import com.rexchoppers.mchunt.models.ArenaSetup;
 import com.rexchoppers.mchunt.util.BoundaryUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
@@ -613,12 +614,21 @@ public class ArenaSetupEventHandler implements Listener {
             return;
         }
 
+        Bukkit.getConsoleSender().sendMessage("Player " + player.getName() + " dropped an item in arena setup.");
+
         Item itemDrop = event.getItemDrop();
         ItemStack itemStack = itemDrop.getItemStack();
 
         String action = this.plugin.getItemManager().getItemAction(itemStack);
 
         List<ItemBuilder> arenaItems = this.plugin.getItemManager().getHotbarArenaSetupItems();
+
+        // Also add the tools to the arena items
+        arenaItems.add(this.plugin.getItemManager().itemArenaSetupSign());
+        arenaItems.add(this.plugin.getItemManager().itemArenaSetupHiderSpawn());
+        arenaItems.add(this.plugin.getItemManager().itemArenaSetupSeekerSpawn());
+        arenaItems.add(this.plugin.getItemManager().itemArenaSetupLobbySpawn());
+        arenaItems.add(this.plugin.getItemManager().itemArenaSetupAfterGameSpawn());
 
         if (action != null) {
             for (ItemBuilder itemBuilder : arenaItems) {
