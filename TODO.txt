@@ -2,3 +2,4 @@
 - Use economy tool
 - What to do if all seekers leave?
 - Dep injection
+- Don't let users go outside of the arena
