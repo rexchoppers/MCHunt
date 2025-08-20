@@ -6,16 +6,12 @@ import com.rexchoppers.mchunt.models.Arena;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.UUID;
 
-public class ArenaEventHandler implements Listener {
-    private final MCHunt plugin;
-
-    public ArenaEventHandler(MCHunt plugin) {
-        this.plugin = plugin;
-    }
+public record ArenaEventHandler(MCHunt plugin) implements Listener {
 
     @EventHandler
     public void onPlayerQuitEvent(PlayerQuitEvent event) {
@@ -28,6 +24,15 @@ public class ArenaEventHandler implements Listener {
             arena.removePlayer(playerUUID);
 
             this.plugin.getEventBusManager().publishEvent(new PlayerLeftArenaEvent(arena.getUUID(), playerUUID));
+        }
+    }
+
+    @EventHandler
+    public void onBlockBreakEvent(BlockBreakEvent event) {
+        Player player = event.getPlayer();
+
+        if (plugin.getArenaManager().isPlayerInArena(player.getUniqueId())) {
+            event.setCancelled(true);
         }
     }
 }
