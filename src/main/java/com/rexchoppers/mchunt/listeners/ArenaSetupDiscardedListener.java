@@ -77,8 +77,14 @@ public class ArenaSetupDiscardedListener {
         if (player == null) return;
         if (!player.isOnline()) return;
 
-        player.sendBlockChange(arenaSetup.getLobbySpawn(), arenaSetup.getLobbySpawn().getBlock().getBlockData());
-        player.sendBlockChange(arenaSetup.getAfterGameSpawn(), arenaSetup.getAfterGameSpawn().getBlock().getBlockData());
+        if (arenaSetup.getLobbySpawn() != null) {
+            player.sendBlockChange(arenaSetup.getLobbySpawn(), arenaSetup.getLobbySpawn().getBlock().getBlockData());
+        }
+
+        if (arenaSetup.getAfterGameSpawn() != null) {
+            player.sendBlockChange(arenaSetup.getAfterGameSpawn(), arenaSetup.getAfterGameSpawn().getBlock().getBlockData());
+        }
+
 
         for (Location location : arenaSetup.getHiderSpawns()) {
             player.sendBlockChange(location, location.getBlock().getBlockData());
