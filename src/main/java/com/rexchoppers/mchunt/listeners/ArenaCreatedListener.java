@@ -4,6 +4,7 @@ import com.google.common.eventbus.Subscribe;
 import com.rexchoppers.mchunt.MCHunt;
 import com.rexchoppers.mchunt.events.internal.ArenaCreatedEvent;
 import com.rexchoppers.mchunt.events.internal.ArenaSetupDiscardedEvent;
+import com.rexchoppers.mchunt.models.Arena;
 import com.rexchoppers.mchunt.models.ArenaSetup;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -55,6 +56,12 @@ public class ArenaCreatedListener {
         ArenaSetup arenaSetup = event.arenaSetup();
 
         plugin.getSignManager().removeArenaSetupScrollingSigns(arenaSetup.getUUID());
+    }
+
+    @Subscribe
+    public void addArenaScrollingSigns(ArenaCreatedEvent event) {
+        Arena arena = event.arena();
+        plugin.getSignManager().initArenaSigns(arena);
     }
 
     @Subscribe
