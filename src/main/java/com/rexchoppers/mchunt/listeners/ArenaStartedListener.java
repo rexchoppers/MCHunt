@@ -50,15 +50,15 @@ public record ArenaStartedListener(MCHunt plugin) {
                 .toArray(ArenaPlayer[]::new);
 
         // Broadcast to all players but the seekers that the seekers have been selected
-        String seekerList = String.join(", ",
+        String seekerList = String.join("%n, %a",
                 arena.getPlayers().stream()
                         .filter(player -> player.getRole() != null && player.getRole().equals(ArenaPlayerRole.SEEKER))
                         .map(player -> Bukkit.getPlayer(player.getUUID()).getName())
                         .toList());
 
         // Remove the last comma and space if there are multiple seekers
-        if (seekerList.endsWith(", ")) {
-            seekerList = seekerList.substring(0, seekerList.length() - 2);
+        if (seekerList.endsWith("%n, %a")) {
+            seekerList = seekerList.substring(0, seekerList.length() - 4);
         }
 
         String seekerMessage = new LocalizationManager(MCHunt.getCurrentLocale())
