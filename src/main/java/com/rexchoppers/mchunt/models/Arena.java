@@ -277,6 +277,13 @@ public class Arena implements Identifiable {
         return players;
     }
 
+    public ArenaPlayer getPlayer(UUID playerUuid) {
+        return players.stream()
+                .filter(player -> player.getUUID().equals(playerUuid))
+                .findFirst()
+                .orElse(null);
+    }
+
     public void addPlayer(ArenaPlayer player) {
         players.add(player);
     }

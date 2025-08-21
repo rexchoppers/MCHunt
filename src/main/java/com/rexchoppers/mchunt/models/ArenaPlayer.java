@@ -75,4 +75,8 @@ public class ArenaPlayer {
     public void setDisguiseLocked(boolean disguiseLocked) {
         this.disguiseLocked = disguiseLocked;
     }
+
+    public boolean hasMovedRecently() {
+        return !hasBeenStillFor(500);
+    }
 }
