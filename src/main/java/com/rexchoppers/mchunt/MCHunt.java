@@ -8,6 +8,7 @@ import com.rexchoppers.mchunt.commands.CommandMCHunt;
 import com.rexchoppers.mchunt.managers.*;
 import com.rexchoppers.mchunt.models.Arena;
 import com.rexchoppers.mchunt.serializers.*;
+import com.rexchoppers.mchunt.util.Format;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import fr.minuskube.inv.InventoryManager;
@@ -50,8 +51,10 @@ public final class MCHunt extends JavaPlugin {
         currentLocale = Locale.getDefault();
 
         Bukkit.getConsoleSender().sendMessage(
-                new LocalizationManager(MCHunt.getCurrentLocale())
-                        .getMessage("mchunt.startup_initiated")
+                Format.processString(
+                    new LocalizationManager(MCHunt.getCurrentLocale())
+                            .getMessage("mchunt.startup_initiated")
+                )
         );
 
         this.gson = new GsonBuilder()
@@ -120,14 +123,30 @@ public final class MCHunt extends JavaPlugin {
         manager.registerCommand(new CommandMCHunt(this));
 
         Bukkit.getConsoleSender().sendMessage(
-                new LocalizationManager(MCHunt.getCurrentLocale())
-                        .getMessage("mchunt.startup_complete")
+                Format.processString(
+                    new LocalizationManager(MCHunt.getCurrentLocale())
+                            .getMessage("mchunt.startup_complete")
+                )
         );
     }
 
     @Override
     public void onDisable() {
+        Bukkit.getConsoleSender().sendMessage(
+                Format.processString(
+                    new LocalizationManager(MCHunt.getCurrentLocale())
+                            .getMessage("mchunt.shutdown_initiated")
+                )
+        );
+
         Bukkit.getScheduler().cancelTasks(this);
+
+        Bukkit.getConsoleSender().sendMessage(
+                Format.processString(
+                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                .getMessage("mchunt.shutdown_complete")
+                )
+        );
     }
 
     public Gson getGson() {
