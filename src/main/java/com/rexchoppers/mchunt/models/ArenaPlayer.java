@@ -17,6 +17,8 @@ public class ArenaPlayer {
 
     private Material disguiseMaterial;
 
+    private boolean disguiseLocked = false;
+
     public ArenaPlayer(UUID uuid) {
         this.uuid = uuid;
     }
@@ -64,5 +66,13 @@ public class ArenaPlayer {
 
     public void setDisguiseMaterial(Material disguiseMaterial) {
         this.disguiseMaterial = disguiseMaterial;
+    }
+
+    public boolean isDisguiseLocked() {
+        return disguiseLocked;
+    }
+
+    public void setDisguiseLocked(boolean disguiseLocked) {
+        this.disguiseLocked = disguiseLocked;
     }
 }

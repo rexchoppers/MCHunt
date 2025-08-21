@@ -25,6 +25,9 @@ public record HiderIsStillListener(MCHunt plugin) {
             DisguiseAPI.undisguiseToAll(serverPlayer);
         }
 
+        // Set as disguised
+        hider.setDisguiseLocked(true);
+
         Bukkit.getOnlinePlayers().forEach(player -> {
             // Don't hide the player from themselves
             if (player.getUniqueId().equals(hider.getUUID())) return;

@@ -82,7 +82,7 @@ public class ArenaTick extends BukkitRunnable {
                         player.updateMovement(serverPlayer.getLocation());
 
                         // If the hider has been still for 5 seconds, set their block
-                        if (player.hasBeenStillFor(5000)) {
+                        if (player.hasBeenStillFor(5000) && !player.isDisguiseLocked()) {
                             this.plugin.getEventBusManager().publishEvent(new HiderIsStillEvent(arena, player));
                         }
                     }
