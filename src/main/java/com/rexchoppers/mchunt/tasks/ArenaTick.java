@@ -40,8 +40,9 @@ public class ArenaTick extends BukkitRunnable {
 
             signManager.initArenaSigns(arena);
 
-            // Announce the time left at key intervals
-            if (arena.getCurrentGameTime() % 60 == 0 || arena.getCurrentGameTime() == 30 || arena.getCurrentGameTime() == 10 || arena.getCurrentGameTime() <= 5) {
+            // Announce the time left at specific key intervals: 2m, 1m, 30s, 10s and downwards
+            int timeLeft = arena.getCurrentGameTime();
+            if (timeLeft == 120 || timeLeft == 60 || timeLeft == 30 || (timeLeft <= 10 && timeLeft > 0)) {
                 arena.getPlayers().forEach(player -> {
                     Player serverPlayer = Bukkit.getPlayer(player.getUUID());
 
@@ -49,7 +50,7 @@ public class ArenaTick extends BukkitRunnable {
                         sendPlayerAudibleMessage(
                                 serverPlayer,
                                 new LocalizationManager(MCHunt.getCurrentLocale())
-                                        .getMessage("arena.time_left", arena.getCurrentGameTime())
+                                        .getMessage("arena.time_left", timeLeft)
                         );
                     }
                 });
