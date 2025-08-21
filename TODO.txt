@@ -8,3 +8,4 @@
    - Leave arena
 - Random blocks for hiders
 - Configurable still time for arena
+- Countdown before disguise lock
