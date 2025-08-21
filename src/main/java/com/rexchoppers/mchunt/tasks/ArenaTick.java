@@ -4,6 +4,7 @@ import com.rexchoppers.mchunt.MCHunt;
 import com.rexchoppers.mchunt.enums.ArenaPlayerRole;
 import com.rexchoppers.mchunt.enums.ArenaStatus;
 import com.rexchoppers.mchunt.events.internal.ArenaSeekersReleasedEvent;
+import com.rexchoppers.mchunt.events.internal.HiderIsStillEvent;
 import com.rexchoppers.mchunt.managers.ArenaRepository;
 import com.rexchoppers.mchunt.managers.LocalizationManager;
 import com.rexchoppers.mchunt.managers.SignManager;
@@ -70,6 +71,22 @@ public class ArenaTick extends BukkitRunnable {
                         });
 
                 this.plugin.getEventBusManager().publishEvent(new ArenaSeekersReleasedEvent(arena));
+            }
+
+            if (arena.getStatus().equals(ArenaStatus.IN_PROGRESS)) {
+                // Hider block task
+                arena.getPlayers().forEach(player -> {
+                    Player serverPlayer = Bukkit.getPlayer(player.getUUID());
+
+                    if (serverPlayer != null && player.getRole().equals(ArenaPlayerRole.HIDER)) {
+                        player.updateMovement(serverPlayer.getLocation());
+
+                        // If the hider has been still for 5 seconds, set their block
+                        if (player.hasBeenStillFor(5000)) {
+                            this.plugin.getEventBusManager().publishEvent(new HiderIsStillEvent(arena, player));
+                        }
+                    }
+                });
             }
         }
     }

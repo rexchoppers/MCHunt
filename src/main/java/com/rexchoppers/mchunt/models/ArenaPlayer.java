@@ -34,22 +34,20 @@ public class ArenaPlayer {
         return lastLocation;
     }
 
-    public void setLastLocation(Location lastLocation) {
-        this.lastLocation = lastLocation;
-    }
-
     public long getLastMovement() {
         return lastMovement;
     }
 
-    public void setLastMovement(long lastMovement) {
-        this.lastMovement = lastMovement;
-    }
-
     public void updateMovement(Location current) {
+        if (this.lastLocation == null) {
+            this.lastLocation = current.clone();
+            this.lastMovement = System.currentTimeMillis();
+            return;
+        }
+
         if (!current.toVector().equals(lastLocation.toVector())) {
-            lastMovement = System.currentTimeMillis();
-            lastLocation = current.clone();
+            this.lastMovement = System.currentTimeMillis();
+            this.lastLocation = current.clone();
         }
     }
 
