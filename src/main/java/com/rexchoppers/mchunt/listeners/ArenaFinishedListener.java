@@ -33,7 +33,7 @@ public record ArenaFinishedListener(MCHunt plugin) {
                 .toList();
 
         if (hiders.isEmpty()) {
-
+            
         }
 
 

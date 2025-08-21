@@ -82,6 +82,8 @@ public class Arena implements Identifiable {
 
     private Countdown startCountdown;
 
+    private Countdown resetCountdown;
+
     private int currentGameTime;
 
 
@@ -343,4 +345,11 @@ public class Arena implements Identifiable {
 
     public static final int DEFAULT_SEEKER_COUNT = 1;
 
+    public Countdown getResetCountdown() {
+        return resetCountdown;
+    }
+
+    public void setResetCountdown(Countdown resetCountdown) {
+        this.resetCountdown = resetCountdown;
+    }
 }
