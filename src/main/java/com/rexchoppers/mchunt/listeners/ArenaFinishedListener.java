@@ -18,12 +18,25 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.List;
+
 import static com.rexchoppers.mchunt.util.PlayerUtil.sendPlayerAudibleMessage;
 
 public record ArenaFinishedListener(MCHunt plugin) {
     @Subscribe
     public void declareWinner(ArenaFinishedEvent event) {
-        
+        Arena arena = event.arena();
+
+        // If there are no hiders, declare seekers as winners
+        List<ArenaPlayer> hiders = arena.getPlayers().stream()
+                .filter(player -> player.getRole().equals(ArenaPlayerRole.HIDER))
+                .toList();
+
+        if (hiders.isEmpty()) {
+
+        }
+
+
     }
 
     @Subscribe
