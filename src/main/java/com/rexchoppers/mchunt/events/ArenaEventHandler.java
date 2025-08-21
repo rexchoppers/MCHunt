@@ -3,6 +3,7 @@ package com.rexchoppers.mchunt.events;
 import com.rexchoppers.mchunt.MCHunt;
 import com.rexchoppers.mchunt.enums.ArenaPlayerRole;
 import com.rexchoppers.mchunt.enums.ArenaStatus;
+import com.rexchoppers.mchunt.events.internal.HiderHasMovedEvent;
 import com.rexchoppers.mchunt.events.internal.PlayerLeftArenaEvent;
 import com.rexchoppers.mchunt.models.Arena;
 import com.rexchoppers.mchunt.models.ArenaPlayer;
@@ -28,8 +29,8 @@ public record ArenaEventHandler(MCHunt plugin) implements Listener {
      */
     @EventHandler
     public void onPlayerMoveEvent(PlayerMoveEvent event) {
-        Player player = event.getPlayer();
-        UUID playerUUID = player.getUniqueId();
+        Player serverPlayer = event.getPlayer();
+        UUID playerUUID = serverPlayer.getUniqueId();
 
         // Check if player is in an arena
         if (plugin.getArenaManager().isPlayerInArena(playerUUID)) {
@@ -43,9 +44,13 @@ public record ArenaEventHandler(MCHunt plugin) implements Listener {
                 return;
             }
 
-            ArenaPlayer arenaPlayer = arena.getPlayer(playerUUID);
+            ArenaPlayer player = arena.getPlayer(playerUUID);
 
-            if (arenaPlayer.getRole() == null || !arenaPlayer.getRole().equals(ArenaPlayerRole.HIDER)) {
+            if (player.getRole() == null || !player.getRole().equals(ArenaPlayerRole.HIDER)) {
+                return;
+            }
+
+            if (!player.isDisguiseLocked()) {
                 return;
             }
 
@@ -56,7 +61,10 @@ public record ArenaEventHandler(MCHunt plugin) implements Listener {
                 return;
             }
 
-
+            this.plugin.getEventBusManager().publishEvent(new HiderHasMovedEvent(
+                    arena,
+                    player
+            ));
         }
     }
 
