@@ -3,6 +3,7 @@ package com.rexchoppers.mchunt.tasks;
 import com.rexchoppers.mchunt.MCHunt;
 import com.rexchoppers.mchunt.enums.ArenaPlayerRole;
 import com.rexchoppers.mchunt.enums.ArenaStatus;
+import com.rexchoppers.mchunt.events.internal.ArenaFinishedEvent;
 import com.rexchoppers.mchunt.events.internal.ArenaSeekersReleasedEvent;
 import com.rexchoppers.mchunt.events.internal.HiderIsStillEvent;
 import com.rexchoppers.mchunt.managers.ArenaRepository;
@@ -88,6 +89,13 @@ public class ArenaTick extends BukkitRunnable {
                         }
                     }
                 });
+            }
+
+            // Check if the game time has run out
+            if (arena.getCurrentGameTime() <= 0) {
+                arena.setStatus(ArenaStatus.FINISHED);
+
+                this.plugin.getEventBusManager().publishEvent(new ArenaFinishedEvent(arena));
             }
         }
     }

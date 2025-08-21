@@ -13,6 +13,8 @@ public enum ArenaStatus {
     // Arena is in progress
     IN_PROGRESS("in_progress"),
 
+    FINISHED("finished"),
+
     // Arena is counting down to end
     COUNTDOWN_END("countdown_end");
 
