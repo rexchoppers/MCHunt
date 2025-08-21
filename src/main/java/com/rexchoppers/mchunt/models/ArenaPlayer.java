@@ -19,6 +19,8 @@ public class ArenaPlayer {
 
     private boolean disguiseLocked = false;
 
+    private Location disguiseLocation = null;
+
     public ArenaPlayer(UUID uuid) {
         this.uuid = uuid;
     }
@@ -78,5 +80,13 @@ public class ArenaPlayer {
 
     public boolean hasMovedRecently() {
         return !hasBeenStillFor(500);
+    }
+
+    public Location getDisguiseLocation() {
+        return disguiseLocation;
+    }
+
+    public void setDisguiseLocation(Location disguiseLocation) {
+        this.disguiseLocation = disguiseLocation;
     }
 }

@@ -2,11 +2,7 @@ package com.rexchoppers.mchunt.managers;
 
 import com.google.common.eventbus.EventBus;
 import com.rexchoppers.mchunt.MCHunt;
-import com.rexchoppers.mchunt.events.internal.ArenaCreatedEvent;
-import com.rexchoppers.mchunt.events.internal.ArenaSeekersReleasedEvent;
-import com.rexchoppers.mchunt.events.internal.PlayerJoinedArenaEvent;
 import com.rexchoppers.mchunt.listeners.*;
-import org.bukkit.Bukkit;
 
 public class EventBusManager {
     private final EventBus eventBus;
@@ -28,6 +24,7 @@ public class EventBusManager {
         this.eventBus.register(new ArenaSeekersReleasedListener(this.plugin));
         this.eventBus.register(new ArenaStartedListener(this.plugin));
         this.eventBus.register(new HiderIsStillListener(this.plugin));
+        this.eventBus.register(new HiderHasMovedListener(this.plugin));
     }
 
     public void publishEvent(Object event) {

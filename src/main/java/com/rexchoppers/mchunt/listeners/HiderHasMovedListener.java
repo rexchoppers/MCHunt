@@ -2,44 +2,53 @@ package com.rexchoppers.mchunt.listeners;
 
 import com.google.common.eventbus.Subscribe;
 import com.rexchoppers.mchunt.MCHunt;
-import com.rexchoppers.mchunt.enums.ArenaPlayerRole;
-import com.rexchoppers.mchunt.events.internal.ArenaSeekersReleasedEvent;
 import com.rexchoppers.mchunt.events.internal.HiderIsStillEvent;
 import com.rexchoppers.mchunt.managers.LocalizationManager;
-import com.rexchoppers.mchunt.models.Arena;
 import com.rexchoppers.mchunt.models.ArenaPlayer;
 import me.libraryaddict.disguise.DisguiseAPI;
+import me.libraryaddict.disguise.DisguiseConfig;
+import me.libraryaddict.disguise.disguisetypes.DisguiseType;
+import me.libraryaddict.disguise.disguisetypes.MiscDisguise;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import static com.rexchoppers.mchunt.util.PlayerUtil.sendPlayerAudibleMessage;
 
-public record HiderIsStillListener(MCHunt plugin) {
+public record HiderHasMovedListener(MCHunt plugin) {
 
     @Subscribe
-    public void setBlock(HiderIsStillEvent event) {
+    public void setHiderDisguise(HiderIsStillEvent event) {
         ArenaPlayer hider = event.hider();
         Player serverPlayer = Bukkit.getPlayer(hider.getUUID());
 
-        if (DisguiseAPI.isDisguised(serverPlayer)) {
-            DisguiseAPI.undisguiseToAll(serverPlayer);
-        }
-
         // Set as disguised
-        hider.setDisguiseLocked(true);
+        hider.setDisguiseLocked(false);
 
         Bukkit.getOnlinePlayers().forEach(player -> {
             // Don't hide the player from themselves
             if (player.getUniqueId().equals(hider.getUUID())) return;
 
-            player.hidePlayer(plugin, serverPlayer);
+            player.showPlayer(plugin, serverPlayer);
             hider.setDisguiseLocation(serverPlayer.getLocation());
 
-            player.sendBlockChange(
-                    serverPlayer.getLocation(),
-                    hider.getDisguiseMaterial().createBlockData()
-            );
+            if (hider.getDisguiseLocation() != null) {
+                player.sendBlockChange(
+                        hider.getDisguiseLocation(),
+                        Material.AIR.createBlockData()
+                );
+            }
+
         });
+
+        Material disguiseMaterial = hider.getDisguiseMaterial();
+
+        MiscDisguise disguise = new MiscDisguise(DisguiseType.FALLING_BLOCK, disguiseMaterial);
+        disguise.setNotifyBar(DisguiseConfig.NotifyBar.NONE);
+        DisguiseAPI.disguiseToAll(serverPlayer, disguise);
+
+        hider.setDisguiseLocation(null);
     }
 
     @Subscribe
@@ -51,7 +60,7 @@ public record HiderIsStillListener(MCHunt plugin) {
             sendPlayerAudibleMessage(
                     serverPlayer,
                     new LocalizationManager(MCHunt.getCurrentLocale())
-                            .getMessage("player.hider.hidden")
+                            .getMessage("player.hider.moved_unhidden")
             );
         }
     }
