@@ -27,7 +27,15 @@ public record HiderIsStillListener(MCHunt plugin) {
         }
 
         if (DisguiseAPI.isDisguised(serverPlayer)) {
-
+            DisguiseAPI.undisguiseToAll(serverPlayer);
         }
+
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            if (player.getUniqueId().equals(hider.getUUID())) return;
+
+            player.hidePlayer(plugin, serverPlayer);
+
+
+        });
     }
 }
