@@ -1,6 +1,7 @@
 package com.rexchoppers.mchunt.tasks;
 
 import com.rexchoppers.mchunt.MCHunt;
+import com.rexchoppers.mchunt.enums.ArenaPlayerRole;
 import com.rexchoppers.mchunt.models.Arena;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -17,6 +18,13 @@ public class ArenaHiderBlockTask extends BukkitRunnable {
     public void run() {
         List<Arena> arenas = plugin.getArenaManager().getData();
 
-        
+        arenas.forEach(arena -> {
+            // Loop through hiders only
+            arena.getPlayers().stream()
+                    .filter(player -> player.getRole().equals(ArenaPlayerRole.HIDER))
+                    .forEach(player -> {
+                        
+                    });
+        });
     }
 }

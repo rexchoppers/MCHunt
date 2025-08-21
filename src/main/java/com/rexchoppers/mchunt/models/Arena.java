@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class Arena implements Identifiable {
@@ -82,6 +83,7 @@ public class Arena implements Identifiable {
     private Countdown startCountdown;
 
     private int currentGameTime;
+
 
     public Arena(
             UUID uuid,
