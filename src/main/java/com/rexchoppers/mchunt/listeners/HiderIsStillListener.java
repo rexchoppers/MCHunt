@@ -19,23 +19,36 @@ public record HiderIsStillListener(MCHunt plugin) {
     @Subscribe
     public void setBlock(HiderIsStillEvent event) {
         ArenaPlayer hider = event.hider();
-
         Player serverPlayer = Bukkit.getPlayer(hider.getUUID());
-
-        if (serverPlayer == null || !serverPlayer.isOnline()) {
-            return;
-        }
 
         if (DisguiseAPI.isDisguised(serverPlayer)) {
             DisguiseAPI.undisguiseToAll(serverPlayer);
         }
 
         Bukkit.getOnlinePlayers().forEach(player -> {
+            // Don't hide the player from themselves
             if (player.getUniqueId().equals(hider.getUUID())) return;
 
             player.hidePlayer(plugin, serverPlayer);
 
-
+            player.sendBlockChange(
+                    serverPlayer.getLocation(),
+                    hider.getDisguiseMaterial().createBlockData()
+            );
         });
+    }
+
+    @Subscribe
+    public void sendMessage(HiderIsStillEvent event) {
+        ArenaPlayer hider = event.hider();
+        Player serverPlayer = Bukkit.getPlayer(hider.getUUID());
+
+        if (serverPlayer != null) {
+            sendPlayerAudibleMessage(
+                    serverPlayer,
+                    new LocalizationManager(MCHunt.getCurrentLocale())
+                            .getMessage("player.hider.hidden")
+            );
+        }
     }
 }

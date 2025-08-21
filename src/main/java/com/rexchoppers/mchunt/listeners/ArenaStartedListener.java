@@ -93,6 +93,8 @@ public record ArenaStartedListener(MCHunt plugin) {
             String randomBlock = blocks[(int) (Math.random() * blocks.length)];
             Material disguiseMaterial = Material.getMaterial(randomBlock.toUpperCase());
 
+            hider.setDisguiseMaterial(disguiseMaterial);
+
             if (disguiseMaterial != null) {
                 MiscDisguise disguise = new MiscDisguise(DisguiseType.FALLING_BLOCK, disguiseMaterial);
                 disguise.setNotifyBar(DisguiseConfig.NotifyBar.NONE);

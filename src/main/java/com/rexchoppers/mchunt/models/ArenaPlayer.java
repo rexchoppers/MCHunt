@@ -2,6 +2,7 @@ package com.rexchoppers.mchunt.models;
 
 import com.rexchoppers.mchunt.enums.ArenaPlayerRole;
 import org.bukkit.Location;
+import org.bukkit.Material;
 
 import java.util.UUID;
 
@@ -13,6 +14,8 @@ public class ArenaPlayer {
     // For location tracking
     private Location lastLocation = null;
     private long lastMovement = 0;
+
+    private Material disguiseMaterial;
 
     public ArenaPlayer(UUID uuid) {
         this.uuid = uuid;
@@ -53,5 +56,13 @@ public class ArenaPlayer {
 
     public boolean hasBeenStillFor(long ms) {
         return (System.currentTimeMillis() - lastMovement) >= ms;
+    }
+
+    public Material getDisguiseMaterial() {
+        return disguiseMaterial;
+    }
+
+    public void setDisguiseMaterial(Material disguiseMaterial) {
+        this.disguiseMaterial = disguiseMaterial;
     }
 }
