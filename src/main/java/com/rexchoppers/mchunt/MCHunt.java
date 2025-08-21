@@ -46,9 +46,16 @@ public final class MCHunt extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        // Set the current locale
+        currentLocale = Locale.getDefault();
+
+        Bukkit.getConsoleSender().sendMessage(
+                new LocalizationManager(MCHunt.getCurrentLocale())
+                        .getMessage("mchunt.startup_initiated")
+        );
+
         this.gson = new GsonBuilder()
                 .registerTypeAdapter(Instant.class, new InstantTypeAdapter())
-
                 .registerTypeAdapter(Arena.class, new ArenaDeserializer())
                 .registerTypeAdapter(ItemStack[].class, new ItemStackArraySerializer())
                 .registerTypeAdapter(ItemStack[].class, new ItemStackArrayDeserializer())
@@ -78,7 +85,6 @@ public final class MCHunt extends JavaPlugin {
         saveDefaultConfig();
 
 
-        currentLocale = Locale.getDefault();
 
         // Setup managers
         this.signManager = new SignManager();
@@ -112,6 +118,11 @@ public final class MCHunt extends JavaPlugin {
         // Setup commands
         PaperCommandManager manager = new PaperCommandManager(this);
         manager.registerCommand(new CommandMCHunt(this));
+
+        Bukkit.getConsoleSender().sendMessage(
+                new LocalizationManager(MCHunt.getCurrentLocale())
+                        .getMessage("mchunt.startup_complete")
+        );
     }
 
     @Override
