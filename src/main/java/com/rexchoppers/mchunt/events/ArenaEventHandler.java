@@ -61,6 +61,14 @@ public record ArenaEventHandler(MCHunt plugin) implements Listener {
                 return;
             }
 
+            // Add a threshold so that small movements do not trigger the event
+            double threshold = 0.5;
+            if (Math.abs(event.getFrom().getX() - event.getTo().getX()) < threshold
+                    && Math.abs(event.getFrom().getY() - event.getTo().getY()) < threshold
+                    && Math.abs(event.getFrom().getZ() - event.getTo().getZ()) < threshold) {
+                return;
+            }
+
             this.plugin.getEventBusManager().publishEvent(new HiderHasMovedEvent(
                     arena,
                     player
