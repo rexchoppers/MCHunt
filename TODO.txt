@@ -7,3 +7,4 @@
 - In-game menu
    - Leave arena
 - Random blocks for hiders
+- Configurable still time for arena
