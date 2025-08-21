@@ -2,6 +2,7 @@ package com.rexchoppers.mchunt.listeners;
 
 import com.google.common.eventbus.Subscribe;
 import com.rexchoppers.mchunt.MCHunt;
+import com.rexchoppers.mchunt.events.internal.HiderHasMovedEvent;
 import com.rexchoppers.mchunt.events.internal.HiderIsStillEvent;
 import com.rexchoppers.mchunt.managers.LocalizationManager;
 import com.rexchoppers.mchunt.models.ArenaPlayer;
@@ -19,7 +20,7 @@ import static com.rexchoppers.mchunt.util.PlayerUtil.sendPlayerAudibleMessage;
 public record HiderHasMovedListener(MCHunt plugin) {
 
     @Subscribe
-    public void setHiderDisguise(HiderIsStillEvent event) {
+    public void setHiderDisguise(HiderHasMovedEvent event) {
         ArenaPlayer hider = event.hider();
         Player serverPlayer = Bukkit.getPlayer(hider.getUUID());
 
@@ -39,7 +40,6 @@ public record HiderHasMovedListener(MCHunt plugin) {
                         Material.AIR.createBlockData()
                 );
             }
-
         });
 
         Material disguiseMaterial = hider.getDisguiseMaterial();
@@ -52,7 +52,7 @@ public record HiderHasMovedListener(MCHunt plugin) {
     }
 
     @Subscribe
-    public void sendMessage(HiderIsStillEvent event) {
+    public void sendMessage(HiderHasMovedEvent event) {
         ArenaPlayer hider = event.hider();
         Player serverPlayer = Bukkit.getPlayer(hider.getUUID());
 
