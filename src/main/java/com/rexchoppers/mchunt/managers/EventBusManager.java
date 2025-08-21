@@ -27,6 +27,7 @@ public class EventBusManager {
         this.eventBus.register(new PlayerLeftArenaListener(this.plugin));
         this.eventBus.register(new ArenaSeekersReleasedListener(this.plugin));
         this.eventBus.register(new ArenaStartedListener(this.plugin));
+        this.eventBus.register(new HiderIsStillListener(this.plugin));
     }
 
     public void publishEvent(Object event) {
