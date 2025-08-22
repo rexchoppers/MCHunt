@@ -147,7 +147,6 @@ public class ArenaTick extends BukkitRunnable {
                     if (arena.getResetCountdown().getCountdown() == 0) {
                         this.plugin.getEventBusManager().publishEvent(new ArenaResetCountdownEndedEvent(
                                 arena,
-
                                 // Copy of players. Don't want race conditions with clearing players
                                 new ArrayList<>(arena.getPlayers())
                         ));

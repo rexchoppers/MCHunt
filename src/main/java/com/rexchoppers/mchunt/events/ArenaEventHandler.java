@@ -13,15 +13,19 @@ import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import java.util.List;
 import java.util.UUID;
 
 public record ArenaEventHandler(MCHunt plugin) implements Listener {
@@ -119,29 +123,89 @@ public record ArenaEventHandler(MCHunt plugin) implements Listener {
 
     @EventHandler
     public void onBlockBreakEvent(BlockBreakEvent event) {
-        Player player = event.getPlayer();
+        if (!plugin.getArenaManager().isPlayerInArena(event.getPlayer().getUniqueId())) return;
 
-        if (plugin.getArenaManager().isPlayerInArena(player.getUniqueId())) {
-            event.setCancelled(true);
-        }
+        event.setCancelled(true);
     }
 
     @EventHandler
     public void onBlockPlaceEvent(BlockPlaceEvent event) {
-        Player player = event.getPlayer();
+        if (!plugin.getArenaManager().isPlayerInArena(event.getPlayer().getUniqueId())) return;
 
-        if (plugin.getArenaManager().isPlayerInArena(player.getUniqueId())) {
-            event.setCancelled(true);
-        }
+        event.setCancelled(true);
     }
 
     @EventHandler
     public void onFoodLevelChangeEvent(FoodLevelChangeEvent event) {
-        if (!(event.getEntity() instanceof Player player)) return;
+        if (!(event.getEntity() instanceof Player)) return;
+        if (!plugin.getArenaManager().isPlayerInArena(event.getEntity().getUniqueId())) return;
 
         // Prevent food level changes in arenas
-        if (plugin.getArenaManager().isPlayerInArena(player.getUniqueId())) {
-            event.setCancelled(true);
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onPlayerInteractEvent(PlayerInteractEvent event) {
+        Player serverPlayer = event.getPlayer();
+
+        if (!plugin.getArenaManager().isPlayerInArena(serverPlayer.getUniqueId())) return;
+
+        if (
+                (event.getAction() == Action.LEFT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_BLOCK) &&
+                        event.getClickedBlock() != null &&
+                        !event.getClickedBlock().getType().equals(Material.AIR)
+        ) {
+            List<Material> blockedInteractMaterials = List.of(
+                    Material.ENCHANTING_TABLE,
+                    Material.CRAFTING_TABLE,
+                    Material.ANVIL,
+                    Material.CHIPPED_ANVIL,
+                    Material.DAMAGED_ANVIL,
+                    Material.FURNACE,
+                    Material.BLAST_FURNACE,
+                    Material.SMOKER,
+                    Material.BREWING_STAND,
+                    Material.CAULDRON,
+                    Material.LECTERN,
+                    Material.BARREL,
+                    Material.GRINDSTONE,
+                    Material.LOOM,
+                    Material.STONECUTTER,
+                    Material.BELL,
+                    Material.NOTE_BLOCK,
+                    Material.JUKEBOX,
+                    Material.DISPENSER,
+                    Material.DROPPER,
+                    Material.HOPPER,
+                    Material.TRAPPED_CHEST,
+                    Material.CHEST,
+                    Material.ENDER_CHEST,
+                    Material.SHULKER_BOX,
+                    Material.WHITE_SHULKER_BOX,
+                    Material.ORANGE_SHULKER_BOX,
+                    Material.MAGENTA_SHULKER_BOX,
+                    Material.LIGHT_BLUE_SHULKER_BOX,
+                    Material.YELLOW_SHULKER_BOX,
+                    Material.LIME_SHULKER_BOX,
+                    Material.PINK_SHULKER_BOX,
+                    Material.GRAY_SHULKER_BOX,
+                    Material.LIGHT_GRAY_SHULKER_BOX,
+                    Material.CYAN_SHULKER_BOX,
+                    Material.PURPLE_SHULKER_BOX,
+                    Material.BLUE_SHULKER_BOX,
+                    Material.BROWN_SHULKER_BOX,
+                    Material.GREEN_SHULKER_BOX,
+                    Material.RED_SHULKER_BOX,
+                    Material.BLACK_SHULKER_BOX,
+                    Material.FLOWER_POT,
+                    Material.ITEM_FRAME,
+                    Material.GLOW_ITEM_FRAME,
+                    Material.PAINTING
+            );
+
+            if (blockedInteractMaterials.contains(event.getClickedBlock().getType())) {
+                event.setCancelled(true);
+            }
         }
     }
 }
