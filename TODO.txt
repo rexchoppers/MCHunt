@@ -14,3 +14,4 @@
 - Fail boot if deps are not found
 - Vault support?
 - Turn off seeker sword damage
+- Hit on hider block location with sword
