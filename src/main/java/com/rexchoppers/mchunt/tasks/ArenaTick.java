@@ -97,8 +97,37 @@ public class ArenaTick extends BukkitRunnable {
                         this.plugin.getEventBusManager().publishEvent(new ArenaFinishedEvent(arena));
                     }
                     break;
-            }
 
+                case ArenaStatus.COUNTDOWN_RESET:
+                    arena.getResetCountdown().decrementCountdown();
+
+                    if (arena.getResetCountdown().getCountdown() == 0) {
+                        // Teleport all players out of the arena
+                        arena.getPlayers().forEach(player -> {
+                            Player serverPlayer = Bukkit.getPlayer(player.getUUID());
+
+                            if (serverPlayer != null) {
+                                serverPlayer.teleport(arena.getAfterGameSpawn());
+                                serverPlayer.getInventory().clear();
+                                serverPlayer.setHealth(20.0);
+                                serverPlayer.setFoodLevel(20);
+                            }
+                        });
+
+                        // Empty the arena player list
+                        arena.getPlayers().clear();
+                        arena.setStatus(ArenaStatus.WAITING);
+
+                        arena.setCurrentGameTime(0);
+                        arena.setStartCountdown(null);
+                        arena.setResetCountdown(null);
+
+                        // Update sign
+                        signManager.initArenaSigns(arena);
+                    }
+
+                    break;
+            }
 
 
         }
