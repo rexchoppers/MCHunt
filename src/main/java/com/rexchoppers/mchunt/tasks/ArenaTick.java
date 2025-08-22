@@ -4,6 +4,7 @@ import com.rexchoppers.mchunt.MCHunt;
 import com.rexchoppers.mchunt.enums.ArenaPlayerRole;
 import com.rexchoppers.mchunt.enums.ArenaStatus;
 import com.rexchoppers.mchunt.events.internal.ArenaFinishedEvent;
+import com.rexchoppers.mchunt.events.internal.ArenaResetCountdownEndedEvent;
 import com.rexchoppers.mchunt.events.internal.ArenaSeekersReleasedEvent;
 import com.rexchoppers.mchunt.events.internal.HiderIsStillEvent;
 import com.rexchoppers.mchunt.managers.ArenaRepository;
@@ -14,6 +15,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.rexchoppers.mchunt.util.PlayerUtil.sendPlayerAudibleMessage;
@@ -102,6 +104,13 @@ public class ArenaTick extends BukkitRunnable {
                     arena.getResetCountdown().decrementCountdown();
 
                     if (arena.getResetCountdown().getCountdown() == 0) {
+                        this.plugin.getEventBusManager().publishEvent(new ArenaResetCountdownEndedEvent(
+                                arena,
+
+                                // Copy of players. Don't want race conditions with clearing players
+                                new ArrayList<>(arena.getPlayers())
+                        ));
+
                         // Teleport all players out of the arena
                         arena.getPlayers().forEach(player -> {
                             Player serverPlayer = Bukkit.getPlayer(player.getUUID());
