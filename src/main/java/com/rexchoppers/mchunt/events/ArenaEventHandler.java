@@ -20,6 +20,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -220,5 +221,22 @@ public record ArenaEventHandler(MCHunt plugin) implements Listener {
                 event.setCancelled(true);
             }
         }
+    }
+
+    @EventHandler
+    public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event) {
+        if (!(event.getEntity() instanceof Player)) return;
+        if (!plugin.getArenaManager().isPlayerInArena(event.getEntity().getUniqueId())) return;
+
+        Player serverPlayer = (Player) event.getEntity();
+
+        Arena arena = plugin.getArenaManager().getArenaPlayerIsIn(serverPlayer.getUniqueId()).get();
+
+        if (!arena.getStatus().equals(ArenaStatus.IN_PROGRESS)) {
+            event.setCancelled(true);
+            return;
+        }
+
+        
     }
 }
