@@ -67,9 +67,9 @@ public record ArenaEventHandler(MCHunt plugin) implements Listener {
         Location to = event.getTo();
         com.sk89q.worldedit.util.Location weLoc = BukkitAdapter.adapt(to);
 
-        // If player is outside the region and they're not respawning, cancel the event and teleport them back
+        // If player is outside the region, and they're not respawning, cancel the event and teleport them back
         if (
-                player.getRespawnCountdown() != null &&
+                player.getRespawnCountdown() == null &&
                 !region.contains(weLoc.getBlockX(), weLoc.getBlockY(), weLoc.getBlockZ())) {
             event.setCancelled(true);
             serverPlayer.teleport(event.getFrom());
