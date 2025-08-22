@@ -86,6 +86,8 @@ public class Arena implements Identifiable {
 
     private int currentGameTime;
 
+    private boolean seekersReleased = false;
+
 
     public Arena(
             UUID uuid,
@@ -351,5 +353,13 @@ public class Arena implements Identifiable {
 
     public void setResetCountdown(Countdown resetCountdown) {
         this.resetCountdown = resetCountdown;
+    }
+
+    public boolean isSeekersReleased() {
+        return seekersReleased;
+    }
+
+    public void setSeekersReleased(boolean seekersReleased) {
+        this.seekersReleased = seekersReleased;
     }
 }

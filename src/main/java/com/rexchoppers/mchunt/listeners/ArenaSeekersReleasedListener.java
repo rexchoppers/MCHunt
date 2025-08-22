@@ -49,4 +49,9 @@ public record ArenaSeekersReleasedListener(MCHunt plugin) {
                     plugin.getItemManager().setSeekerItems(player);
                 });
     }
+
+    @Subscribe
+    public void markSeekersAsReleased(ArenaSeekersReleasedEvent event) {
+        event.arena().setSeekersReleased(true);
+    }
 }

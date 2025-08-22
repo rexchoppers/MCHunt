@@ -74,7 +74,8 @@ public record ArenaEventHandler(MCHunt plugin) implements Listener {
         // If player is outside the region, and they're not respawning, cancel the event and teleport them back
         if (
                 player.getRespawnCountdown() == null &&
-                !region.contains(weLoc.getBlockX(), weLoc.getBlockY(), weLoc.getBlockZ())) {
+                        arena.isSeekersReleased() &&
+                        !region.contains(weLoc.getBlockX(), weLoc.getBlockY(), weLoc.getBlockZ())) {
             event.setCancelled(true);
             serverPlayer.teleport(event.getFrom());
             return;
