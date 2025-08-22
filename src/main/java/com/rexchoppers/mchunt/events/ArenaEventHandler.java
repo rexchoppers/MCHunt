@@ -273,7 +273,7 @@ public record ArenaEventHandler(MCHunt plugin) implements Listener {
 
         // If a seeker has enough damage to kill a hider, trigger the kill event
         if (
-                event.getDamage() >= damagerServerPlayer.getHealth() &&
+                event.getDamage() >= damagedServerPlayer.getHealth() &&
                         damagedPlayer.getRole() != null &&
                         damagedPlayer.getRole().equals(ArenaPlayerRole.HIDER) &&
                         damagerPlayer.getRole() != null &&
