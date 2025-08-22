@@ -286,16 +286,5 @@ public record ArenaEventHandler(MCHunt plugin) implements Listener {
             ));
             Bukkit.broadcastMessage("A hider has been killed by a seeker!");
         }
-
-        // If a hider has enough damage to kill a seeker, trigger the kill event
-        if (event.getDamage() >= damagerServerPlayer.getHealth()) {
-            if (damagedPlayer.getRole() != null &&
-                    damagedPlayer.getRole().equals(ArenaPlayerRole.SEEKER) &&
-                    damagerPlayer.getRole() != null &&
-                    damagerPlayer.getRole().equals(ArenaPlayerRole.HIDER)
-            ) {
-                Bukkit.broadcastMessage("A hider has been killed by a seeker!");
-            }
-        }
     }
 }
