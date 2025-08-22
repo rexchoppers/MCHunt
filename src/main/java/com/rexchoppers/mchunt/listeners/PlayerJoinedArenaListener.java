@@ -7,6 +7,7 @@ import com.rexchoppers.mchunt.events.internal.PlayerJoinedArenaEvent;
 import com.rexchoppers.mchunt.managers.LocalizationManager;
 import com.rexchoppers.mchunt.models.Arena;
 import com.rexchoppers.mchunt.models.Countdown;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
 import static com.rexchoppers.mchunt.util.PlayerUtil.*;
@@ -57,6 +58,7 @@ public record PlayerJoinedArenaListener(MCHunt plugin) {
         }
 
         player.getInventory().clear();
+        player.setGameMode(GameMode.ADVENTURE);
         player.setFoodLevel(20);
         player.setHealth(20.0);
     }
