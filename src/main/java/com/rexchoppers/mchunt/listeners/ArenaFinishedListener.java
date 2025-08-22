@@ -3,12 +3,14 @@ package com.rexchoppers.mchunt.listeners;
 import com.google.common.eventbus.Subscribe;
 import com.rexchoppers.mchunt.MCHunt;
 import com.rexchoppers.mchunt.enums.ArenaPlayerRole;
+import com.rexchoppers.mchunt.enums.ArenaStatus;
 import com.rexchoppers.mchunt.events.internal.ArenaFinishedEvent;
 import com.rexchoppers.mchunt.events.internal.ArenaStartedEvent;
 import com.rexchoppers.mchunt.items.ItemBuilder;
 import com.rexchoppers.mchunt.managers.LocalizationManager;
 import com.rexchoppers.mchunt.models.Arena;
 import com.rexchoppers.mchunt.models.ArenaPlayer;
+import com.rexchoppers.mchunt.models.Countdown;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.DisguiseConfig;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
@@ -35,8 +37,16 @@ public record ArenaFinishedListener(MCHunt plugin) {
         if (hiders.isEmpty()) {
             
         }
+    }
 
+    @Subscribe
+    public void startEndCountdown(ArenaFinishedEvent event) {
+        Arena arena = event.arena();
 
+        arena.setStatus(ArenaStatus.COUNTDOWN_RESET);
+        arena.setResetCountdown(
+                new Countdown(arena.getCountdownAfterEnd())
+        );
     }
 
     @Subscribe

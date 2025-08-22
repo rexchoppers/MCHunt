@@ -16,7 +16,9 @@ public enum ArenaStatus {
     FINISHED("finished"),
 
     // Arena is counting down to end
-    COUNTDOWN_END("countdown_end");
+    COUNTDOWN_END("countdown_end"),
+
+    COUNTDOWN_RESET("countdown_reset");
 
     private final String key;
 
