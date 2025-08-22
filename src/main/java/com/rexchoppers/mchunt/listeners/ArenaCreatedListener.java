@@ -3,7 +3,6 @@ package com.rexchoppers.mchunt.listeners;
 import com.google.common.eventbus.Subscribe;
 import com.rexchoppers.mchunt.MCHunt;
 import com.rexchoppers.mchunt.events.internal.ArenaCreatedEvent;
-import com.rexchoppers.mchunt.events.internal.ArenaSetupDiscardedEvent;
 import com.rexchoppers.mchunt.models.Arena;
 import com.rexchoppers.mchunt.models.ArenaSetup;
 import org.bukkit.Bukkit;
@@ -13,15 +12,9 @@ import org.bukkit.entity.Player;
 
 import java.util.Map;
 
-public class ArenaCreatedListener {
-    private final MCHunt plugin;
-
-    public ArenaCreatedListener(MCHunt plugin) {
-        this.plugin = plugin;
-    }
-
+public record ArenaCreatedListener(MCHunt plugin) {
     @Subscribe
-    public void restorePlayerInventory(ArenaCreatedEvent event){
+    public void restorePlayerInventory(ArenaCreatedEvent event) {
         ArenaSetup arenaSetup = event.arenaSetup();
 
         Player player = plugin.getServer().getPlayer(arenaSetup.getPlayerUuid());
@@ -33,7 +26,7 @@ public class ArenaCreatedListener {
     }
 
     @Subscribe
-    public void resetArenaSetupBoundary(ArenaCreatedEvent event){
+    public void resetArenaSetupBoundary(ArenaCreatedEvent event) {
         ArenaSetup arenaSetup = event.arenaSetup();
 
         Map<Location, BlockData> blocks = arenaSetup.getTmpBoundaryTracking();
@@ -52,7 +45,7 @@ public class ArenaCreatedListener {
     }
 
     @Subscribe
-    public void removeArenaSetupScrollingSigns(ArenaCreatedEvent event){
+    public void removeArenaSetupScrollingSigns(ArenaCreatedEvent event) {
         ArenaSetup arenaSetup = event.arenaSetup();
 
         plugin.getSignManager().removeArenaSetupScrollingSigns(arenaSetup.getUUID());

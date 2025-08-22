@@ -11,12 +11,7 @@ import org.bukkit.entity.Player;
 
 import static com.rexchoppers.mchunt.util.PlayerUtil.*;
 
-public class PlayerJoinedArenaListener {
-    private final MCHunt plugin;
-
-    public PlayerJoinedArenaListener(MCHunt plugin) {
-        this.plugin = plugin;
-    }
+public record PlayerJoinedArenaListener(MCHunt plugin) {
 
     @Subscribe
     public void broadcastToPlayersInArena(PlayerJoinedArenaEvent event) {

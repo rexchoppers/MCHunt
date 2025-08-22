@@ -3,8 +3,6 @@ package com.rexchoppers.mchunt.listeners;
 import com.google.common.eventbus.Subscribe;
 import com.rexchoppers.mchunt.MCHunt;
 import com.rexchoppers.mchunt.events.internal.ArenaSetupDiscardedEvent;
-import com.rexchoppers.mchunt.events.internal.ArenaSetupPlayerJoinedEvent;
-import com.rexchoppers.mchunt.events.internal.ArenaSetupUpdatedEvent;
 import com.rexchoppers.mchunt.models.ArenaSetup;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -12,18 +10,12 @@ import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
 import java.util.Map;
 
-public class ArenaSetupDiscardedListener {
-    private final MCHunt plugin;
-
-    public ArenaSetupDiscardedListener(MCHunt plugin) {
-        this.plugin = plugin;
-    }
+public record ArenaSetupDiscardedListener(MCHunt plugin) {
 
     @Subscribe
-    public void restorePlayerInventory(ArenaSetupDiscardedEvent event){
+    public void restorePlayerInventory(ArenaSetupDiscardedEvent event) {
         ArenaSetup arenaSetup = event.arenaSetup();
 
         Player player = plugin.getServer().getPlayer(arenaSetup.getPlayerUuid());
@@ -35,7 +27,7 @@ public class ArenaSetupDiscardedListener {
     }
 
     @Subscribe
-    public void removeArenaSetupSigns(ArenaSetupDiscardedEvent event){
+    public void removeArenaSetupSigns(ArenaSetupDiscardedEvent event) {
         ArenaSetup arenaSetup = event.arenaSetup();
 
         for (Location location : arenaSetup.getArenaSigns()) {
@@ -44,7 +36,7 @@ public class ArenaSetupDiscardedListener {
     }
 
     @Subscribe
-    public void removeArenaSetupScrollingSigns(ArenaSetupDiscardedEvent event){
+    public void removeArenaSetupScrollingSigns(ArenaSetupDiscardedEvent event) {
         ArenaSetup arenaSetup = event.arenaSetup();
 
         plugin.getSignManager().removeArenaSetupScrollingSigns(arenaSetup.getUUID());
@@ -70,7 +62,7 @@ public class ArenaSetupDiscardedListener {
     }
 
     @Subscribe
-    public void resetLocationMarkers(ArenaSetupDiscardedEvent event){
+    public void resetLocationMarkers(ArenaSetupDiscardedEvent event) {
         ArenaSetup arenaSetup = event.arenaSetup();
 
         Player player = Bukkit.getPlayer(arenaSetup.getPlayerUuid());

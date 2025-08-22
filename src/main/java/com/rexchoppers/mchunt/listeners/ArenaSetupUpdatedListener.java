@@ -5,24 +5,18 @@ import com.rexchoppers.mchunt.MCHunt;
 import com.rexchoppers.mchunt.events.internal.ArenaSetupPlayerJoinedEvent;
 import com.rexchoppers.mchunt.events.internal.ArenaSetupUpdatedEvent;
 import com.rexchoppers.mchunt.models.ArenaSetup;
-import org.bukkit.Bukkit;
 
-public class ArenaSetupUpdatedListener {
-    private final MCHunt plugin;
-
-    public ArenaSetupUpdatedListener(MCHunt plugin) {
-        this.plugin = plugin;
-    }
+public record ArenaSetupUpdatedListener(MCHunt plugin) {
 
     @Subscribe
-    public void updateArenaSigns(ArenaSetupUpdatedEvent event){
+    public void updateArenaSigns(ArenaSetupUpdatedEvent event) {
         ArenaSetup arenaSetup = this.plugin.getArenaSetupManager().getByUUID(event.arenaSetupUuid()).orElse(null);
         if (arenaSetup == null) return;
         plugin.getSignManager().initArenaSetupSigns(arenaSetup);
     }
 
     @Subscribe
-    public void updateArenaSignsOnArenaSetupPlayerJoin(ArenaSetupPlayerJoinedEvent event){
+    public void updateArenaSignsOnArenaSetupPlayerJoin(ArenaSetupPlayerJoinedEvent event) {
         ArenaSetup arenaSetup = this.plugin.getArenaSetupManager().getByUUID(event.arenaSetupUuid()).orElse(null);
         if (arenaSetup == null) return;
         plugin.getSignManager().initArenaSetupSigns(arenaSetup);
