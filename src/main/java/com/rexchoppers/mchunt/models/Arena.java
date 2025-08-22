@@ -362,4 +362,14 @@ public class Arena implements Identifiable {
     public void setSeekersReleased(boolean seekersReleased) {
         this.seekersReleased = seekersReleased;
     }
+
+    public boolean isASeeker(UUID playerUUID) {
+        ArenaPlayer arenaPlayer = getPlayer(playerUUID);
+        return arenaPlayer != null && arenaPlayer.getRole() == ArenaPlayerRole.SEEKER;
+    }
+
+    public boolean isAHider(UUID playerUUID) {
+        ArenaPlayer arenaPlayer = getPlayer(playerUUID);
+        return arenaPlayer != null && arenaPlayer.getRole() == ArenaPlayerRole.HIDER;
+    }
 }

@@ -226,17 +226,31 @@ public record ArenaEventHandler(MCHunt plugin) implements Listener {
     @EventHandler
     public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event) {
         if (!(event.getEntity() instanceof Player)) return;
-        if (!plugin.getArenaManager().isPlayerInArena(event.getEntity().getUniqueId())) return;
+        if (!(event.getDamager() instanceof Player)) return;
 
-        Player serverPlayer = (Player) event.getEntity();
+        Player damagedServerPlayer = (Player) event.getEntity();
+        Player damagerServerPlayer = (Player) event.getDamager();
 
-        Arena arena = plugin.getArenaManager().getArenaPlayerIsIn(serverPlayer.getUniqueId()).get();
+        if (!plugin.getArenaManager().isPlayerInArena(damagedServerPlayer.getUniqueId())) return;
+        if (!plugin.getArenaManager().isPlayerInArena(damagerServerPlayer.getUniqueId())) return;
 
-        if (!arena.getStatus().equals(ArenaStatus.IN_PROGRESS)) {
+        // Make sure both players are in the same arena
+        Arena damagedPlayerArena = plugin.getArenaManager().getArenaPlayerIsIn(damagedServerPlayer.getUniqueId()).orElse(null);
+        Arena damagerPlayerArena = plugin.getArenaManager().getArenaPlayerIsIn(damagerServerPlayer.getUniqueId()).orElse(null);
+
+        if (damagedPlayerArena == null || damagerPlayerArena == null) return;
+
+        if (!damagedPlayerArena.getUUID().equals(damagerPlayerArena.getUUID())) return;
+
+        // Don't allow any damage if the arena is not in progress
+        if (!damagedPlayerArena.getStatus().equals(ArenaStatus.IN_PROGRESS)) {
             event.setCancelled(true);
             return;
         }
 
-        
+        // ArenaPlayer damagedArenaPlayer = damagedPlayerArena.getPlayer(damagedPlayer.getUniqueId());
+
+        // Don't allow seekers to damage each other
+
     }
 }
