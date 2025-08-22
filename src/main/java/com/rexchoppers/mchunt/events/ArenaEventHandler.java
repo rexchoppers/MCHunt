@@ -7,6 +7,12 @@ import com.rexchoppers.mchunt.events.internal.HiderHasMovedEvent;
 import com.rexchoppers.mchunt.events.internal.PlayerLeftArenaEvent;
 import com.rexchoppers.mchunt.models.Arena;
 import com.rexchoppers.mchunt.models.ArenaPlayer;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.protection.managers.RegionManager;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sk89q.worldguard.protection.regions.RegionContainer;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,8 +28,9 @@ public record ArenaEventHandler(MCHunt plugin) implements Listener {
 
     /**
      * Handles player movement events.
-     * This method is only used for hider movement checks to reduce
-     * the number of checks performed by the server.
+     * This method is only used for:
+     * - Hider movement
+     * - Ensuring players stay within arena boundaries
      *
      * @param event
      */
@@ -33,39 +40,56 @@ public record ArenaEventHandler(MCHunt plugin) implements Listener {
         UUID playerUUID = serverPlayer.getUniqueId();
 
         // Check if player is in an arena
-        if (plugin.getArenaManager().isPlayerInArena(playerUUID)) {
-            Arena arena = plugin.getArenaManager().getArenaPlayerIsIn(playerUUID).orElse(null);
+        Arena arena = plugin.getArenaManager().getArenaPlayerIsIn(playerUUID).orElse(null);
 
-            if (arena == null) {
-                return;
-            }
+        if (arena == null) {
+            return;
+        }
 
-            if (!arena.getStatus().equals(ArenaStatus.IN_PROGRESS)) {
-                return;
-            }
+        if (!arena.getStatus().equals(ArenaStatus.IN_PROGRESS)) {
+            return;
+        }
 
-            ArenaPlayer player = arena.getPlayer(playerUUID);
+        ArenaPlayer player = arena.getPlayer(playerUUID);
 
-            if (player.getRole() == null || !player.getRole().equals(ArenaPlayerRole.HIDER)) {
-                return;
-            }
+        if (!plugin.getArenaManager().isPlayerInArena(playerUUID)) {
+            return;
+        }
 
+        // Ignore non-moving events to reduce server load
+        if (event.getFrom().getX() == event.getTo().getX()
+                && event.getFrom().getY() == event.getTo().getY()
+                && event.getFrom().getZ() == event.getTo().getZ()) {
+            return;
+        }
+
+        // Add a threshold so that small movements do not trigger the event
+        double threshold = 0.5;
+        if (Math.abs(event.getFrom().getX() - event.getTo().getX()) < threshold
+                && Math.abs(event.getFrom().getY() - event.getTo().getY()) < threshold
+                && Math.abs(event.getFrom().getZ() - event.getTo().getZ()) < threshold) {
+            return;
+        }
+
+        // Check player (Regardless of role) is within arena boundaries
+        RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
+        RegionManager regionManager = container.get(BukkitAdapter.adapt(serverPlayer.getWorld()));
+        if (regionManager == null) return;
+
+        ProtectedRegion region = regionManager.getRegion(arena.getRegionId());
+        if (region == null) return;
+
+        Location to = event.getTo();
+        com.sk89q.worldedit.util.Location weLoc = BukkitAdapter.adapt(to);
+
+        if (!region.contains(weLoc.getBlockX(), weLoc.getBlockY(), weLoc.getBlockZ())) {
+            event.setCancelled(true);
+            serverPlayer.teleport(event.getFrom());
+            return;
+        }
+
+        if (player.getRole() != null && player.getRole().equals(ArenaPlayerRole.HIDER)) {
             if (!player.isDisguiseLocked()) {
-                return;
-            }
-
-            // Ignore non-moving events to reduce server load
-            if (event.getFrom().getX() == event.getTo().getX()
-                    && event.getFrom().getY() == event.getTo().getY()
-                    && event.getFrom().getZ() == event.getTo().getZ()) {
-                return;
-            }
-
-            // Add a threshold so that small movements do not trigger the event
-            double threshold = 0.5;
-            if (Math.abs(event.getFrom().getX() - event.getTo().getX()) < threshold
-                    && Math.abs(event.getFrom().getY() - event.getTo().getY()) < threshold
-                    && Math.abs(event.getFrom().getZ() - event.getTo().getZ()) < threshold) {
                 return;
             }
 
