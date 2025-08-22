@@ -20,6 +20,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -142,6 +143,17 @@ public record ArenaEventHandler(MCHunt plugin) implements Listener {
         if (!plugin.getArenaManager().isPlayerInArena(event.getEntity().getUniqueId())) return;
 
         // Prevent food level changes in arenas
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onEntityDamageEvent(EntityDamageEvent event) {
+        if (!(event.getEntity() instanceof Player)) return;
+        if (!plugin.getArenaManager().isPlayerInArena(event.getEntity().getUniqueId())) return;
+
+        if (!event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK)) return;
+
+        // Prevent all damage in arenas
         event.setCancelled(true);
     }
 
