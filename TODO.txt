@@ -13,3 +13,4 @@
 - Add plugin deps to YML
 - Fail boot if deps are not found
 - Vault support?
+- Turn off seeker sword damage
