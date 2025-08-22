@@ -4,6 +4,7 @@ import com.rexchoppers.mchunt.MCHunt;
 import com.rexchoppers.mchunt.enums.ArenaPlayerRole;
 import com.rexchoppers.mchunt.enums.ArenaStatus;
 import com.rexchoppers.mchunt.events.internal.HiderHasMovedEvent;
+import com.rexchoppers.mchunt.events.internal.PlayerDiedEvent;
 import com.rexchoppers.mchunt.events.internal.PlayerLeftArenaEvent;
 import com.rexchoppers.mchunt.models.Arena;
 import com.rexchoppers.mchunt.models.ArenaPlayer;
@@ -279,6 +280,10 @@ public record ArenaEventHandler(MCHunt plugin) implements Listener {
                         damagerPlayer.getRole() != null &&
                         damagerPlayer.getRole().equals(ArenaPlayerRole.SEEKER)
         ) {
+            this.plugin().getEventBusManager().publishEvent(new PlayerDiedEvent(
+                    damagedPlayerArena,
+                    damagedPlayer
+            ));
             Bukkit.broadcastMessage("A hider has been killed by a seeker!");
         }
 
