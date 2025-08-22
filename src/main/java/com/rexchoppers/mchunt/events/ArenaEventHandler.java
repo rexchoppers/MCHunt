@@ -151,7 +151,7 @@ public record ArenaEventHandler(MCHunt plugin) implements Listener {
         if (!(event.getEntity() instanceof Player)) return;
         if (!plugin.getArenaManager().isPlayerInArena(event.getEntity().getUniqueId())) return;
 
-        if (!event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK)) return;
+        if (event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK)) return;
 
         // Prevent all damage in arenas
         event.setCancelled(true);
