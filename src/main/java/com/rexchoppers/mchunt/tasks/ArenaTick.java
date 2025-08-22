@@ -110,29 +110,6 @@ public class ArenaTick extends BukkitRunnable {
                                 // Copy of players. Don't want race conditions with clearing players
                                 new ArrayList<>(arena.getPlayers())
                         ));
-
-                        // Teleport all players out of the arena
-                        arena.getPlayers().forEach(player -> {
-                            Player serverPlayer = Bukkit.getPlayer(player.getUUID());
-
-                            if (serverPlayer != null) {
-                                serverPlayer.teleport(arena.getAfterGameSpawn());
-                                serverPlayer.getInventory().clear();
-                                serverPlayer.setHealth(20.0);
-                                serverPlayer.setFoodLevel(20);
-                            }
-                        });
-
-                        // Empty the arena player list
-                        arena.getPlayers().clear();
-                        arena.setStatus(ArenaStatus.WAITING);
-
-                        arena.setCurrentGameTime(0);
-                        arena.setStartCountdown(null);
-                        arena.setResetCountdown(null);
-
-                        // Update sign
-                        signManager.initArenaSigns(arena);
                     }
 
                     break;

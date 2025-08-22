@@ -26,6 +26,7 @@ public class EventBusManager {
         this.eventBus.register(new HiderIsStillListener(this.plugin));
         this.eventBus.register(new HiderHasMovedListener(this.plugin));
         this.eventBus.register(new ArenaFinishedListener(this.plugin));
+        this.eventBus.register(new ArenaResetCountdownEndedListener(this.plugin));
     }
 
     public void publishEvent(Object event) {
