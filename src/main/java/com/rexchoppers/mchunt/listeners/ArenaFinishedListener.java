@@ -34,8 +34,33 @@ public record ArenaFinishedListener(MCHunt plugin) {
                 .filter(player -> player.getRole().equals(ArenaPlayerRole.HIDER))
                 .toList();
 
+        List<ArenaPlayer> seekers = arena.getPlayers().stream()
+                .filter(player -> player.getRole().equals(ArenaPlayerRole.SEEKER))
+                .toList();
+
+        String message = null;
         if (hiders.isEmpty()) {
-            
+           message = new LocalizationManager(MCHunt.getCurrentLocale())
+                   .getMessage("arena.seekers_win");
+        }
+
+        if (seekers.isEmpty()) {
+            message = new LocalizationManager(MCHunt.getCurrentLocale())
+                    .getMessage("arena.hiders_win");
+        }
+
+        if (message != null) {
+            String finalMessage = message;
+            arena.getPlayers().forEach(player -> {
+                Player serverPlayer = Bukkit.getPlayer(player.getUUID());
+
+                if (serverPlayer != null) {
+                    sendPlayerAudibleMessage(
+                            serverPlayer,
+                            finalMessage
+                    );
+                }
+            });
         }
     }
 
