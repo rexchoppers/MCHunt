@@ -51,11 +51,33 @@ public class ArenaTick extends BukkitRunnable {
                             Player serverPlayer = Bukkit.getPlayer(player.getUUID());
 
                             if (serverPlayer != null) {
-                                sendPlayerAudibleMessage(
-                                        serverPlayer,
-                                        new LocalizationManager(MCHunt.getCurrentLocale())
-                                                .getMessage("arena.time_left", timeLeft)
-                                );
+                                // Choose a localized message that best represents the time left
+                                String key;
+                                Object[] params;
+                                int minutes = timeLeft / 60;
+                                int seconds = timeLeft % 60;
+
+                                if (timeLeft >= 60 && seconds == 0) {
+                                    key = "arena.time_left_minutes";
+                                    params = new Object[] { minutes };
+                                } else if (timeLeft >= 60) {
+                                    key = "arena.time_left_min_sec";
+                                    params = new Object[] { minutes, seconds };
+                                } else {
+                                    key = "arena.time_left_seconds";
+                                    params = new Object[] { timeLeft };
+                                }
+
+                                LocalizationManager lm = new LocalizationManager(MCHunt.getCurrentLocale());
+                                String message;
+                                try {
+                                    message = lm.getMessage(key, params);
+                                } catch (Exception ex) {
+                                    // Fallback to the old key if new ones are not present in the bundle
+                                    message = lm.getMessage("arena.time_left", timeLeft);
+                                }
+
+                                sendPlayerAudibleMessage(serverPlayer, message);
                             }
                         });
                     }
