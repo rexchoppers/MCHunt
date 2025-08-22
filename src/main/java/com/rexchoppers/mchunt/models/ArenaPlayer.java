@@ -21,6 +21,8 @@ public class ArenaPlayer {
 
     private Location disguiseLocation = null;
 
+    private Countdown respawnCountdown = null;
+
     public ArenaPlayer(UUID uuid) {
         this.uuid = uuid;
     }
@@ -88,5 +90,13 @@ public class ArenaPlayer {
 
     public void setDisguiseLocation(Location disguiseLocation) {
         this.disguiseLocation = disguiseLocation;
+    }
+
+    public Countdown getRespawnCountdown() {
+        return respawnCountdown;
+    }
+
+    public void setRespawnCountdown(Countdown respawnCountdown) {
+        this.respawnCountdown = respawnCountdown;
     }
 }

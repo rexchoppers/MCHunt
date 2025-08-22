@@ -56,21 +56,6 @@ public record ArenaEventHandler(MCHunt plugin) implements Listener {
             return;
         }
 
-        // Ignore non-moving events to reduce server load
-        if (event.getFrom().getX() == event.getTo().getX()
-                && event.getFrom().getY() == event.getTo().getY()
-                && event.getFrom().getZ() == event.getTo().getZ()) {
-            return;
-        }
-
-        // Add a threshold so that small movements do not trigger the event
-        double threshold = 0.5;
-        if (Math.abs(event.getFrom().getX() - event.getTo().getX()) < threshold
-                && Math.abs(event.getFrom().getY() - event.getTo().getY()) < threshold
-                && Math.abs(event.getFrom().getZ() - event.getTo().getZ()) < threshold) {
-            return;
-        }
-
         // Check player (Regardless of role) is within arena boundaries
         RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
         RegionManager regionManager = container.get(BukkitAdapter.adapt(serverPlayer.getWorld()));
@@ -83,12 +68,28 @@ public record ArenaEventHandler(MCHunt plugin) implements Listener {
         com.sk89q.worldedit.util.Location weLoc = BukkitAdapter.adapt(to);
 
         if (!region.contains(weLoc.getBlockX(), weLoc.getBlockY(), weLoc.getBlockZ())) {
+
             event.setCancelled(true);
             serverPlayer.teleport(event.getFrom());
             return;
         }
 
         if (player.getRole() != null && player.getRole().equals(ArenaPlayerRole.HIDER)) {
+            // Ignore non-moving events to reduce server load
+            if (event.getFrom().getX() == event.getTo().getX()
+                    && event.getFrom().getY() == event.getTo().getY()
+                    && event.getFrom().getZ() == event.getTo().getZ()) {
+                return;
+            }
+
+            // Add a threshold so that small movements do not trigger the event
+            double threshold = 0.5;
+            if (Math.abs(event.getFrom().getX() - event.getTo().getX()) < threshold
+                    && Math.abs(event.getFrom().getY() - event.getTo().getY()) < threshold
+                    && Math.abs(event.getFrom().getZ() - event.getTo().getZ()) < threshold) {
+                return;
+            }
+
             if (!player.isDisguiseLocked()) {
                 return;
             }
