@@ -16,17 +16,28 @@ public class EventBusManager {
     }
 
     private void registerListeners() {
-        this.eventBus.register(new ArenaSetupUpdatedListener(this.plugin));
-        this.eventBus.register(new ArenaSetupDiscardedListener(this.plugin));
-        this.eventBus.register(new ArenaCreatedListener(this.plugin));
-        this.eventBus.register(new PlayerJoinedArenaListener(this.plugin));
-        this.eventBus.register(new PlayerLeftArenaListener(this.plugin));
-        this.eventBus.register(new ArenaSeekersReleasedListener(this.plugin));
-        this.eventBus.register(new ArenaStartedListener(this.plugin));
-        this.eventBus.register(new HiderIsStillListener(this.plugin));
-        this.eventBus.register(new HiderHasMovedListener(this.plugin));
-        this.eventBus.register(new ArenaFinishedListener(this.plugin));
-        this.eventBus.register(new ArenaResetCountdownEndedListener(this.plugin));
+        Class<?>[] listenerClasses = {
+                ArenaSetupUpdatedListener.class,
+                ArenaSetupDiscardedListener.class,
+                ArenaCreatedListener.class,
+                PlayerJoinedArenaListener.class,
+                PlayerLeftArenaListener.class,
+                ArenaSeekersReleasedListener.class,
+                ArenaStartedListener.class,
+                HiderIsStillListener.class,
+                HiderHasMovedListener.class,
+                ArenaFinishedListener.class,
+                ArenaResetCountdownEndedListener.class
+        };
+
+        for (Class<?> clazz : listenerClasses) {
+            try {
+                Object listener = clazz.getConstructor(MCHunt.class).newInstance(plugin);
+                this.eventBus.register(listener);
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to register listener: " + clazz.getName(), e);
+            }
+        }
     }
 
     public void publishEvent(Object event) {
