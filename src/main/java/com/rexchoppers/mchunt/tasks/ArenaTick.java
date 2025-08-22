@@ -58,13 +58,32 @@ public class ArenaTick extends BukkitRunnable {
                                 int seconds = timeLeft % 60;
 
                                 if (timeLeft >= 60 && seconds == 0) {
-                                    key = "arena.time_left_minutes";
+                                    // Whole minutes remaining
+                                    if (minutes == 1) {
+                                        key = "arena.time_left_minute";
+                                    } else {
+                                        key = "arena.time_left_minutes";
+                                    }
                                     params = new Object[] { minutes };
                                 } else if (timeLeft >= 60) {
-                                    key = "arena.time_left_min_sec";
+                                    // Minutes and seconds remaining
+                                    if (minutes == 1 && seconds == 1) {
+                                        key = "arena.time_left_min_sec_m_s";
+                                    } else if (minutes == 1) {
+                                        key = "arena.time_left_min_sec_m_ss";
+                                    } else if (seconds == 1) {
+                                        key = "arena.time_left_min_sec_mm_s";
+                                    } else {
+                                        key = "arena.time_left_min_sec";
+                                    }
                                     params = new Object[] { minutes, seconds };
                                 } else {
-                                    key = "arena.time_left_seconds";
+                                    // Seconds only
+                                    if (timeLeft == 1) {
+                                        key = "arena.time_left_second";
+                                    } else {
+                                        key = "arena.time_left_seconds";
+                                    }
                                     params = new Object[] { timeLeft };
                                 }
 
