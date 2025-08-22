@@ -12,8 +12,10 @@ import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -92,7 +94,7 @@ public record ArenaEventHandler(MCHunt plugin) implements Listener {
             }
 
             // Add a threshold so that small movements do not trigger the event
-            double threshold = 0.5;
+            double threshold = 0.2;
             if (Math.abs(event.getFrom().getX() - event.getTo().getX()) < threshold
                     && Math.abs(event.getFrom().getY() - event.getTo().getY()) < threshold
                     && Math.abs(event.getFrom().getZ() - event.getTo().getZ()) < threshold) {
@@ -223,6 +225,13 @@ public record ArenaEventHandler(MCHunt plugin) implements Listener {
         }
     }
 
+    /**
+     * Handles player vs player damage events.
+     * <p>
+     * TODO: Hook into the kill event later on. There will be a way to
+     * bypass the screen and force respawn
+     *
+     */
     @EventHandler
     public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event) {
         if (!(event.getEntity() instanceof Player)) return;
@@ -248,9 +257,40 @@ public record ArenaEventHandler(MCHunt plugin) implements Listener {
             return;
         }
 
-        // ArenaPlayer damagedArenaPlayer = damagedPlayerArena.getPlayer(damagedPlayer.getUniqueId());
+        ArenaPlayer damagedPlayer = damagedPlayerArena.getPlayer(damagedServerPlayer.getUniqueId());
+        ArenaPlayer damagerPlayer = damagerPlayerArena.getPlayer(damagerServerPlayer.getUniqueId());
 
-        // Don't allow seekers to damage each other
+        // Don't allow damage if both players are on the same team
+        if (damagedPlayer.getRole() != null && damagerPlayer.getRole() != null &&
+                damagedPlayer.getRole().equals(damagerPlayer.getRole())
+        ) {
+            event.setCancelled(true);
+            return;
+        }
 
+        // Play a sound to the damaged player to indicate they've been hit
+        damagedServerPlayer.getWorld().playSound(damagedServerPlayer.getLocation(), Sound.ENTITY_PLAYER_HURT, 1, 1);
+
+        // If a seeker has enough damage to kill a hider, trigger the kill event
+        if (
+                event.getDamage() >= damagerServerPlayer.getHealth() &&
+                        damagedPlayer.getRole() != null &&
+                        damagedPlayer.getRole().equals(ArenaPlayerRole.HIDER) &&
+                        damagerPlayer.getRole() != null &&
+                        damagerPlayer.getRole().equals(ArenaPlayerRole.SEEKER)
+        ) {
+            Bukkit.broadcastMessage("A hider has been killed by a seeker!");
+        }
+
+        // If a hider has enough damage to kill a seeker, trigger the kill event
+        if (event.getDamage() >= damagerServerPlayer.getHealth()) {
+            if (damagedPlayer.getRole() != null &&
+                    damagedPlayer.getRole().equals(ArenaPlayerRole.SEEKER) &&
+                    damagerPlayer.getRole() != null &&
+                    damagerPlayer.getRole().equals(ArenaPlayerRole.HIDER)
+            ) {
+                Bukkit.broadcastMessage("A hider has been killed by a seeker!");
+            }
+        }
     }
 }

@@ -32,7 +32,6 @@ public record HiderHasMovedListener(MCHunt plugin) {
             if (player.getUniqueId().equals(hider.getUUID())) return;
 
             player.showPlayer(plugin, serverPlayer);
-            hider.setDisguiseLocation(serverPlayer.getLocation());
 
             if (hider.getDisguiseLocation() != null) {
                 player.sendBlockChange(
