@@ -372,4 +372,16 @@ public class Arena implements Identifiable {
         ArenaPlayer arenaPlayer = getPlayer(playerUUID);
         return arenaPlayer != null && arenaPlayer.getRole() == ArenaPlayerRole.HIDER;
     }
+
+    public List<ArenaPlayer> getSeekers() {
+        return players.stream()
+                .filter(player -> player.getRole() == ArenaPlayerRole.SEEKER)
+                .toList();
+    }
+
+    public List<ArenaPlayer> getHiders() {
+        return players.stream()
+                .filter(player -> player.getRole() == ArenaPlayerRole.HIDER)
+                .toList();
+    }
 }
