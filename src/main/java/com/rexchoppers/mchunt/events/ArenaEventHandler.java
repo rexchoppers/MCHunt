@@ -155,7 +155,10 @@ public record ArenaEventHandler(MCHunt plugin) implements Listener {
         if (!(event.getEntity() instanceof Player)) return;
         if (!plugin.getArenaManager().isPlayerInArena(event.getEntity().getUniqueId())) return;
 
-        if (event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK)) return;
+        if (
+                event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK) ||
+                event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK)
+        )  return;
 
         // Prevent all damage in arenas
         event.setCancelled(true);
@@ -280,11 +283,13 @@ public record ArenaEventHandler(MCHunt plugin) implements Listener {
                         damagerPlayer.getRole() != null &&
                         damagerPlayer.getRole().equals(ArenaPlayerRole.SEEKER)
         ) {
+
+            event.setCancelled(true);
+
             this.plugin().getEventBusManager().publishEvent(new PlayerDiedEvent(
                     damagedPlayerArena,
                     damagedPlayer
             ));
-            Bukkit.broadcastMessage("A hider has been killed by a seeker!");
         }
     }
 }

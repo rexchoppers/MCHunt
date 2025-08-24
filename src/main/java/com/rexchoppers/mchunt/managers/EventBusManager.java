@@ -27,7 +27,8 @@ public class EventBusManager {
                 HiderIsStillListener.class,
                 HiderHasMovedListener.class,
                 ArenaFinishedListener.class,
-                ArenaResetCountdownEndedListener.class
+                ArenaResetCountdownEndedListener.class,
+                PlayerDiedListener.class,
         };
 
         for (Class<?> clazz : listenerClasses) {

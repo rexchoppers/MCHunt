@@ -10,6 +10,8 @@ import com.rexchoppers.mchunt.managers.LocalizationManager;
 import com.rexchoppers.mchunt.models.Arena;
 import com.rexchoppers.mchunt.models.ArenaPlayer;
 import com.rexchoppers.mchunt.models.Countdown;
+import me.libraryaddict.disguise.DisguiseAPI;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
@@ -20,6 +22,10 @@ public record PlayerDiedListener(MCHunt plugin) {
     @Subscribe
     public void broadcast(PlayerDiedEvent event) {
         Arena arena = event.arena();
+        ArenaPlayer arenaPlayer = event.arenaPlayer();
+        Player arenaServerPlayer = plugin.getServer().getPlayer(arenaPlayer.getUUID());
+
+        if (arenaServerPlayer == null) return;
 
         arena.getPlayers().forEach(player -> {
             Player serverPlayer = plugin.getServer().getPlayer(player.getUUID());
@@ -31,7 +37,7 @@ public record PlayerDiedListener(MCHunt plugin) {
                     new LocalizationManager(MCHunt.getCurrentLocale())
                             .getMessage(
                                     "arena.player_died",
-                                    serverPlayer.getName()
+                                    arenaServerPlayer.getName()
                             )
             );
         });
@@ -42,18 +48,23 @@ public record PlayerDiedListener(MCHunt plugin) {
         ArenaPlayer arenaPlayer = event.arenaPlayer();
         Arena arena = event.arena();
 
-        if (arena.getHiders().size() <= 1) {
+        Player serverPlayer = plugin.getServer().getPlayer(arenaPlayer.getUUID());
+
+        // Set the player's role to seeker before checking the number of hiders
+        if (arenaPlayer.getRole() != null && arenaPlayer.getRole().equals(ArenaPlayerRole.HIDER)) {
+            arenaPlayer.setRole(ArenaPlayerRole.SEEKER);
+
+            // Undisguise the player if they are disguised
+            if (DisguiseAPI.isDisguised(serverPlayer)) {
+                DisguiseAPI.undisguiseToAll(serverPlayer);
+            }
+        }
+
+        if (arena.getHiders().isEmpty()) {
             // End the game if there are no hiders left
             arena.setStatus(ArenaStatus.FINISHED);
             // plugin.getServer().getPluginManager().callEvent(new com.rexchoppers.mchunt.events.internal.ArenaFinishedEvent(arena));
             return;
         }
-
-        if (arenaPlayer.getRole() != null && arenaPlayer.getRole().equals(ArenaPlayerRole.HIDER)) {
-            arenaPlayer.setRole(ArenaPlayerRole.SEEKER);
-
-            // Give the player a respawn countdown
-        }
-
     }
 }
