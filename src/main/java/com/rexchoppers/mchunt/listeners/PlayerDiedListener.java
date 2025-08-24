@@ -4,6 +4,7 @@ import com.google.common.eventbus.Subscribe;
 import com.rexchoppers.mchunt.MCHunt;
 import com.rexchoppers.mchunt.enums.ArenaPlayerRole;
 import com.rexchoppers.mchunt.enums.ArenaStatus;
+import com.rexchoppers.mchunt.events.internal.ArenaFinishedEvent;
 import com.rexchoppers.mchunt.events.internal.PlayerDiedEvent;
 import com.rexchoppers.mchunt.events.internal.PlayerJoinedArenaEvent;
 import com.rexchoppers.mchunt.managers.LocalizationManager;
@@ -63,8 +64,22 @@ public record PlayerDiedListener(MCHunt plugin) {
         if (arena.getHiders().isEmpty()) {
             // End the game if there are no hiders left
             arena.setStatus(ArenaStatus.FINISHED);
-            // plugin.getServer().getPluginManager().callEvent(new com.rexchoppers.mchunt.events.internal.ArenaFinishedEvent(arena));
+
+            // Usually I wouldn't fire events in listeners, but this one is needed to finish the game
+            plugin.getEventBusManager().publishEvent(new ArenaFinishedEvent(arena));
+
             return;
+        }
+
+        // Teleport new seeker to the lobby spawn
+        if (serverPlayer != null) {
+            serverPlayer.teleport(arena.getLobbySpawn());
+            serverPlayer.setHealth(20.0);
+            serverPlayer.setFoodLevel(20);
+
+            arenaPlayer.setRespawnCountdown(new Countdown(
+                    arena.getRespawnDelay()
+            ));
         }
     }
 }
