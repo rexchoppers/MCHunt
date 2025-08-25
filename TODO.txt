@@ -14,5 +14,4 @@
 - Vault support?
 - Turn off seeker sword damage
 
-- Hiders can escape when seekers aren't spawned yet
 - Game ended in X time
