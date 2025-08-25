@@ -7,6 +7,7 @@ import com.rexchoppers.mchunt.adapters.InstantTypeAdapter;
 import com.rexchoppers.mchunt.commands.CommandMCHunt;
 import com.rexchoppers.mchunt.managers.*;
 import com.rexchoppers.mchunt.models.Arena;
+import com.rexchoppers.mchunt.models.ArenaPlayer;
 import com.rexchoppers.mchunt.serializers.*;
 import com.rexchoppers.mchunt.util.Format;
 import com.sk89q.worldguard.WorldGuard;
@@ -14,6 +15,7 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import fr.minuskube.inv.InventoryManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -130,6 +132,26 @@ public final class MCHunt extends JavaPlugin {
                 )
         );
 
+        // Teleport all players currently in arenas to the after-game spawn
+        // Arena states will be cleared on next startup anyway
+        for (Arena arena : this.arenaManager.getData()) {
+            if (arena == null || arena.getPlayers() == null) continue;
+
+            for (ArenaPlayer arenaPlayer : arena.getPlayers()) {
+                Player serverPlayer = Bukkit.getPlayer(arenaPlayer.getUUID());
+                if (serverPlayer == null || !serverPlayer.isOnline()) continue;
+
+                serverPlayer.teleport(arena.getAfterGameSpawn());
+
+                // Tell the player the arena has been shut down so their game has been ended
+                serverPlayer.sendMessage(
+                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                .getMessage("arena.shutdown")
+                );
+            }
+        }
+
+        // Cancel any scheduled tasks for this plugin
         Bukkit.getScheduler().cancelTasks(this);
 
         Bukkit.getConsoleSender().sendMessage(

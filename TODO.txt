@@ -1,15 +1,10 @@
 - Use economy tool
 - Vault support
 
-- Dep injection
 - In-game menu
    - Leave arena
 
 - Configurable still time for arena
-- Countdown before disguise lock
-- On Disable
-
-- Game ended in X time
 
 - Scoreboard support
 
