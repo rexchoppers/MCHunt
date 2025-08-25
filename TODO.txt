@@ -1,17 +1,21 @@
-- Remove players from Arena on server start (Make sure players are synced in file)
 - Use economy tool
 - What to do if all seekers leave?
 - Dep injection
 - Disable PVP flag
 - In-game menu
    - Leave arena
-- Random blocks for hiders
+
 - Configurable still time for arena
 - Countdown before disguise lock
 - Check licences for shadowJar
 - Add plugin deps to YML
 - Fail boot if deps are not found
 - Vault support?
-- Turn off seeker sword damage
-
 - Game ended in X time
+
+- Arena Server Stop/Fail
+    - Save players to file
+    - Remove players from arena
+    - On server start, load players from file
+    - Remove players from file on join
+    - Remove players from Arena on server start (Make sure players are synced in file)
