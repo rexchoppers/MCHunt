@@ -27,6 +27,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -178,6 +179,14 @@ public record ArenaEventHandler(MCHunt plugin) implements Listener {
         )  return;
 
         // Prevent all damage in arenas
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onItemDamage(PlayerItemDamageEvent event) {
+        if (!plugin.getArenaManager().isPlayerInArena(event.getPlayer().getUniqueId())) return;
+
+        // Prevent item damage in arenas
         event.setCancelled(true);
     }
 
