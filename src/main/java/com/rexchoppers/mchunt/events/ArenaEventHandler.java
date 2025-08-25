@@ -170,6 +170,7 @@ public record ArenaEventHandler(MCHunt plugin) implements Listener {
 
         if (!plugin.getArenaManager().isPlayerInArena(serverPlayer.getUniqueId())) return;
 
+        // Block interaction with certain blocks
         if (
                 (event.getAction() == Action.LEFT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_BLOCK) &&
                         event.getClickedBlock() != null &&
@@ -226,6 +227,54 @@ public record ArenaEventHandler(MCHunt plugin) implements Listener {
             if (blockedInteractMaterials.contains(event.getClickedBlock().getType())) {
                 event.setCancelled(true);
             }
+        }
+
+        // If a seeker has hit a hider's location, undisguise them
+        if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
+            Arena arena = plugin.getArenaManager().getArenaPlayerIsIn(serverPlayer.getUniqueId()).orElse(null);
+
+            if (arena == null) return;
+            if (!arena.getStatus().equals(ArenaStatus.IN_PROGRESS)) return;
+
+            Bukkit.broadcastMessage("Bitter sweet symphony of life");
+
+            ArenaPlayer arenaPlayer = arena.getPlayer(serverPlayer.getUniqueId());
+
+            if (arenaPlayer.getRole() == null || !arenaPlayer.getRole().equals(ArenaPlayerRole.SEEKER)) return;
+            if (event.getClickedBlock() == null) return;
+
+            Bukkit.broadcastMessage("I can feel the way");
+
+            Location clickedLocation = event.getClickedBlock().getLocation();
+
+            arena.getHiders().forEach(hider -> {
+                Player hiderServerPlayer = Bukkit.getPlayer(hider.getUUID());
+
+                if (hiderServerPlayer == null) return;
+                if (!hider.isDisguiseLocked()) return;
+                if (hider.getDisguiseLocation() == null) return;
+
+                Location hiderDisguiseLocation = hider.getDisguiseLocation();
+
+                Bukkit.broadcastMessage("X " + hiderDisguiseLocation.getBlock().getX() + " : " + clickedLocation.getBlock().getX());
+                Bukkit.broadcastMessage("Y " + hiderDisguiseLocation.getBlock().getY() + " : " + clickedLocation.getBlock().getY());
+                Bukkit.broadcastMessage("Z " + hiderDisguiseLocation.getBlock().getZ() + " : " + clickedLocation.getBlock().getZ());
+
+
+                // Check if the clicked location is within 1 block of the hider's disguise location
+                if (
+                        Math.abs(hiderDisguiseLocation.getBlock().getX() - clickedLocation.getBlock().getX()) <= 1 &&
+                        Math.abs(hiderDisguiseLocation.getBlock().getY() - clickedLocation.getBlock().getY()) <= 1 &&
+                        Math.abs(hiderDisguiseLocation.getBlock().getZ() - clickedLocation.getBlock().getZ()) <= 1
+                ) {
+                    hiderServerPlayer.getWorld().playSound(hiderServerPlayer.getLocation(), Sound.ENTITY_PLAYER_HURT, 1, 1);
+
+                    this.plugin.getEventBusManager().publishEvent(new HiderHasMovedEvent(
+                            arena,
+                            hider
+                    ));
+                }
+            });
         }
     }
 
