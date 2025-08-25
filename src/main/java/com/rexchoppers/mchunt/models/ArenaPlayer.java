@@ -23,6 +23,9 @@ public class ArenaPlayer {
 
     private Countdown respawnCountdown = null;
 
+    // Transient UI state: last countdown seconds shown while standing still (-1 = none)
+    private int lastStillCountdownSeconds = -1;
+
     public ArenaPlayer(UUID uuid) {
         this.uuid = uuid;
     }
@@ -103,5 +106,13 @@ public class ArenaPlayer {
 
     public void setRespawnCountdown(Countdown respawnCountdown) {
         this.respawnCountdown = respawnCountdown;
+    }
+
+    public int getLastStillCountdownSeconds() {
+        return lastStillCountdownSeconds;
+    }
+
+    public void setLastStillCountdownSeconds(int seconds) {
+        this.lastStillCountdownSeconds = seconds;
     }
 }

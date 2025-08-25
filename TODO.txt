@@ -5,8 +5,6 @@
 - In-game menu
    - Leave arena
 
-- Check licences for shadowJar
-
 - Configurable still time for arena
 - Countdown before disguise lock
 - On Disable

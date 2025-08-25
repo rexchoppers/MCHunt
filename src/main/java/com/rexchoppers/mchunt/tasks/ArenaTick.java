@@ -126,9 +126,56 @@ public class ArenaTick extends BukkitRunnable {
                         if (serverPlayer != null && player.getRole().equals(ArenaPlayerRole.HIDER)) {
                             player.updateMovement(serverPlayer.getLocation());
 
+                            // Show a pre-lock countdown on the XP bar for hiders who are standing still
+                            if (!player.isDisguiseLocked()) {
+                                long elapsed = System.currentTimeMillis() - player.getLastMovement();
+
+                                // If player just moved recently, clear any countdown UI
+                                if (elapsed < 500 && player.getLastStillCountdownSeconds() != -1) {
+                                    serverPlayer.setExp(0f);
+                                    serverPlayer.setLevel(0);
+                                    player.setLastStillCountdownSeconds(-1);
+                                }
+
+                                // During the 5-second stillness window, update XP bar and remaining seconds as level
+                                if (elapsed >= 0 && elapsed < 5000) {
+                                    int secondsLeft = (int) Math.ceil((5000 - elapsed) / 1000.0);
+                                    float progress = Math.max(0f, Math.min(0.999f, (float) elapsed / 5000f));
+
+                                    if (player.getLastStillCountdownSeconds() != secondsLeft) {
+                                        // If this is the start of countdown, inform the player once
+                                        if (player.getLastStillCountdownSeconds() == -1) {
+                                            sendPlayerAudibleMessage(serverPlayer, new LocalizationManager(MCHunt.getCurrentLocale())
+                                                    .getMessage("player.hider.still_countdown_start", "5"));
+                                        }
+
+                                        player.setLastStillCountdownSeconds(secondsLeft);
+                                        serverPlayer.setLevel(secondsLeft);
+                                    }
+
+                                    serverPlayer.setExp(progress);
+                                }
+                            }
+
                             // If the hider has been still for 5 seconds, set their block
                             if (player.hasBeenStillFor(5000) && !player.isDisguiseLocked()) {
+                                // Clear countdown UI right before locking
+                                serverPlayer.setExp(0f);
+                                serverPlayer.setLevel(0);
+                                player.setLastStillCountdownSeconds(-1);
+
                                 this.plugin.getEventBusManager().publishEvent(new HiderIsStillEvent(arena, player));
+                            }
+
+                            // If already disguised/locked, ensure countdown UI is cleared
+                            if (player.isDisguiseLocked()) {
+                                if (serverPlayer.getLevel() != 0 || serverPlayer.getExp() != 0f) {
+                                    serverPlayer.setExp(0f);
+                                    serverPlayer.setLevel(0);
+                                }
+                                if (player.getLastStillCountdownSeconds() != -1) {
+                                    player.setLastStillCountdownSeconds(-1);
+                                }
                             }
                         }
                     });
