@@ -11,6 +11,7 @@ import com.rexchoppers.mchunt.managers.LocalizationManager;
 import com.rexchoppers.mchunt.models.Arena;
 import com.rexchoppers.mchunt.models.ArenaPlayer;
 import com.rexchoppers.mchunt.models.Countdown;
+import com.rexchoppers.mchunt.util.TimeUtil;
 import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.DisguiseConfig;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
@@ -26,7 +27,7 @@ import static com.rexchoppers.mchunt.util.PlayerUtil.sendPlayerAudibleMessage;
 
 public record ArenaFinishedListener(MCHunt plugin) {
     @Subscribe
-    public void declareWinner(ArenaFinishedEvent event) {
+    public void broadcastGameInformation(ArenaFinishedEvent event) {
         Arena arena = event.arena();
 
         // If there are no hiders, declare seekers as winners
@@ -62,6 +63,18 @@ public record ArenaFinishedListener(MCHunt plugin) {
                 }
             });
         }
+
+        int timeLeft = Math.max(0, arena.getCurrentGameTime());
+        int elapsed = Math.max(0, arena.getGameLength() - timeLeft);
+        String formatted = TimeUtil.formatTime(elapsed);
+
+        arena.getPlayers().forEach(player -> {
+            Player serverPlayer = Bukkit.getPlayer(player.getUUID());
+            if (serverPlayer != null) {
+                sendPlayerAudibleMessage(serverPlayer,  new LocalizationManager(MCHunt.getCurrentLocale())
+                        .getMessage("arena.game_ended_in_time", formatted));
+            }
+        });
     }
 
     @Subscribe
