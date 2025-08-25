@@ -48,6 +48,8 @@ public record HiderHasMovedListener(MCHunt plugin) {
         DisguiseAPI.disguiseToAll(serverPlayer, disguise);
 
         hider.setDisguiseLocation(null);
+
+        hider.resetMovement();
     }
 
     @Subscribe

@@ -60,6 +60,11 @@ public class ArenaPlayer {
         }
     }
 
+    public void resetMovement() {
+        this.lastLocation = null;
+        this.lastMovement = 0;
+    }
+
     public boolean hasBeenStillFor(long ms) {
         return (System.currentTimeMillis() - lastMovement) >= ms;
     }
