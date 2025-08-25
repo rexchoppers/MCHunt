@@ -65,7 +65,8 @@ public record PlayerLeftArenaListener(MCHunt plugin) {
                 sendPlayerAudibleMessage(
                         serverPlayer,
                         new LocalizationManager(MCHunt.getCurrentLocale())
-                                .getMessage("arena.player_left")
+                                .getMessage("arena.player_left",
+                                        serverPlayer.getName())
                 );
             }
         });
