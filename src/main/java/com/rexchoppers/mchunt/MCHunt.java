@@ -43,8 +43,6 @@ public final class MCHunt extends JavaPlugin {
 
     private SignManager signManager;
 
-    private WorldGuard worldGuard;
-
     @Override
     public void onEnable() {
         // Set the current locale
@@ -81,13 +79,6 @@ public final class MCHunt extends JavaPlugin {
         if (!pluginDir.exists()) {
             pluginDir.mkdirs();
         }
-
-        /*
-          Create the default configuration. We won't use this much
-         */
-        saveDefaultConfig();
-
-
 
         // Setup managers
         this.signManager = new SignManager();
