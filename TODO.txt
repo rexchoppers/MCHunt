@@ -2,7 +2,6 @@
 - Use economy tool
 - What to do if all seekers leave?
 - Dep injection
-- Don't let users go outside of the arena
 - Disable PVP flag
 - In-game menu
    - Leave arena
@@ -14,5 +13,6 @@
 - Fail boot if deps are not found
 - Vault support?
 - Turn off seeker sword damage
-- Hit on hider block location with sword
+
 - Hiders can escape when seekers aren't spawned yet
+- Game ended in X time

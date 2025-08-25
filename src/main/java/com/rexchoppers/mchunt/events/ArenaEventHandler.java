@@ -55,7 +55,11 @@ public record ArenaEventHandler(MCHunt plugin) implements Listener {
             return;
         }
 
-        if (!arena.getStatus().equals(ArenaStatus.IN_PROGRESS)) {
+        // Players can move freely if the arena is not in progress, finished, or resetting
+        if (!arena.getStatus().equals(ArenaStatus.IN_PROGRESS) &&
+                !(arena.getStatus().equals(ArenaStatus.FINISHED)) &&
+                !(arena.getStatus().equals(ArenaStatus.COUNTDOWN_RESET))
+        ) {
             return;
         }
 
@@ -76,13 +80,26 @@ public record ArenaEventHandler(MCHunt plugin) implements Listener {
         Location to = event.getTo();
         com.sk89q.worldedit.util.Location weLoc = BukkitAdapter.adapt(to);
 
-        // If player is outside the region, and they're not respawning, cancel the event and teleport them back
-        if (
-                player.getRespawnCountdown() == null &&
-                        arena.isSeekersReleased() &&
-                        !region.contains(weLoc.getBlockX(), weLoc.getBlockY(), weLoc.getBlockZ())) {
-            event.setCancelled(true);
-            serverPlayer.teleport(event.getFrom());
+        // If the player is outside the region
+        if (!region.contains(weLoc.getBlockX(), weLoc.getBlockY(), weLoc.getBlockZ())) {
+            // If the player is a seeker but they've been released and are not on countdown, then return them back
+            if (
+                    player.getRole() != null &&
+                            player.getRole().equals(ArenaPlayerRole.SEEKER) &&
+                            arena.isSeekersReleased() &&
+                            player.getRespawnCountdown() == null
+            ) {
+                event.setCancelled(true);
+                serverPlayer.teleport(event.getFrom());
+            }
+
+            // If it's a hider, return them back
+            if (player.getRole() != null && player.getRole().equals(ArenaPlayerRole.HIDER)) {
+                event.setCancelled(true);
+                serverPlayer.teleport(event.getFrom());
+            }
+
+            // Don't process any further events if the player is outside the region
             return;
         }
 
