@@ -4,6 +4,7 @@ import com.google.common.eventbus.Subscribe;
 import com.rexchoppers.mchunt.MCHunt;
 import com.rexchoppers.mchunt.enums.ArenaPlayerRole;
 import com.rexchoppers.mchunt.enums.ArenaStatus;
+import com.rexchoppers.mchunt.events.internal.ArenaFinishedEvent;
 import com.rexchoppers.mchunt.events.internal.PlayerLeftArenaEvent;
 import com.rexchoppers.mchunt.managers.LocalizationManager;
 import com.rexchoppers.mchunt.models.Arena;
@@ -71,20 +72,9 @@ public record PlayerLeftArenaListener(MCHunt plugin) {
             }
         });
 
-        // Get count of hiders
-        int hiderCount = arena.getPlayers().stream()
-                .filter(player -> player.getRole().equals(ArenaPlayerRole.HIDER))
-                .mapToInt(player -> 1)
-                .sum();
-
-        if (hiderCount <= 0) {
-            // Declare seekers as winners
-            Bukkit.broadcastMessage("Not implemented yet: No hiders left in the arena, declaring seekers as winners.");
-        } else {
-            // Declare hiders as winners
-            Bukkit.broadcastMessage("Not implemented yet: Hiders left in the arena, declaring hiders as winners.");
+        if (arena.getHiders().isEmpty() || arena.getSeekers().isEmpty()) {
+            this.plugin.getEventBusManager().publishEvent(new ArenaFinishedEvent(arena));
         }
-
     }
 
     /**
