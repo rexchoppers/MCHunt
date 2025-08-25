@@ -142,6 +142,24 @@ public class ArenaTick extends BukkitRunnable {
                     break;
 
                 case ArenaStatus.COUNTDOWN_RESET:
+                    // Broadcast the time left to teleporting back to lobby. Only do this from 5 seconds and below
+                    if (arena.getResetCountdown() != null &&
+                            arena.getResetCountdown().getCountdown() > 0 &&
+                            arena.getResetCountdown().getCountdown() <= 5) {
+                        int countdown = arena.getResetCountdown().getCountdown();
+
+                        arena.getPlayers().forEach(player -> {
+                            Player serverPlayer = Bukkit.getPlayer(player.getUUID());
+
+                            if (serverPlayer != null) {
+                                String message = new LocalizationManager(MCHunt.getCurrentLocale())
+                                        .getMessage("arena.teleporting_to_lobby_countdown", countdown);
+
+                                sendPlayerAudibleMessage(serverPlayer, message);
+                            }
+                        });
+                    }
+
                     arena.getResetCountdown().decrementCountdown();
 
                     if (arena.getResetCountdown().getCountdown() == 0) {
