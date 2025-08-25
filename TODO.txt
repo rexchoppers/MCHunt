@@ -13,6 +13,8 @@
 - Vault support?
 - Game ended in X time
 
+- If player leaves arena, throw them back to like after-game spawn
+
 - Arena Server Stop/Fail
     - Save players to file
     - Remove players from arena
