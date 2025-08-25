@@ -19,6 +19,8 @@ import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
 import fr.minuskube.inv.content.InventoryProvider;
 import org.bukkit.entity.Player;
+import com.sk89q.worldguard.protection.flags.Flags;
+import com.sk89q.worldguard.protection.flags.StateFlag;
 
 import static com.rexchoppers.mchunt.util.PlayerUtil.sendPlayerAudibleMessage;
 import static com.rexchoppers.mchunt.util.PlayerUtil.sendPlayerError;
@@ -177,6 +179,9 @@ public class MenuArenaSetupActions extends MenuBase {
                 String regionId = "mchunt_" + arenaSetup.getUUID().toString();
 
                 ProtectedCuboidRegion region = new ProtectedCuboidRegion(regionId, min, max);
+
+                // Ensure PVP is enabled within the arena region
+                region.setFlag(Flags.PVP, StateFlag.State.ALLOW);
 
                 RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
                 RegionManager regions = container.get(BukkitAdapter.adapt(arenaSetup.getLocationBoundaryPoint1().getWorld()));
