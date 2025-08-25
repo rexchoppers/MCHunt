@@ -69,12 +69,12 @@ public final class MCHunt extends JavaPlugin {
                 .excludeFieldsWithoutExposeAnnotation()
                 .create();
 
-        WorldGuardPlugin wgPlugin = getWorldGuard();
-        if (wgPlugin == null) {
-            getLogger().severe("WorldGuard plugin not found. Disabling plugin.");
-            Bukkit.getPluginManager().disablePlugin(this);
+        if(!checkDependencies()) {
+            getServer().getPluginManager().disablePlugin(this);
             return;
         }
+
+
 
         // Create MCHunt directory if it doesn't exist
         File pluginDir = new File(this.getDataFolder().getAbsolutePath());
@@ -191,6 +191,28 @@ public final class MCHunt extends JavaPlugin {
 
     public EventBusManager getEventBusManager() {
         return eventBusManager;
+    }
+
+    public boolean checkDependencies() {
+        if (getWorldGuard() == null) {
+            getLogger().severe(new LocalizationManager(MCHunt.getCurrentLocale()).getMessage("mchunt.plugin_not_found", "WorldGuard"));
+
+            return false;
+        }
+
+        if (!getServer().getPluginManager().isPluginEnabled("LibsDisguises")) {
+            getLogger().severe(new LocalizationManager(MCHunt.getCurrentLocale()).getMessage("mchunt.plugin_not_found", "LibsDisguises"));
+
+            return false;
+        }
+
+        if (!getServer().getPluginManager().isPluginEnabled("ProtocolLib")) {
+            getLogger().severe(new LocalizationManager(MCHunt.getCurrentLocale()).getMessage("mchunt.plugin_not_found", "ProtocolLib"));
+            return false;
+        }
+
+
+        return true;
     }
 
     public WorldGuardPlugin getWorldGuard() {
