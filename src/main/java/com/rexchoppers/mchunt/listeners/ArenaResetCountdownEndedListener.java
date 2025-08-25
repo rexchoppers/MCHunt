@@ -72,5 +72,8 @@ public record ArenaResetCountdownEndedListener(MCHunt plugin) {
         arena.setCurrentGameTime(0);
         arena.setStartCountdown(null);
         arena.setResetCountdown(null);
+
+        // Update arena signs
+        plugin.getSignManager().initArenaSigns(arena);
     }
 }
