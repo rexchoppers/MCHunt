@@ -10,6 +10,7 @@ import com.rexchoppers.mchunt.models.Arena;
 import com.rexchoppers.mchunt.models.ArenaPlayer;
 import com.rexchoppers.mchunt.serializers.*;
 import com.rexchoppers.mchunt.util.Format;
+import com.rexchoppers.mchunt.util.PlayerUtil;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import fr.minuskube.inv.InventoryManager;
@@ -144,9 +145,9 @@ public final class MCHunt extends JavaPlugin {
                 serverPlayer.teleport(arena.getAfterGameSpawn());
 
                 // Tell the player the arena has been shut down so their game has been ended
-                serverPlayer.sendMessage(
-                        new LocalizationManager(MCHunt.getCurrentLocale())
-                                .getMessage("arena.shutdown")
+                PlayerUtil.sendPlayerError(
+                        serverPlayer,
+                        new LocalizationManager(MCHunt.getCurrentLocale()).getMessage("arena.shutdown")
                 );
             }
         }
