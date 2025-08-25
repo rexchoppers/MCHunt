@@ -8,8 +8,8 @@
 - Configurable still time for arena
 - Countdown before disguise lock
 - Check licences for shadowJar
-- Add plugin deps to YML
 - Fail boot if deps are not found
+- On Disable
 
 - Game ended in X time
 
