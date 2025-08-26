@@ -37,3 +37,10 @@ jobs:
           name: mchunt-${{ env.VERSION }}
           path: build/libs/*.jar
           if-no-files-found: error
+
+      - name: Upload to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/libs/*.jar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
