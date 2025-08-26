@@ -191,7 +191,7 @@ public final class MCHunt extends JavaPlugin {
         return eventBusManager;
     }
 
-    public boolean checkDependencies() {
+    private boolean checkDependencies() {
         if (getWorldGuard() == null) {
             getLogger().severe(MCHunt.getLocalization().getMessage("mchunt.plugin_not_found", "WorldGuard"));
 
