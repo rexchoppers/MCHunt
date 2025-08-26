@@ -28,7 +28,7 @@ public record PlayerJoinedArenaListener(MCHunt plugin) {
             if (serverPlayer != null) {
                 sendPlayerMessage(
                         serverPlayer,
-                        new LocalizationManager(MCHunt.getCurrentLocale())
+                        MCHunt.getLocalization()
                                 .getMessage(
                                         "arena.player_joined",
                                         plugin.getServer().getPlayer(event.playerUuid()).getName()

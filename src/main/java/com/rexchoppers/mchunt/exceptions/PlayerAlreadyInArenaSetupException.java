@@ -5,6 +5,6 @@ import com.rexchoppers.mchunt.managers.LocalizationManager;
 
 public class PlayerAlreadyInArenaSetupException extends Exception {
     public PlayerAlreadyInArenaSetupException() {
-        super(new LocalizationManager(MCHunt.getCurrentLocale()).getMessage("player.already_in_area_setup"));
+        super(MCHunt.getLocalization().getMessage("player.already_in_area_setup"));
     }
 }

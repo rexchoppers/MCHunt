@@ -23,7 +23,7 @@ public record DroppableEventHandler(MCHunt plugin) implements Listener {
 
         if (!droppable) {
             event.setCancelled(true);
-            sendPlayerError(player, new LocalizationManager(MCHunt.getCurrentLocale())
+            sendPlayerError(player, MCHunt.getLocalization()
                     .getMessage(
                             "player.cannot_drop_item"
                     ));

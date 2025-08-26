@@ -57,7 +57,7 @@ public class MenuArenaSetupActions extends MenuBase {
 
                 sendPlayerAudibleMessage(
                         player,
-                        new LocalizationManager(MCHunt.getCurrentLocale())
+                        MCHunt.getLocalization()
                                 .getMessage(
                                         "arena.setup.discarded"
                                 )
@@ -71,7 +71,7 @@ public class MenuArenaSetupActions extends MenuBase {
                 if (arenaSetup.getArenaSigns().length < 1) {
                     sendPlayerError(
                             player,
-                            new LocalizationManager(MCHunt.getCurrentLocale())
+                            MCHunt.getLocalization()
                                     .getMessage(
                                             "arena.setup.signs_not_enough"
                                     )
@@ -83,7 +83,7 @@ public class MenuArenaSetupActions extends MenuBase {
                 if (arenaSetup.getArenaBlocks().length < 1) {
                     sendPlayerError(
                             player,
-                            new LocalizationManager(MCHunt.getCurrentLocale())
+                            MCHunt.getLocalization()
                                     .getMessage(
                                             "arena.setup.blocks_not_enough"
                                     )
@@ -95,7 +95,7 @@ public class MenuArenaSetupActions extends MenuBase {
                 if (arenaSetup.getLobbySpawn() == null) {
                     sendPlayerError(
                             player,
-                            new LocalizationManager(MCHunt.getCurrentLocale())
+                            MCHunt.getLocalization()
                                     .getMessage(
                                             "arena.setup.lobby_spawn_not_set"
                                     )
@@ -107,7 +107,7 @@ public class MenuArenaSetupActions extends MenuBase {
                 if (arenaSetup.getAfterGameSpawn() == null) {
                     sendPlayerError(
                             player,
-                            new LocalizationManager(MCHunt.getCurrentLocale())
+                            MCHunt.getLocalization()
                                     .getMessage(
                                             "arena.setup.after_game_spawn_not_set"
                                     )
@@ -119,7 +119,7 @@ public class MenuArenaSetupActions extends MenuBase {
                 if (arenaSetup.getHiderSpawns().length < 1) {
                     sendPlayerError(
                             player,
-                            new LocalizationManager(MCHunt.getCurrentLocale())
+                            MCHunt.getLocalization()
                                     .getMessage(
                                             "arena.setup.hider_spawns_not_enough"
                                     )
@@ -131,7 +131,7 @@ public class MenuArenaSetupActions extends MenuBase {
                 if (arenaSetup.getSeekerSpawns().length < 1) {
                     sendPlayerError(
                             player,
-                            new LocalizationManager(MCHunt.getCurrentLocale())
+                            MCHunt.getLocalization()
                                     .getMessage(
                                             "arena.setup.seeker_spawns_not_enough"
                                     )
@@ -143,7 +143,7 @@ public class MenuArenaSetupActions extends MenuBase {
                 if (arenaSetup.getLocationBoundaryPoint1() == null) {
                     sendPlayerError(
                             player,
-                            new LocalizationManager(MCHunt.getCurrentLocale())
+                            MCHunt.getLocalization()
                                     .getMessage(
                                             "arena.setup.boundary_point_1_not_set"
                                     )
@@ -155,7 +155,7 @@ public class MenuArenaSetupActions extends MenuBase {
                 if (arenaSetup.getLocationBoundaryPoint2() == null) {
                     sendPlayerError(
                             player,
-                            new LocalizationManager(MCHunt.getCurrentLocale())
+                            MCHunt.getLocalization()
                                     .getMessage(
                                             "arena.setup.boundary_point_2_not_set"
                                     )
@@ -189,7 +189,7 @@ public class MenuArenaSetupActions extends MenuBase {
                 if (regions == null) {
                     sendPlayerError(
                             player,
-                            new LocalizationManager(MCHunt.getCurrentLocale())
+                            MCHunt.getLocalization()
                                     .getMessage(
                                             "arena.setup.worldguard_region_manager_not_found"
                                     )
@@ -206,7 +206,7 @@ public class MenuArenaSetupActions extends MenuBase {
                         if(protectedRegion.getId().contains("mchunt_")) {
                             sendPlayerError(
                                     player,
-                                    new LocalizationManager(MCHunt.getCurrentLocale())
+                                    MCHunt.getLocalization()
                                             .getMessage(
                                                     "arena.setup.selection_intersects_with_existing_arena_region"
                                             )
@@ -256,7 +256,7 @@ public class MenuArenaSetupActions extends MenuBase {
 
                 sendPlayerAudibleMessage(
                         player,
-                        new LocalizationManager(MCHunt.getCurrentLocale())
+                        MCHunt.getLocalization()
                                 .getMessage(
                                         "arena.setup.created",
                                         arena.getName()

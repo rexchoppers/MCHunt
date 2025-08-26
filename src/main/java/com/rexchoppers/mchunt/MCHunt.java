@@ -58,11 +58,11 @@ public final class MCHunt extends JavaPlugin {
         currentLocale = Locale.getDefault();
 
         // Init localization manager to load the default locale file
-        localizationManager = new LocalizationManager(MCHunt.getCurrentLocale());
+        localizationManager = new LocalizationManager(currentLocale);
 
         Bukkit.getConsoleSender().sendMessage(
                 Format.processString(
-                    new LocalizationManager(MCHunt.getCurrentLocale())
+                    MCHunt.getLocalization()
                             .getMessage("mchunt.startup_initiated")
                 )
         );
@@ -127,7 +127,7 @@ public final class MCHunt extends JavaPlugin {
 
         Bukkit.getConsoleSender().sendMessage(
                 Format.processString(
-                    new LocalizationManager(MCHunt.getCurrentLocale())
+                    MCHunt.getLocalization()
                             .getMessage("mchunt.startup_complete")
                 )
         );
@@ -137,7 +137,7 @@ public final class MCHunt extends JavaPlugin {
     public void onDisable() {
         Bukkit.getConsoleSender().sendMessage(
                 Format.processString(
-                    new LocalizationManager(MCHunt.getCurrentLocale())
+                    MCHunt.getLocalization()
                             .getMessage("mchunt.shutdown_initiated")
                 )
         );
@@ -156,7 +156,7 @@ public final class MCHunt extends JavaPlugin {
                 // Tell the player the arena has been shut down so their game has been ended
                 PlayerUtil.sendPlayerError(
                         serverPlayer,
-                        new LocalizationManager(MCHunt.getCurrentLocale()).getMessage("arena.shutdown")
+                        MCHunt.getLocalization().getMessage("arena.shutdown")
                 );
             }
         }
@@ -166,7 +166,7 @@ public final class MCHunt extends JavaPlugin {
 
         Bukkit.getConsoleSender().sendMessage(
                 Format.processString(
-                        new LocalizationManager(MCHunt.getCurrentLocale())
+                        MCHunt.getLocalization()
                                 .getMessage("mchunt.shutdown_complete")
                 )
         );
@@ -218,19 +218,19 @@ public final class MCHunt extends JavaPlugin {
 
     public boolean checkDependencies() {
         if (getWorldGuard() == null) {
-            getLogger().severe(new LocalizationManager(MCHunt.getCurrentLocale()).getMessage("mchunt.plugin_not_found", "WorldGuard"));
+            getLogger().severe(MCHunt.getLocalization().getMessage("mchunt.plugin_not_found", "WorldGuard"));
 
             return false;
         }
 
         if (!getServer().getPluginManager().isPluginEnabled("LibsDisguises")) {
-            getLogger().severe(new LocalizationManager(MCHunt.getCurrentLocale()).getMessage("mchunt.plugin_not_found", "LibsDisguises"));
+            getLogger().severe(MCHunt.getLocalization().getMessage("mchunt.plugin_not_found", "LibsDisguises"));
 
             return false;
         }
 
         if (!getServer().getPluginManager().isPluginEnabled("ProtocolLib")) {
-            getLogger().severe(new LocalizationManager(MCHunt.getCurrentLocale()).getMessage("mchunt.plugin_not_found", "ProtocolLib"));
+            getLogger().severe(MCHunt.getLocalization().getMessage("mchunt.plugin_not_found", "ProtocolLib"));
             return false;
         }
 

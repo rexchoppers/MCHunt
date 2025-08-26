@@ -5,6 +5,6 @@ import com.rexchoppers.mchunt.managers.LocalizationManager;
 
 public class ArenaExistsException extends Exception {
     public ArenaExistsException(String name) {
-        super(new LocalizationManager(MCHunt.getCurrentLocale()).getMessage("arena.exists", name));
+        super(MCHunt.getLocalization().getMessage("arena.exists", name));
     }
 }

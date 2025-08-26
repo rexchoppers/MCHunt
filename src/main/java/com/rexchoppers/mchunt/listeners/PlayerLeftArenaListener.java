@@ -36,7 +36,7 @@ public record PlayerLeftArenaListener(MCHunt plugin) {
             if (serverPlayer != null) {
                 sendPlayerMessage(
                         serverPlayer,
-                        new LocalizationManager(MCHunt.getCurrentLocale())
+                        MCHunt.getLocalization()
                                 .getMessage(
                                         "arena.player_left",
                                         plugin.getServer().getPlayer(event.playerUuid()).getName()
@@ -65,7 +65,7 @@ public record PlayerLeftArenaListener(MCHunt plugin) {
             if (serverPlayer != null) {
                 sendPlayerAudibleMessage(
                         serverPlayer,
-                        new LocalizationManager(MCHunt.getCurrentLocale())
+                        MCHunt.getLocalization()
                                 .getMessage("arena.player_left",
                                         serverPlayer.getName())
                 );
@@ -107,7 +107,7 @@ public record PlayerLeftArenaListener(MCHunt plugin) {
             if (serverPlayer != null) {
                 sendPlayerAudibleMessage(
                         serverPlayer,
-                        new LocalizationManager(MCHunt.getCurrentLocale())
+                        MCHunt.getLocalization()
                                 .getMessage("arena.countdown_cancelled")
                 );
             }

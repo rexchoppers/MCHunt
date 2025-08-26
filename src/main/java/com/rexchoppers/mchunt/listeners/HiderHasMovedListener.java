@@ -60,7 +60,7 @@ public record HiderHasMovedListener(MCHunt plugin) {
         if (serverPlayer != null) {
             sendPlayerAudibleMessage(
                     serverPlayer,
-                    new LocalizationManager(MCHunt.getCurrentLocale())
+                    MCHunt.getLocalization()
                             .getMessage("player.hider.moved_unhidden")
             );
         }

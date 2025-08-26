@@ -26,7 +26,7 @@ public record ArenaResetCountdownEndedListener(MCHunt plugin) {
         Arena arena = event.arena();
         List<ArenaPlayer> players = event.players();
 
-        String message = new LocalizationManager(MCHunt.getCurrentLocale())
+        String message = MCHunt.getLocalization()
                 .getMessage("arena.teleporting_to_lobby");
 
         players.forEach(player -> {

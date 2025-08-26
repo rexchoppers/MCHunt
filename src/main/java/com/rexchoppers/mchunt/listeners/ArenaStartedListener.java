@@ -40,7 +40,7 @@ public record ArenaStartedListener(MCHunt plugin) {
             // Send a message to the seeker
             sendPlayerAudibleMessage(
                     player,
-                    new LocalizationManager(MCHunt.getCurrentLocale())
+                    MCHunt.getLocalization()
                             .getMessage("arena.seeker")
             );
         }
@@ -61,11 +61,11 @@ public record ArenaStartedListener(MCHunt plugin) {
             seekerList = seekerList.substring(0, seekerList.length() - 4);
         }
 
-        String seekerMessage = new LocalizationManager(MCHunt.getCurrentLocale())
+        String seekerMessage = MCHunt.getLocalization()
                 .getMessage("arena.seeker_selected_single", seekerList);
 
         if (seekers.length > 1) {
-            seekerMessage = new LocalizationManager(MCHunt.getCurrentLocale())
+            seekerMessage = MCHunt.getLocalization()
                     .getMessage("arena.seeker_selected_multiple", seekerList);
         }
 
@@ -120,7 +120,7 @@ public record ArenaStartedListener(MCHunt plugin) {
             // Send a message to the hider
             sendPlayerAudibleMessage(
                     player,
-                    new LocalizationManager(MCHunt.getCurrentLocale())
+                    MCHunt.getLocalization()
                             .getMessage("arena.hider", disguiseMaterial.toString())
             );
         });

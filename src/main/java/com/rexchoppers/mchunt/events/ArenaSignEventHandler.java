@@ -58,7 +58,7 @@ public class ArenaSignEventHandler implements Listener {
                             arena.getStatus().equals(ArenaStatus.COUNTDOWN_START))) {
                         sendPlayerError(
                                 player,
-                                new LocalizationManager(MCHunt.getCurrentLocale())
+                                MCHunt.getLocalization()
                                         .getMessage(
                                                 "arena.game_in_progress"
                                         )
@@ -70,7 +70,7 @@ public class ArenaSignEventHandler implements Listener {
                     if (arena.getPlayers().size() >= arena.getMaximumPlayers()) {
                         sendPlayerError(
                                 player,
-                                new LocalizationManager(MCHunt.getCurrentLocale())
+                                MCHunt.getLocalization()
                                         .getMessage(
                                                 "arena.full"
                                         )
@@ -82,7 +82,7 @@ public class ArenaSignEventHandler implements Listener {
                     if (arena.isPlayerInArena(player)) {
                         sendPlayerError(
                                 player,
-                                new LocalizationManager(MCHunt.getCurrentLocale())
+                                MCHunt.getLocalization()
                                         .getMessage(
                                                 "arena.already_in_arena"
                                         )

@@ -61,7 +61,7 @@ public class StartCountdownTask extends BukkitRunnable {
                     arena.getPlayers().forEach(player -> {
                         sendPlayerAudibleMessage(
                                 Bukkit.getPlayer(player.getUUID()),
-                                new LocalizationManager(MCHunt.getCurrentLocale())
+                                MCHunt.getLocalization()
                                         .getMessage(
                                                 "arena.countdown",
                                                 Integer.toString(currentCountdown)

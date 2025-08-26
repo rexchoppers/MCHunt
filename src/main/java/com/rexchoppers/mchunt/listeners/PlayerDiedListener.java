@@ -35,7 +35,7 @@ public record PlayerDiedListener(MCHunt plugin) {
 
             sendPlayerMessage(
                     serverPlayer,
-                    new LocalizationManager(MCHunt.getCurrentLocale())
+                    MCHunt.getLocalization()
                             .getMessage(
                                     "arena.player_died",
                                     arenaServerPlayer.getName()

@@ -87,7 +87,7 @@ public class ArenaTick extends BukkitRunnable {
                                     params = new Object[] { timeLeft };
                                 }
 
-                                LocalizationManager lm = new LocalizationManager(MCHunt.getCurrentLocale());
+                                LocalizationManager lm = MCHunt.getLocalization();
                                 String message;
                                 try {
                                     message = lm.getMessage(key, params);
@@ -145,7 +145,7 @@ public class ArenaTick extends BukkitRunnable {
                                     if (player.getLastStillCountdownSeconds() != secondsLeft) {
                                         // If this is the start of countdown, inform the player once
                                         if (player.getLastStillCountdownSeconds() == -1) {
-                                            sendPlayerAudibleMessage(serverPlayer, new LocalizationManager(MCHunt.getCurrentLocale())
+                                            sendPlayerAudibleMessage(serverPlayer, MCHunt.getLocalization()
                                                     .getMessage("player.hider.still_countdown_start", "5"));
                                         }
 
@@ -199,7 +199,7 @@ public class ArenaTick extends BukkitRunnable {
                             Player serverPlayer = Bukkit.getPlayer(player.getUUID());
 
                             if (serverPlayer != null) {
-                                String message = new LocalizationManager(MCHunt.getCurrentLocale())
+                                String message = MCHunt.getLocalization()
                                         .getMessage("arena.teleporting_to_lobby_countdown", countdown);
 
                                 sendPlayerAudibleMessage(serverPlayer, message);

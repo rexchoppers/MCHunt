@@ -54,7 +54,7 @@ public class MenuArenaSetupConfig extends MenuBase {
                             if (name == null || name.isEmpty()) {
                                 sendPlayerError(
                                         player,
-                                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                        MCHunt.getLocalization()
                                                 .getMessage(
                                                         "arena.setup.name_not_empty"
                                                 )
@@ -67,7 +67,7 @@ public class MenuArenaSetupConfig extends MenuBase {
                             if (arenaManager.getArenaByName(arenaManager.getData(), name).isPresent()) {
                                 sendPlayerError(
                                         player,
-                                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                        MCHunt.getLocalization()
                                                 .getMessage(
                                                         "arena.setup.name_duplicate", name
                                                 )
@@ -89,7 +89,7 @@ public class MenuArenaSetupConfig extends MenuBase {
 
                             sendPlayerAudibleMessage(
                                     player,
-                                    new LocalizationManager(MCHunt.getCurrentLocale())
+                                    MCHunt.getLocalization()
                                             .getMessage(
                                                     "arena.setup.name_set", name
                                             )

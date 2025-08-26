@@ -123,7 +123,7 @@ public class ArenaSetupEventHandler implements Listener {
 
                 sendPlayerAudibleMessage(
                         player,
-                        new LocalizationManager(MCHunt.getCurrentLocale())
+                        MCHunt.getLocalization()
                                 .getMessage(
                                         "arena.setup.hider_spawn_removed",
                                         location.getWorld().getName(),
@@ -148,7 +148,7 @@ public class ArenaSetupEventHandler implements Listener {
 
                 sendPlayerAudibleMessage(
                         player,
-                        new LocalizationManager(MCHunt.getCurrentLocale())
+                        MCHunt.getLocalization()
                                 .getMessage(
                                         "arena.setup.seeker_spawn_removed",
                                         location.getWorld().getName(),
@@ -170,7 +170,7 @@ public class ArenaSetupEventHandler implements Listener {
 
             sendPlayerAudibleMessage(
                     player,
-                    new LocalizationManager(MCHunt.getCurrentLocale())
+                    MCHunt.getLocalization()
                             .getMessage(
                                     "arena.setup.lobby_spawn_removed",
                                     event.getClickedBlock().getLocation().getWorld().getName(),
@@ -190,7 +190,7 @@ public class ArenaSetupEventHandler implements Listener {
 
             sendPlayerAudibleMessage(
                     player,
-                    new LocalizationManager(MCHunt.getCurrentLocale())
+                    MCHunt.getLocalization()
                             .getMessage(
                                     "arena.setup.after_game_spawn_removed",
                                     event.getClickedBlock().getLocation().getWorld().getName(),
@@ -269,7 +269,7 @@ public class ArenaSetupEventHandler implements Listener {
                         this.plugin.getArenaSetupManager().update(arenaSetup);
                         sendPlayerAudibleMessage(
                                 player,
-                                new LocalizationManager(MCHunt.getCurrentLocale())
+                                MCHunt.getLocalization()
                                         .getMessage(
                                                 "arena.setup.boundary_set",
                                                 "1",
@@ -287,7 +287,7 @@ public class ArenaSetupEventHandler implements Listener {
                         this.plugin.getArenaSetupManager().update(arenaSetup);
                         sendPlayerAudibleMessage(
                                 player,
-                                new LocalizationManager(MCHunt.getCurrentLocale())
+                                MCHunt.getLocalization()
                                         .getMessage(
                                                 "arena.setup.boundary_set",
                                                 "2",
@@ -308,7 +308,7 @@ public class ArenaSetupEventHandler implements Listener {
                         if (!arenaSetup.getLocationBoundaryPoint1().getWorld().getName().equals(arenaSetup.getLocationBoundaryPoint2().getWorld().getName())) {
                             sendPlayerError(
                                     player,
-                                    new LocalizationManager(MCHunt.getCurrentLocale())
+                                    MCHunt.getLocalization()
                                             .getMessage(
                                                     "arena.setup.boundary_world_mismatch"
                                             )
@@ -386,7 +386,7 @@ public class ArenaSetupEventHandler implements Listener {
 
             sendPlayerError(
                     player,
-                    new LocalizationManager(MCHunt.getCurrentLocale())
+                    MCHunt.getLocalization()
                             .getMessage(
                                     "player.setup.cannot_move_setup_items"
                             ));
@@ -421,7 +421,7 @@ public class ArenaSetupEventHandler implements Listener {
 
                     sendPlayerAudibleMessage(
                             player,
-                            new LocalizationManager(MCHunt.getCurrentLocale())
+                            MCHunt.getLocalization()
                                     .getMessage(
                                             "arena.setup.sign_set",
                                             event.getBlockPlaced().getLocation().getWorld().getName(),
@@ -435,7 +435,7 @@ public class ArenaSetupEventHandler implements Listener {
                     if (arenaSetup.getLobbySpawn() != null) {
                         sendPlayerError(
                                 player,
-                                new LocalizationManager(MCHunt.getCurrentLocale())
+                                MCHunt.getLocalization()
                                         .getMessage(
                                                 "arena.setup.lobby_spawn_already_set"
                                         )
@@ -450,7 +450,7 @@ public class ArenaSetupEventHandler implements Listener {
 
                     sendPlayerAudibleMessage(
                             player,
-                            new LocalizationManager(MCHunt.getCurrentLocale())
+                            MCHunt.getLocalization()
                                     .getMessage(
                                             "arena.setup.lobby_spawn_set",
                                             event.getBlockPlaced().getLocation().getWorld().getName(),
@@ -469,7 +469,7 @@ public class ArenaSetupEventHandler implements Listener {
 
                     sendPlayerAudibleMessage(
                             player,
-                            new LocalizationManager(MCHunt.getCurrentLocale())
+                            MCHunt.getLocalization()
                                     .getMessage(
                                             "arena.setup.hider_spawn_set",
                                             event.getBlockPlaced().getLocation().getWorld().getName(),
@@ -487,7 +487,7 @@ public class ArenaSetupEventHandler implements Listener {
 
                     sendPlayerAudibleMessage(
                             player,
-                            new LocalizationManager(MCHunt.getCurrentLocale())
+                            MCHunt.getLocalization()
                                     .getMessage(
                                             "arena.setup.seeker_spawn_set",
                                             event.getBlockPlaced().getLocation().getWorld().getName(),
@@ -503,7 +503,7 @@ public class ArenaSetupEventHandler implements Listener {
                     if (arenaSetup.getAfterGameSpawn() != null) {
                         sendPlayerError(
                                 player,
-                                new LocalizationManager(MCHunt.getCurrentLocale())
+                                MCHunt.getLocalization()
                                         .getMessage(
                                                 "arena.setup.after_game_spawn_already_set"
                                         )
@@ -518,7 +518,7 @@ public class ArenaSetupEventHandler implements Listener {
 
                     sendPlayerAudibleMessage(
                             player,
-                            new LocalizationManager(MCHunt.getCurrentLocale())
+                            MCHunt.getLocalization()
                                     .getMessage(
                                             "arena.setup.after_game_spawn_set",
                                             event.getBlockPlaced().getLocation().getWorld().getName(),
@@ -555,7 +555,7 @@ public class ArenaSetupEventHandler implements Listener {
 
                 sendPlayerError(
                         player,
-                        new LocalizationManager(MCHunt.getCurrentLocale())
+                        MCHunt.getLocalization()
                                 .getMessage(
                                         "arena.setup.cannot_break_signs"
                                 )
@@ -588,7 +588,7 @@ public class ArenaSetupEventHandler implements Listener {
 
                     sendPlayerAudibleMessage(
                             player,
-                            new LocalizationManager(MCHunt.getCurrentLocale())
+                            MCHunt.getLocalization()
                                     .getMessage(
                                             "arena.setup.sign_removed",
                                             blockLocation.getWorld().getName(),

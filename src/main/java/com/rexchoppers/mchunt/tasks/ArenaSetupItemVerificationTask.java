@@ -52,7 +52,7 @@ public class ArenaSetupItemVerificationTask extends BukkitRunnable {
                     if (notify) {
                         sendPlayerAudibleMessage(
                                 player,
-                                new LocalizationManager(MCHunt.getCurrentLocale())
+                                MCHunt.getLocalization()
                                         .getMessage("player.setup.missing_items_restored")
                         );
                     }

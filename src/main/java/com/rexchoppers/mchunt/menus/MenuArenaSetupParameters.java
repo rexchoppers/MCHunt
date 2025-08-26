@@ -53,7 +53,7 @@ public class MenuArenaSetupParameters extends MenuBase {
                                 if (minimumPlayers < 2) {
                                     sendPlayerError(
                                             player,
-                                            new LocalizationManager(MCHunt.getCurrentLocale())
+                                            MCHunt.getLocalization()
                                                     .getMessage(
                                                             "arena.setup.minimum_players_not_less_than_two"
                                                     )
@@ -65,7 +65,7 @@ public class MenuArenaSetupParameters extends MenuBase {
                                 if (minimumPlayers > arenaSetup.getMaximumPlayers()) {
                                     sendPlayerError(
                                             player,
-                                            new LocalizationManager(MCHunt.getCurrentLocale())
+                                            MCHunt.getLocalization()
                                                     .getMessage(
                                                             "arena.setup.minimum_players_not_greater_than_maximum_players"
                                                     )
@@ -82,7 +82,7 @@ public class MenuArenaSetupParameters extends MenuBase {
 
                                 sendPlayerAudibleMessage(
                                         player,
-                                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                        MCHunt.getLocalization()
                                                 .getMessage(
                                                         "arena.setup.value_set", Integer.toString(minimumPlayers)
                                                 )
@@ -90,7 +90,7 @@ public class MenuArenaSetupParameters extends MenuBase {
                             } catch (Exception exception) {
                                 sendPlayerError(
                                         player,
-                                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                        MCHunt.getLocalization()
                                                 .getMessage(
                                                         "arena.setup.not_a_number"
                                                 )
@@ -124,7 +124,7 @@ public class MenuArenaSetupParameters extends MenuBase {
                                 if (maximumPlayers < 2) {
                                     sendPlayerError(
                                             player,
-                                            new LocalizationManager(MCHunt.getCurrentLocale())
+                                            MCHunt.getLocalization()
                                                     .getMessage(
                                                             "arena.setup.maximum_players_not_less_than_two"
                                                     )
@@ -141,7 +141,7 @@ public class MenuArenaSetupParameters extends MenuBase {
 
                                 sendPlayerAudibleMessage(
                                         player,
-                                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                        MCHunt.getLocalization()
                                                 .getMessage(
                                                         "arena.setup.value_set", Integer.toString(maximumPlayers)
                                                 )
@@ -149,7 +149,7 @@ public class MenuArenaSetupParameters extends MenuBase {
                             } catch (Exception exception) {
                                 sendPlayerError(
                                         player,
-                                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                        MCHunt.getLocalization()
                                                 .getMessage(
                                                         "arena.setup.not_a_number"
                                                 )
@@ -184,7 +184,7 @@ public class MenuArenaSetupParameters extends MenuBase {
                                 if (seekerCount < 1) {
                                     sendPlayerError(
                                             player,
-                                            new LocalizationManager(MCHunt.getCurrentLocale())
+                                            MCHunt.getLocalization()
                                                     .getMessage(
                                                             "arena.setup.seeker_count_not_less_than_one"
                                                     )
@@ -201,7 +201,7 @@ public class MenuArenaSetupParameters extends MenuBase {
 
                                 sendPlayerAudibleMessage(
                                         player,
-                                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                        MCHunt.getLocalization()
                                                 .getMessage(
                                                         "arena.setup.value_set", Integer.toString(seekerCount)
                                                 )
@@ -209,7 +209,7 @@ public class MenuArenaSetupParameters extends MenuBase {
                             } catch (Exception exception) {
                                 sendPlayerError(
                                         player,
-                                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                        MCHunt.getLocalization()
                                                 .getMessage(
                                                         "arena.setup.not_a_number"
                                                 )
@@ -244,7 +244,7 @@ public class MenuArenaSetupParameters extends MenuBase {
                                 if (countdownBeforeStart < 1) {
                                     sendPlayerError(
                                             player,
-                                            new LocalizationManager(MCHunt.getCurrentLocale())
+                                            MCHunt.getLocalization()
                                                     .getMessage(
                                                             "arena.setup.countdown_before_start_not_less_than_one"
                                                     )
@@ -262,7 +262,7 @@ public class MenuArenaSetupParameters extends MenuBase {
 
                                 sendPlayerAudibleMessage(
                                         player,
-                                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                        MCHunt.getLocalization()
                                                 .getMessage(
                                                         "arena.setup.value_set", Integer.toString(countdownBeforeStart)
                                                 )
@@ -270,7 +270,7 @@ public class MenuArenaSetupParameters extends MenuBase {
                             } catch (Exception exception) {
                                 sendPlayerError(
                                         player,
-                                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                        MCHunt.getLocalization()
                                                 .getMessage(
                                                         "arena.setup.not_a_number"
                                                 )
@@ -305,7 +305,7 @@ public class MenuArenaSetupParameters extends MenuBase {
                                 if (countdownAfterGameEnd < 1) {
                                     sendPlayerError(
                                             player,
-                                            new LocalizationManager(MCHunt.getCurrentLocale())
+                                            MCHunt.getLocalization()
                                                     .getMessage(
                                                             "arena.setup.countdown_after_game_end_not_less_than_one"
                                                     )
@@ -323,7 +323,7 @@ public class MenuArenaSetupParameters extends MenuBase {
 
                                 sendPlayerAudibleMessage(
                                         player,
-                                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                        MCHunt.getLocalization()
                                                 .getMessage(
                                                         "arena.setup.value_set", Integer.toString(countdownAfterGameEnd)
                                                 )
@@ -331,7 +331,7 @@ public class MenuArenaSetupParameters extends MenuBase {
                             } catch (Exception exception) {
                                 sendPlayerError(
                                         player,
-                                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                        MCHunt.getLocalization()
                                                 .getMessage(
                                                         "arena.setup.not_a_number"
                                                 )
@@ -366,7 +366,7 @@ public class MenuArenaSetupParameters extends MenuBase {
                                 if (respawnDelay < 1) {
                                     sendPlayerError(
                                             player,
-                                            new LocalizationManager(MCHunt.getCurrentLocale())
+                                            MCHunt.getLocalization()
                                                     .getMessage(
                                                             "arena.setup.respawn_delay_not_less_than_one"
                                                     )
@@ -384,7 +384,7 @@ public class MenuArenaSetupParameters extends MenuBase {
 
                                 sendPlayerAudibleMessage(
                                         player,
-                                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                        MCHunt.getLocalization()
                                                 .getMessage(
                                                         "arena.setup.value_set", Integer.toString(respawnDelay)
                                                 )
@@ -392,7 +392,7 @@ public class MenuArenaSetupParameters extends MenuBase {
                             } catch (Exception exception) {
                                 sendPlayerError(
                                         player,
-                                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                        MCHunt.getLocalization()
                                                 .getMessage(
                                                         "arena.setup.not_a_number"
                                                 )
@@ -427,7 +427,7 @@ public class MenuArenaSetupParameters extends MenuBase {
                                 if (seekerReleaseDelay < 1) {
                                     sendPlayerError(
                                             player,
-                                            new LocalizationManager(MCHunt.getCurrentLocale())
+                                            MCHunt.getLocalization()
                                                     .getMessage(
                                                             "arena.setup.seeker_release_delay_not_less_than_one"
                                                     )
@@ -445,7 +445,7 @@ public class MenuArenaSetupParameters extends MenuBase {
 
                                 sendPlayerAudibleMessage(
                                         player,
-                                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                        MCHunt.getLocalization()
                                                 .getMessage(
                                                         "arena.setup.value_set", Integer.toString(seekerReleaseDelay)
                                                 )
@@ -453,7 +453,7 @@ public class MenuArenaSetupParameters extends MenuBase {
                             } catch (Exception exception) {
                                 sendPlayerError(
                                         player,
-                                        new LocalizationManager(MCHunt.getCurrentLocale())
+                                        MCHunt.getLocalization()
                                                 .getMessage(
                                                         "arena.setup.not_a_number"
                                                 )

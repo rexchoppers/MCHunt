@@ -66,7 +66,7 @@ public class MenuAdmin extends MenuBase {
                         // Send message to player
                         sendPlayerAudibleMessage(
                                 player,
-                                new LocalizationManager(MCHunt.getCurrentLocale())
+                                MCHunt.getLocalization()
                                         .getMessage(
                                                 "arena.setup.now_in_arena_setup_mode"
                                         )

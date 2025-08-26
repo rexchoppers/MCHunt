@@ -50,7 +50,7 @@ public record HiderIsStillListener(MCHunt plugin) {
         if (serverPlayer != null) {
             sendPlayerAudibleMessage(
                     serverPlayer,
-                    new LocalizationManager(MCHunt.getCurrentLocale())
+                    MCHunt.getLocalization()
                             .getMessage("player.hider.hidden")
             );
         }

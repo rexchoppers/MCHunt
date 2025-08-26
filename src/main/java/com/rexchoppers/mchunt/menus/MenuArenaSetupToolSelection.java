@@ -50,7 +50,7 @@ public class MenuArenaSetupToolSelection extends MenuBase {
 
                 sendPlayerAudibleMessage(
                         player,
-                        new LocalizationManager(MCHunt.getCurrentLocale()).getMessage("arena.setup.updated_tool_selection")
+                        MCHunt.getLocalization().getMessage("arena.setup.updated_tool_selection")
                 );
             }));
 
@@ -59,7 +59,7 @@ public class MenuArenaSetupToolSelection extends MenuBase {
 
                 sendPlayerAudibleMessage(
                         player,
-                        new LocalizationManager(MCHunt.getCurrentLocale()).getMessage("arena.setup.updated_tool_selection")
+                        MCHunt.getLocalization().getMessage("arena.setup.updated_tool_selection")
                 );
             }));
 
@@ -71,7 +71,7 @@ public class MenuArenaSetupToolSelection extends MenuBase {
                     // Warn the user the lobby spawn is already set
                     sendPlayerError(
                             player,
-                            new LocalizationManager(MCHunt.getCurrentLocale()).getMessage("arena.setup.lobby_spawn_already_set")
+                            MCHunt.getLocalization().getMessage("arena.setup.lobby_spawn_already_set")
                     );
                     getInventory().close(player);
                 } else {
@@ -79,7 +79,7 @@ public class MenuArenaSetupToolSelection extends MenuBase {
 
                     sendPlayerAudibleMessage(
                             player,
-                            new LocalizationManager(MCHunt.getCurrentLocale()).getMessage("arena.setup.updated_tool_selection")
+                            MCHunt.getLocalization().getMessage("arena.setup.updated_tool_selection")
                     );
                 }
             }));
@@ -89,7 +89,7 @@ public class MenuArenaSetupToolSelection extends MenuBase {
 
                 sendPlayerAudibleMessage(
                         player,
-                        new LocalizationManager(MCHunt.getCurrentLocale()).getMessage("arena.setup.updated_tool_selection")
+                        MCHunt.getLocalization().getMessage("arena.setup.updated_tool_selection")
                 );
             }));
 
@@ -99,7 +99,7 @@ public class MenuArenaSetupToolSelection extends MenuBase {
 
                 sendPlayerAudibleMessage(
                         player,
-                        new LocalizationManager(MCHunt.getCurrentLocale()).getMessage("arena.setup.updated_tool_selection")
+                        MCHunt.getLocalization().getMessage("arena.setup.updated_tool_selection")
                 );
             }));
 
@@ -111,7 +111,7 @@ public class MenuArenaSetupToolSelection extends MenuBase {
                     // Warn the user the after game spawn is already set
                     sendPlayerError(
                             player,
-                            new LocalizationManager(MCHunt.getCurrentLocale()).getMessage("arena.setup.after_game_spawn_already_set")
+                            MCHunt.getLocalization().getMessage("arena.setup.after_game_spawn_already_set")
                     );
                     getInventory().close(player);
                 } else {
@@ -119,7 +119,7 @@ public class MenuArenaSetupToolSelection extends MenuBase {
 
                     sendPlayerAudibleMessage(
                             player,
-                            new LocalizationManager(MCHunt.getCurrentLocale()).getMessage("arena.setup.updated_tool_selection")
+                            MCHunt.getLocalization().getMessage("arena.setup.updated_tool_selection")
                     );
                 }
             }));

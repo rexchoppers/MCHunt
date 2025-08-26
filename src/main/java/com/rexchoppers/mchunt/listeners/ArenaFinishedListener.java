@@ -41,12 +41,12 @@ public record ArenaFinishedListener(MCHunt plugin) {
 
         String message = null;
         if (hiders.isEmpty()) {
-           message = new LocalizationManager(MCHunt.getCurrentLocale())
+           message = MCHunt.getLocalization()
                    .getMessage("arena.seekers_win");
         }
 
         if (seekers.isEmpty()) {
-            message = new LocalizationManager(MCHunt.getCurrentLocale())
+            message = MCHunt.getLocalization()
                     .getMessage("arena.hiders_win");
         }
 
@@ -71,7 +71,7 @@ public record ArenaFinishedListener(MCHunt plugin) {
         arena.getPlayers().forEach(player -> {
             Player serverPlayer = Bukkit.getPlayer(player.getUUID());
             if (serverPlayer != null) {
-                sendPlayerAudibleMessage(serverPlayer,  new LocalizationManager(MCHunt.getCurrentLocale())
+                sendPlayerAudibleMessage(serverPlayer,  MCHunt.getLocalization()
                         .getMessage("arena.game_ended_in_time", formatted));
             }
         });

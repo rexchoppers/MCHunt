@@ -31,7 +31,7 @@ public record ArenaSeekersReleasedListener(MCHunt plugin) {
 
             sendPlayerAudibleMessage(
                     serverPlayer,
-                    new LocalizationManager(MCHunt.getCurrentLocale())
+                    MCHunt.getLocalization()
                             .getMessage("arena.seekers_released")
             );
         });
