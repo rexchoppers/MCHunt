@@ -219,8 +219,6 @@ public class ArenaTick extends BukkitRunnable {
 
                     break;
             }
-
-
         }
     }
 }

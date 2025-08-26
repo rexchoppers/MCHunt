@@ -5,19 +5,26 @@ import com.rexchoppers.mchunt.events.ArenaEventHandler;
 import com.rexchoppers.mchunt.events.ArenaSetupEventHandler;
 import com.rexchoppers.mchunt.events.ArenaSignEventHandler;
 import com.rexchoppers.mchunt.events.DroppableEventHandler;
+import com.rexchoppers.mchunt.listeners.*;
 import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
 
-public class EventManager {
-    private final MCHunt plugin;
-
-    public EventManager(MCHunt plugin) {
-        this.plugin = plugin;
-    }
-
+public record EventManager(MCHunt plugin) {
     public void registerEvents() {
-        Bukkit.getPluginManager().registerEvents(new ArenaSetupEventHandler(this.plugin), this.plugin);
-        Bukkit.getPluginManager().registerEvents(new ArenaSignEventHandler(this.plugin), this.plugin);
-        Bukkit.getPluginManager().registerEvents(new ArenaEventHandler(this.plugin), this.plugin);
-        Bukkit.getPluginManager().registerEvents(new DroppableEventHandler(this.plugin), this.plugin);
+        Class<?>[] handlerClasses = {
+                ArenaSetupEventHandler.class,
+                ArenaSignEventHandler.class,
+                ArenaEventHandler.class,
+                DroppableEventHandler.class
+        };
+
+        for (Class<?> clazz : handlerClasses) {
+            try {
+                Object listener = clazz.getConstructor(MCHunt.class).newInstance(this.plugin);
+                Bukkit.getPluginManager().registerEvents((Listener) listener, this.plugin);
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to register handler: " + clazz.getName(), e);
+            }
+        }
     }
 }
