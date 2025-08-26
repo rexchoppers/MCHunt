@@ -91,8 +91,6 @@ public abstract class Repository<T extends Identifiable> {
         Optional<T> existingItem = getByUUID(item.getUUID());
         existingItem.ifPresent(t -> data.remove(t));
 
-        Bukkit.getConsoleSender().sendMessage(plugin.getGson().toJson(item));
-
         save(item);
         data.add(item);
 
