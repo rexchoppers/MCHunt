@@ -30,8 +30,6 @@ public final class MCHunt extends JavaPlugin {
 
     private Gson gson;
 
-    private static Locale currentLocale;
-
     private InventoryManager inventoryManager;
     private ArenaRepository arenaManager;
     private ArenaSetupRepository arenaSetupManager;
@@ -39,8 +37,6 @@ public final class MCHunt extends JavaPlugin {
     private EventManager eventManager;
 
     private EventBusManager eventBusManager;
-
-    private PacketManager packetManager;
 
     private TaskManager taskManager;
 
@@ -54,11 +50,8 @@ public final class MCHunt extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Set the current locale
-        currentLocale = Locale.getDefault();
-
         // Init localization manager to load the default locale file
-        localizationManager = new LocalizationManager(currentLocale);
+        localizationManager = new LocalizationManager(Locale.getDefault());
 
         Bukkit.getConsoleSender().sendMessage(
                 Format.processString(
@@ -84,8 +77,6 @@ public final class MCHunt extends JavaPlugin {
             return;
         }
 
-
-
         // Create MCHunt directory if it doesn't exist
         File pluginDir = new File(this.getDataFolder().getAbsolutePath());
         if (!pluginDir.exists()) {
@@ -106,9 +97,7 @@ public final class MCHunt extends JavaPlugin {
 
         this.eventBusManager = new EventBusManager(this);
 
-
-        this.packetManager = new PacketManager(this);
-        this.packetManager.registerPackets();
+        (new PacketManager(this)).registerPackets();
 
         this.taskManager = new TaskManager(this);
         this.taskManager.registerTasks();
@@ -176,10 +165,6 @@ public final class MCHunt extends JavaPlugin {
         return gson;
     }
 
-    public static Locale getCurrentLocale() {
-        return currentLocale;
-    }
-
     public ArenaRepository getArenaManager() {
         return arenaManager;
     }
@@ -198,10 +183,6 @@ public final class MCHunt extends JavaPlugin {
 
     public EventManager getEventManager() {
         return eventManager;
-    }
-
-    public PacketManager getPacketManager() {
-        return packetManager;
     }
 
     public TaskManager getTaskManager() {

@@ -8,12 +8,7 @@ import com.comphenix.protocol.events.PacketEvent;
 import com.rexchoppers.mchunt.MCHunt;
 import org.bukkit.inventory.ItemStack;
 
-public class PacketManager {
-    private final MCHunt plugin;
-
-    public PacketManager(MCHunt plugin) {
-        this.plugin = plugin;
-    }
+public record PacketManager(MCHunt plugin) {
 
     public void registerPackets() {
         ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
