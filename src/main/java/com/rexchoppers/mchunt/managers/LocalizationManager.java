@@ -5,7 +5,7 @@ import java.util.Locale;
 import java.text.MessageFormat;
 
 public class LocalizationManager {
-    private ResourceBundle messages;
+    private final ResourceBundle messages;
 
     public LocalizationManager(Locale locale) {
         this.messages = ResourceBundle.getBundle("language", locale);

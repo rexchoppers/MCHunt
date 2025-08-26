@@ -46,10 +46,19 @@ public final class MCHunt extends JavaPlugin {
 
     private SignManager signManager;
 
+    private static LocalizationManager localizationManager;
+
+    public static LocalizationManager getLocalization() {
+        return localizationManager;
+    }
+
     @Override
     public void onEnable() {
         // Set the current locale
         currentLocale = Locale.getDefault();
+
+        // Init localization manager to load the default locale file
+        localizationManager = new LocalizationManager(MCHunt.getCurrentLocale());
 
         Bukkit.getConsoleSender().sendMessage(
                 Format.processString(
