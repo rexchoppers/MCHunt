@@ -34,7 +34,6 @@ public final class MCHunt extends JavaPlugin {
     private ArenaRepository arenaManager;
     private ArenaSetupRepository arenaSetupManager;
     private ItemManager itemManager;
-    private EventManager eventManager;
 
     private EventBusManager eventBusManager;
 
@@ -102,8 +101,7 @@ public final class MCHunt extends JavaPlugin {
         this.taskManager = new TaskManager(this);
         this.taskManager.registerTasks();
 
-        this.eventManager = new EventManager(this);
-        this.eventManager.registerEvents();
+        (new EventManager(this)).registerEvents();
 
         this.itemManager = new ItemManager(this);
 
@@ -179,10 +177,6 @@ public final class MCHunt extends JavaPlugin {
 
     public ArenaSetupRepository getArenaSetupManager() {
         return arenaSetupManager;
-    }
-
-    public EventManager getEventManager() {
-        return eventManager;
     }
 
     public TaskManager getTaskManager() {
