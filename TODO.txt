@@ -1,16 +1,7 @@
-- Use economy tool
 - Vault support
 
 - In-game menu
    - Leave arena
 
 - Configurable still time for arena
-
 - Scoreboard support
-
-- Arena Server Stop/Fail
-    - Save players to file
-    - Remove players from arena
-    - On server start, load players from file
-    - Remove players from file on join
-    - Remove players from Arena on server start (Make sure players are synced in file)
