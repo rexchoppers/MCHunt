@@ -9,6 +9,8 @@ jobs:
   build:
     name: Build shaded jar
     runs-on: ubuntu-latest
+    env:
+      VERSION: ${{ github.ref_name }}
 
     steps:
       - name: Checkout repository
@@ -17,19 +19,19 @@ jobs:
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          distribution: 'corretto'
+          distribution: 'temurin'
           java-version: '21'
           cache: 'gradle'
 
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
-      - name: Build
-        run: ./gradlew --no-daemon clean build
+      - name: Build (propagate version)
+        run: ./gradlew --no-daemon clean build -PprojectVersion=${{ env.VERSION }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: mchunt-shadow-jar
+          name: mchunt-${{ env.VERSION }}
           path: build/libs/*.jar
           if-no-files-found: error
