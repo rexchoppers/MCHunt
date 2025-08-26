@@ -26,7 +26,7 @@ This is based on the original BlockHunt plugin: [https://dev.bukkit.org/projects
 This project uses Gradle and the Shadow plugin to produce a fat JAR.
 
 - Build: `./gradlew build`
-- Output: `build/libs/MCHunt-1.0-SNAPSHOT.jar` (classifier is empty due to shadowJar configuration)
+- Output: `build/libs/MCHunt-<Version>.jar`
 
 If you are on Windows, use `gradlew.bat build`.
 
