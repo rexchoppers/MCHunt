@@ -1,3 +1,12 @@
 - Vault support
 - Scoreboard support
 - Configurable still time for arena
+- Edit Arena (All the features of setup arena)
+- Hider: Set hotbar disguise as enchanted when disguised + vise versa
+- Hider: Ability to switch disguise while in game
+- Fireworks on win
+- Titles + Subtitles instead of chat messages
+- Distraction effects for seekers
+    - Blindness
+    - Slowness
+    - Nausea
