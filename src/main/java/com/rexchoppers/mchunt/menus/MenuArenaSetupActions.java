@@ -33,7 +33,7 @@ public class MenuArenaSetupActions extends MenuBase {
         this.plugin = plugin;
         this.setInventory(
                 SmartInventory.builder()
-                        .id("mchuntMenuArenaSetupActions")
+                        .id("mchunt:menuArenaSetupActions")
                         .manager(plugin.getInventoryManager())
                         .provider(new MenuArenaSetupActionsProvider())
                         .size(1, 9)

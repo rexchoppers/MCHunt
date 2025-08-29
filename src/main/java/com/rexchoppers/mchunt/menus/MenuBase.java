@@ -1,9 +1,11 @@
 package com.rexchoppers.mchunt.menus;
 
+import com.rexchoppers.mchunt.MCHunt;
 import fr.minuskube.inv.SmartInventory;
 import org.bukkit.entity.Player;
 
 public class MenuBase {
+    private MCHunt plugin;
     private SmartInventory inventory;
 
     public void open(Player player) {
@@ -20,5 +22,9 @@ public class MenuBase {
 
     public SmartInventory getInventory() {
         return this.inventory;
+    }
+
+    public void setPlugin(MCHunt plugin) {
+        this.plugin = plugin;
     }
 }
