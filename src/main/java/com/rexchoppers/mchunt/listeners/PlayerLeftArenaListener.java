@@ -2,13 +2,10 @@ package com.rexchoppers.mchunt.listeners;
 
 import com.google.common.eventbus.Subscribe;
 import com.rexchoppers.mchunt.MCHunt;
-import com.rexchoppers.mchunt.enums.ArenaPlayerRole;
 import com.rexchoppers.mchunt.enums.ArenaStatus;
 import com.rexchoppers.mchunt.events.internal.ArenaFinishedEvent;
 import com.rexchoppers.mchunt.events.internal.PlayerLeftArenaEvent;
-import com.rexchoppers.mchunt.managers.LocalizationManager;
 import com.rexchoppers.mchunt.models.Arena;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import static com.rexchoppers.mchunt.util.PlayerUtil.sendPlayerAudibleMessage;
@@ -44,6 +41,21 @@ public record PlayerLeftArenaListener(MCHunt plugin) {
                 );
             }
         });
+    }
+
+    @Subscribe
+    public void teleportToAfterGameSpawn(PlayerLeftArenaEvent event) {
+        Arena arena = plugin.getArenaManager().getByUUID(event.arenaUuid()).orElse(null);
+
+        if (arena == null) {
+            return;
+        }
+
+        Player serverPlayer = plugin.getServer().getPlayer(event.playerUuid());
+
+        if (serverPlayer != null && serverPlayer.isOnline() && arena.getAfterGameSpawn() != null) {
+            serverPlayer.teleport(arena.getAfterGameSpawn());
+        }
     }
 
     @Subscribe

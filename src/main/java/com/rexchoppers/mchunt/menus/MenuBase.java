@@ -27,4 +27,8 @@ public class MenuBase {
     public void setPlugin(MCHunt plugin) {
         this.plugin = plugin;
     }
+
+    public MCHunt getPlugin() {
+        return this.plugin;
+    }
 }

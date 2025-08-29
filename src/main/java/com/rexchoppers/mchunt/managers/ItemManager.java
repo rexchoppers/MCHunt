@@ -654,4 +654,17 @@ public class ItemManager {
                     add(Format.processString("%tDiscard all changes"));
                 }});
     }
+
+    public ItemBuilder itemArenaLeave() {
+        return new ItemBuilder(this.plugin)
+                .setMaterial(Material.RED_BED)
+                .setAmount(1)
+                .setDroppable(false)
+                .setMovable(false)
+                .setName(Format.processString("%n%cLeave Arena"))
+                .setLores(new ArrayList<String>() {{
+                    add("");
+                    add(Format.processString("%tClick to leave the arena"));
+                }});
+    }
 }
