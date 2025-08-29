@@ -34,7 +34,7 @@ public class MenuInGame extends MenuBase {
             }
 
             // Item to leave the arena
-            inventoryContents.set(0, 7, ClickableItem.of(getPlugin().getItemManager().itemArenaLeave().build(), e -> {
+            inventoryContents.set(0, 8, ClickableItem.of(getPlugin().getItemManager().itemArenaLeave().build(), e -> {
                 arena.removePlayer(player.getUniqueId());
                 player.closeInventory();
 

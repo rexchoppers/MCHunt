@@ -661,8 +661,8 @@ public class ItemManager {
                 .setAmount(1)
                 .setDroppable(false)
                 .setMovable(false)
-                .setName(Format.processString("%n%cLeave Arena"))
-                .setLores(new ArrayList<String>() {{
+                .setName(Format.processString("%n%BLeave Arena"))
+                .setLores(new ArrayList<>() {{
                     add("");
                     add(Format.processString("%tClick to leave the arena"));
                 }});
