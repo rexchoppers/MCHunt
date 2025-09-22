@@ -67,6 +67,9 @@ public class Arena implements Identifiable {
     private int seekerReleaseDelay;
 
     @Expose
+    private int hiderStillTime;
+
+    @Expose
     private Location locationBoundaryPoint1;
 
     @Expose
@@ -107,6 +110,7 @@ public class Arena implements Identifiable {
             int countdownAfterEnd,
             int respawnDelay,
             int seekerReleaseDelay,
+            int hiderStillTime,
             int gameLength,
             Location locationBoundaryPoint1,
             Location locationBoundaryPoint2
@@ -129,6 +133,7 @@ public class Arena implements Identifiable {
         this.countdownAfterEnd = countdownAfterEnd;
         this.respawnDelay = respawnDelay;
         this.seekerReleaseDelay = seekerReleaseDelay;
+        this.hiderStillTime = hiderStillTime;
         this.gameLength = gameLength;
         this.locationBoundaryPoint1 = locationBoundaryPoint1;
         this.locationBoundaryPoint2 = locationBoundaryPoint2;
@@ -312,6 +317,14 @@ public class Arena implements Identifiable {
         return seekerReleaseDelay;
     }
 
+    public int getHiderStillTime() {
+        if (hiderStillTime == 0) {
+            return DEFAULT_HIDER_STILL_TIME;
+        }
+
+        return hiderStillTime;
+    }
+
     public void setSeekerReleaseDelay(int seekerReleaseDelay) {
         this.seekerReleaseDelay = seekerReleaseDelay;
     }
@@ -344,6 +357,8 @@ public class Arena implements Identifiable {
     public static final int DEFAULT_GAME_LENGTH = 300;
     public static final int DEFAULT_COUNTDOWN_BEFORE_START = 10;
     public static final int DEFAULT_COUNTDOWN_AFTER_END = 10;
+
+    public static final int DEFAULT_HIDER_STILL_TIME = 5;
 
     public static final int DEFAULT_SEEKER_COUNT = 1;
 
