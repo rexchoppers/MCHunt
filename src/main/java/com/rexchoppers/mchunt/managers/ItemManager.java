@@ -619,6 +619,19 @@ public class ItemManager {
                 }});
     }
 
+    public ItemBuilder itemArenaSetupParametersHiderStillTime() {
+        return new ItemBuilder(this.plugin)
+                .setMaterial(Material.PAPER)
+                .setAmount(1)
+                .setName(Format.processString("%n%BHider Still Time"))
+                .setPermission(Permissions.PERMISSION_ADMIN.getPermission())
+                .setLores(new ArrayList<String>() {{
+                    add("");
+                    add(Format.processString("%tSet how many seconds hiders must stand still"));
+                    add(Format.processString("%tbefore they are disguised"));
+                }});
+    }
+
     public ItemBuilder itemArenaSetupParametersGameLength() {
         return new ItemBuilder(this.plugin)
                 .setMaterial(Material.PAPER)

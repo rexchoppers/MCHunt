@@ -474,6 +474,67 @@ public class MenuArenaSetupParameters extends MenuBase {
                         .plugin(plugin)
                         .open(player);
             }));
+
+            inventoryContents.set(0, 7, ClickableItem.of(plugin.getItemManager().itemArenaSetupParametersHiderStillTime().build(), e -> {
+                new AnvilGUI.Builder()
+                        .onClick((slot, stateSnapshot) -> {
+                            if (slot != AnvilGUI.Slot.OUTPUT) {
+                                return Collections.emptyList();
+                            }
+
+                            try {
+                                int hiderStillTime = Integer.parseInt(stateSnapshot.getText());
+
+                                if (hiderStillTime < 1) {
+                                    sendPlayerError(
+                                            player,
+                                            MCHunt.getLocalization()
+                                                    .getMessage(
+                                                            "arena.setup.hider_still_time_not_less_than_one"
+                                                    )
+                                    );
+
+                                    return Collections.emptyList();
+                                }
+
+
+                                arenaSetup.setHiderStillTime(hiderStillTime);
+                                plugin.getArenaSetupManager().update(arenaSetup);
+                                plugin.getEventBusManager().publishEvent(new ArenaSetupUpdatedEvent(
+                                        arenaSetup.getUUID()
+                                ));
+
+                                sendPlayerAudibleMessage(
+                                        player,
+                                        MCHunt.getLocalization()
+                                                .getMessage(
+                                                        "arena.setup.value_set", Integer.toString(hiderStillTime)
+                                                )
+                                );
+                            } catch (Exception exception) {
+                                sendPlayerError(
+                                        player,
+                                        MCHunt.getLocalization()
+                                                .getMessage(
+                                                        "arena.setup.not_a_number"
+                                                )
+                                );
+
+                                return Arrays.asList(AnvilGUI.ResponseAction.replaceInputText(Integer.toString(arenaSetup.getHiderStillTime())));
+                            }
+
+                            return Arrays.asList(
+                                    AnvilGUI.ResponseAction.close(),
+                                    AnvilGUI.ResponseAction.run(() -> {
+                                        getInventory().open(player);
+                                    })
+                            );
+                        })
+                        .text(Integer.toString(arenaSetup.getHiderStillTime()))
+                        .title("Set Hider Still Time (Seconds)")
+                        .plugin(plugin)
+                        .open(player);
+            }));
         }
 
         @Override
