@@ -65,6 +65,9 @@ public class ArenaSetup implements Identifiable {
     private int seekerReleaseDelay;
 
     @Expose
+    private int hiderStillTime;
+
+    @Expose
     private Location locationBoundaryPoint1;
 
     @Expose
@@ -441,6 +444,18 @@ public class ArenaSetup implements Identifiable {
         }
 
         return seekerReleaseDelay;
+    }
+
+    public int getHiderStillTime() {
+        if (hiderStillTime < 0) {
+            return DEFAULT_HIDER_STILL_TIME;
+        }
+
+        return hiderStillTime;
+    }
+
+    public void setHiderStillTime(int hiderStillTime) {
+        this.hiderStillTime = hiderStillTime;
     }
 
     public void setSeekerReleaseDelay(int seekerReleaseDelay) {
