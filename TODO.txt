@@ -1,6 +1,8 @@
+- Configurable still time for arena
+
+
 - Vault support
 - Scoreboard support
-- Configurable still time for arena
 - Edit Arena (All the features of setup arena)
 - Hider: Set hotbar disguise as enchanted when disguised + vise versa
 - Hider: Ability to switch disguise while in game
@@ -11,3 +13,9 @@
     - Blindness
     - Slowness
     - Nausea
+
+ - Info Page
+    - Author
+    - Version
+    - Server Information
+    - Notices
