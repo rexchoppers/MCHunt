@@ -318,7 +318,7 @@ public class Arena implements Identifiable {
     }
 
     public int getHiderStillTime() {
-        if (hiderStillTime == 0) {
+        if (hiderStillTime <= 0) {
             return DEFAULT_HIDER_STILL_TIME;
         }
 
