@@ -119,6 +119,9 @@ public class ArenaTick extends BukkitRunnable {
                         this.plugin.getEventBusManager().publishEvent(new ArenaSeekersReleasedEvent(arena));
                     }
 
+                    // Convert arena still time from seconds to milliseconds
+                    int hiderStillTime = arena.getHiderStillTime() * 1000;
+
                     // Hider block task
                     arena.getPlayers().forEach(player -> {
                         Player serverPlayer = Bukkit.getPlayer(player.getUUID());
@@ -138,9 +141,9 @@ public class ArenaTick extends BukkitRunnable {
                                 }
 
                                 // During the 5-second stillness window, update XP bar and remaining seconds as level
-                                if (elapsed >= 0 && elapsed < 5000) {
-                                    int secondsLeft = (int) Math.ceil((5000 - elapsed) / 1000.0);
-                                    float progress = Math.max(0f, Math.min(0.999f, (float) elapsed / 5000f));
+                                if (elapsed >= 0 && elapsed < hiderStillTime) {
+                                    int secondsLeft = (int) Math.ceil((hiderStillTime - elapsed) / 1000.0);
+                                    float progress = Math.max(0f, Math.min(0.999f, (float) elapsed / (float) hiderStillTime));
 
                                     if (player.getLastStillCountdownSeconds() != secondsLeft) {
                                         // If this is the start of countdown, inform the player once
@@ -158,7 +161,7 @@ public class ArenaTick extends BukkitRunnable {
                             }
 
                             // If the hider has been still for 5 seconds, set their block
-                            if (player.hasBeenStillFor(5000) && !player.isDisguiseLocked()) {
+                            if (player.hasBeenStillFor(hiderStillTime) && !player.isDisguiseLocked()) {
                                 // Clear countdown UI right before locking
                                 serverPlayer.setExp(0f);
                                 serverPlayer.setLevel(0);
