@@ -1,8 +1,10 @@
-- Vault support
+- Hider: Ability to switch disguise while in game
 - Scoreboard support
+
+- Vault support
+
 - Edit Arena (All the features of setup arena)
 - Hider: Set hotbar disguise as enchanted when disguised + vise versa
-- Hider: Ability to switch disguise while in game
 - Fireworks on win
 - Titles + Subtitles instead of chat messages
 - Hider: Sounds every X seconds while disguised
