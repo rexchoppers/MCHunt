@@ -535,6 +535,67 @@ public class MenuArenaSetupParameters extends MenuBase {
                         .plugin(plugin)
                         .open(player);
             }));
+
+            inventoryContents.set(0, 8, ClickableItem.of(plugin.getItemManager().itemArenaSetupParametersGameLength().build(), e -> {
+                new AnvilGUI.Builder()
+                        .onClick((slot, stateSnapshot) -> {
+                            if (slot != AnvilGUI.Slot.OUTPUT) {
+                                return Collections.emptyList();
+                            }
+
+                            try {
+                                int gameLength = Integer.parseInt(stateSnapshot.getText());
+
+                                if (gameLength < 1) {
+                                    sendPlayerError(
+                                            player,
+                                            MCHunt.getLocalization()
+                                                    .getMessage(
+                                                            "arena.setup_game_length_not_less_than_one"
+                                                    )
+                                    );
+
+                                    return Collections.emptyList();
+                                }
+
+
+                                arenaSetup.setGameLength(gameLength);
+                                plugin.getArenaSetupManager().update(arenaSetup);
+                                plugin.getEventBusManager().publishEvent(new ArenaSetupUpdatedEvent(
+                                        arenaSetup.getUUID()
+                                ));
+
+                                sendPlayerAudibleMessage(
+                                        player,
+                                        MCHunt.getLocalization()
+                                                .getMessage(
+                                                        "arena.setup.value_set", Integer.toString(gameLength)
+                                                )
+                                );
+                            } catch (Exception exception) {
+                                sendPlayerError(
+                                        player,
+                                        MCHunt.getLocalization()
+                                                .getMessage(
+                                                        "arena.setup.not_a_number"
+                                                )
+                                );
+
+                                return Arrays.asList(AnvilGUI.ResponseAction.replaceInputText(Integer.toString(arenaSetup.getGameLength())));
+                            }
+
+                            return Arrays.asList(
+                                    AnvilGUI.ResponseAction.close(),
+                                    AnvilGUI.ResponseAction.run(() -> {
+                                        getInventory().open(player);
+                                    })
+                            );
+                        })
+                        .text(Integer.toString(arenaSetup.getGameLength()))
+                        .title("Set Game Length (Seconds)")
+                        .plugin(plugin)
+                        .open(player);
+            }));
         }
 
         @Override
