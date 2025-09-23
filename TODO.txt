@@ -1,6 +1,3 @@
-- Configurable still time for arena
-
-
 - Vault support
 - Scoreboard support
 - Edit Arena (All the features of setup arena)
