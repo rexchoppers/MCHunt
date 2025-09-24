@@ -137,13 +137,11 @@ public class ArenaTick extends BukkitRunnable {
                                     player.setLastStillCountdownSeconds(-1);
                                 }
 
-                                // During the 5-second stillness window, update XP bar and remaining seconds as level
-                                if (elapsed >= 0 && elapsed < 5000) {
+                                // Only start countdown UI after 1 second of stillness
+                                if (elapsed >= 1000 && elapsed < 5000) {
                                     int secondsLeft = (int) Math.ceil((5000 - elapsed) / 1000.0);
-                                    float progress = Math.max(0f, Math.min(0.999f, (float) elapsed / 5000f));
 
                                     if (player.getLastStillCountdownSeconds() != secondsLeft) {
-                                        // If this is the start of countdown, inform the player once
                                         if (player.getLastStillCountdownSeconds() == -1) {
                                             sendPlayerAudibleMessage(serverPlayer, MCHunt.getLocalization()
                                                     .getMessage("player.hider.still_countdown_start", "5"));
@@ -152,8 +150,6 @@ public class ArenaTick extends BukkitRunnable {
                                         player.setLastStillCountdownSeconds(secondsLeft);
                                         serverPlayer.setLevel(secondsLeft);
                                     }
-
-                                    serverPlayer.setExp(progress);
                                 }
                             }
 
