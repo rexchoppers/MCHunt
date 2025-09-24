@@ -8,13 +8,13 @@
 - Fixed hider message spam
 - Fixed hider moved message being sent after game end
 
-## [1.0.0-alpha.5] - 2024-08-28
+## [1.0.0-alpha.5] - 2025-08-28
 ### Added
 - Added in-game menu using /mchunt
 ### Fixed
 - Rouge testing line starting game with only 1 player
 
-## [1.0.0-alpha.4] - 2024-08-26
+## [1.0.0-alpha.4] - 2025-08-26
 ### Updated
 - Updated localization manager to singleton pattern
 ### Removed
