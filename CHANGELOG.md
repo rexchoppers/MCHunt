@@ -6,6 +6,7 @@
 - Added hider still time (Time hiders stay still before disguising)
 ### Fixed
 - Fixed hider message spam
+- Fixed hider moved message being sent after game end
 
 ## [1.0.0-alpha.5] - 2024-08-28
 ### Added

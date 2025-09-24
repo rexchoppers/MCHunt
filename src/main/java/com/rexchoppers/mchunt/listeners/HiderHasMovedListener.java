@@ -2,6 +2,7 @@ package com.rexchoppers.mchunt.listeners;
 
 import com.google.common.eventbus.Subscribe;
 import com.rexchoppers.mchunt.MCHunt;
+import com.rexchoppers.mchunt.enums.ArenaStatus;
 import com.rexchoppers.mchunt.events.internal.HiderHasMovedEvent;
 import com.rexchoppers.mchunt.events.internal.HiderIsStillEvent;
 import com.rexchoppers.mchunt.managers.LocalizationManager;
@@ -57,7 +58,8 @@ public record HiderHasMovedListener(MCHunt plugin) {
         ArenaPlayer hider = event.hider();
         Player serverPlayer = Bukkit.getPlayer(hider.getUUID());
 
-        if (serverPlayer != null) {
+        // Only send message if the player is online and the game is in progress
+        if (serverPlayer != null && event.arena().getStatus().equals(ArenaStatus.IN_PROGRESS)) {
             sendPlayerAudibleMessage(
                     serverPlayer,
                     MCHunt.getLocalization()
