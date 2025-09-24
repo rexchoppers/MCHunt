@@ -38,6 +38,10 @@ public class ArenaTick extends BukkitRunnable {
         for (Arena arena : arenas) {
             switch (arena.getStatus()) {
                 case ArenaStatus.IN_PROGRESS:
+                    // Convert arena still time from seconds to milliseconds
+                    int hiderStillTime = arena.getHiderStillTime();
+                    int hiderStillTimeMillis = hiderStillTime * 1000;
+
                     // Decrease the game time
                     arena.setCurrentGameTime(arena.getCurrentGameTime() - 1);
 
@@ -119,6 +123,7 @@ public class ArenaTick extends BukkitRunnable {
                         this.plugin.getEventBusManager().publishEvent(new ArenaSeekersReleasedEvent(arena));
                     }
 
+
                     // Hider block task
                     arena.getPlayers().forEach(player -> {
                         Player serverPlayer = Bukkit.getPlayer(player.getUUID());
@@ -138,13 +143,13 @@ public class ArenaTick extends BukkitRunnable {
                                 }
 
                                 // Only start countdown UI after 1 second of stillness
-                                if (elapsed >= 1000 && elapsed < 5000) {
-                                    int secondsLeft = (int) Math.ceil((5000 - elapsed) / 1000.0);
+                                if (elapsed >= 1000 && elapsed < hiderStillTimeMillis) {
+                                    int secondsLeft = (int) Math.ceil((hiderStillTimeMillis - elapsed) / 1000.0);
 
                                     if (player.getLastStillCountdownSeconds() != secondsLeft) {
                                         if (player.getLastStillCountdownSeconds() == -1) {
                                             sendPlayerAudibleMessage(serverPlayer, MCHunt.getLocalization()
-                                                    .getMessage("player.hider.still_countdown_start", "5"));
+                                                    .getMessage("player.hider.still_countdown_start", Integer.toString(hiderStillTime)));
                                         }
 
                                         player.setLastStillCountdownSeconds(secondsLeft);
@@ -154,7 +159,7 @@ public class ArenaTick extends BukkitRunnable {
                             }
 
                             // If the hider has been still for 5 seconds, set their block
-                            if (player.hasBeenStillFor(5000) && !player.isDisguiseLocked()) {
+                            if (player.hasBeenStillFor(hiderStillTimeMillis) && !player.isDisguiseLocked()) {
                                 // Clear countdown UI right before locking
                                 serverPlayer.setExp(0f);
                                 serverPlayer.setLevel(0);
