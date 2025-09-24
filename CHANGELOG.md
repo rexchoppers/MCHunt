@@ -4,6 +4,8 @@
 ### Added
 - Added game length configuration
 - Added hider still time (Time hiders stay still before disguising)
+### Fixed
+- Fixed hider message spam
 
 ## [1.0.0-alpha.5] - 2024-08-28
 ### Added
