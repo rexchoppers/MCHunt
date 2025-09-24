@@ -28,6 +28,9 @@ public record ArenaStartedListener(MCHunt plugin) {
         int playerCount = arena.getPlayers().size();
 
         // Get the seekers count on game start
+
+        // DEBUG
+        // int seekerCount = 0;
         int seekerCount = arena.getSeekerCount();
 
         // Randomly set the seekers in the arena

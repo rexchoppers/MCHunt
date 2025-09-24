@@ -71,7 +71,7 @@ public record PlayerJoinedArenaListener(MCHunt plugin) {
             return;
         }
 
-        // TESTING LINE
+        // DEBUG LINE
         // if (arena.getPlayers().size() >= 1 && arena.getStatus().equals(ArenaStatus.WAITING)) {
 
         if (arena.getPlayers().size() >= arena.getMinimumPlayers() && arena.getStatus().equals(ArenaStatus.WAITING)) {
