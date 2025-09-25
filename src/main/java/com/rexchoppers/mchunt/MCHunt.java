@@ -237,12 +237,14 @@ public final class MCHunt extends JavaPlugin { // also acts as CommandExecutor
             sender.sendMessage("This command can only be used by players.");
             return true;
         }
+
         Player player = (Player) sender;
+
         if (this.getArenaManager().getArenaPlayerIsIn(player.getUniqueId()).isPresent()) {
-            new com.rexchoppers.mchunt.menus.MenuInGame(this).getInventory().open(player);
+            new MenuInGame(this).getInventory().open(player);
             return true;
         }
-        new com.rexchoppers.mchunt.menus.MenuMain(this).open(player);
+        new MenuMain(this).open(player);
         return true;
     }
 }
