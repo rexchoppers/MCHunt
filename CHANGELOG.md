@@ -3,6 +3,8 @@
 ## [1.0.0-alpha.7] - ?
 ### Removed
 - Removed old command executor (Not required + saves MB of build size)
+### Added
+- Added message to player when they leave arena
 
 ## [1.0.0-alpha.6] - 2025-09-24
 ### Added
