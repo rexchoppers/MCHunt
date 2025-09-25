@@ -19,15 +19,6 @@ We acknowledge their authors and license terms below.
 
 ---
 
-## Aikar Command Framework (ACF)
-- **Artifacts:**
-    - co.aikar:acf-paper:0.5.1-SNAPSHOT
-    - co.aikar:acf-core:0.5.1-SNAPSHOT
-- **License:** MIT License
-- **Source:** https://github.com/aikar/commands
-
----
-
 ## AnvilGUI
 - **Artifact:** net.wesjd:anvilgui:1.10.8-SNAPSHOT
 - **License:** MIT License
