@@ -7,3 +7,13 @@ depend: [
   LibsDisguises,
   WorldGuard
 ]
+commands:
+  mchunt:
+    description: Opens the MCHunt GUI
+    aliases: [mch]
+    usage: /<command>
+    permission: mchunt.use
+permissions:
+  mchunt.use:
+    description: Allows using the /mchunt command
+    default: true

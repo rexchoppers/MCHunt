@@ -1,32 +1,32 @@
 package com.rexchoppers.mchunt;
 
-import co.aikar.commands.PaperCommandManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.rexchoppers.mchunt.adapters.InstantTypeAdapter;
-import com.rexchoppers.mchunt.commands.CommandMCHunt;
 import com.rexchoppers.mchunt.managers.*;
 import com.rexchoppers.mchunt.models.Arena;
 import com.rexchoppers.mchunt.models.ArenaPlayer;
+import com.rexchoppers.mchunt.menus.MenuInGame;
+import com.rexchoppers.mchunt.menus.MenuMain;
 import com.rexchoppers.mchunt.serializers.*;
 import com.rexchoppers.mchunt.util.Format;
 import com.rexchoppers.mchunt.util.PlayerUtil;
-import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import fr.minuskube.inv.InventoryManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.nio.file.FileSystems;
-import java.security.*;
 import java.time.Instant;
 import java.util.Locale;
 
-public final class MCHunt extends JavaPlugin {
+public final class MCHunt extends JavaPlugin { // also acts as CommandExecutor
 
     private Gson gson;
 
@@ -108,9 +108,15 @@ public final class MCHunt extends JavaPlugin {
         inventoryManager = new InventoryManager(this);
         inventoryManager.init();
 
-        // Setup commands
-        PaperCommandManager manager = new PaperCommandManager(this);
-        manager.registerCommand(new CommandMCHunt(this));
+        // Setup commands (register Bukkit command executor)
+        if (getCommand("mchunt") != null) {
+            getCommand("mchunt").setExecutor(this);
+            getCommand("mchunt").setTabCompleter((sender, command, alias, args) -> java.util.Collections.emptyList());
+        }
+        if (getCommand("mch") != null) {
+            getCommand("mch").setExecutor(this);
+            getCommand("mch").setTabCompleter((sender, command, alias, args) -> java.util.Collections.emptyList());
+        }
 
         Bukkit.getConsoleSender().sendMessage(
                 Format.processString(
@@ -219,5 +225,24 @@ public final class MCHunt extends JavaPlugin {
             return null;
         }
         return (WorldGuardPlugin) plugin;
+    }
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        // Only handle our commands
+        String name = command.getName().toLowerCase();
+        if (!name.equals("mchunt") && !name.equals("mch")) {
+            return false;
+        }
+        if (!(sender instanceof Player)) {
+            sender.sendMessage("This command can only be used by players.");
+            return true;
+        }
+        Player player = (Player) sender;
+        if (this.getArenaManager().getArenaPlayerIsIn(player.getUniqueId()).isPresent()) {
+            new com.rexchoppers.mchunt.menus.MenuInGame(this).getInventory().open(player);
+            return true;
+        }
+        new com.rexchoppers.mchunt.menus.MenuMain(this).open(player);
+        return true;
     }
 }
