@@ -41,6 +41,16 @@ public record PlayerLeftArenaListener(MCHunt plugin) {
                 );
             }
         });
+
+        // Send a player themselves a message to let them know they have left the arena
+        Player serverPlayer = plugin.getServer().getPlayer(event.playerUuid());
+        if (serverPlayer != null) {
+            sendPlayerMessage(
+                    serverPlayer,
+                    MCHunt.getLocalization()
+                            .getMessage("player.left_arena")
+            );
+        }
     }
 
     @Subscribe
