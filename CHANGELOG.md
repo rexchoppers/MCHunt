@@ -8,6 +8,7 @@
 ### Fixed
 - Fixed PALE_OAK_WALL_HANGING_SIGN and PALE_OAK_WALL_SIGN not being excluded (Thank you @LeDOC666)
 - Fixed missing locale throwing exception instead of defaulting to English (Thank you @LeDOC666)
+- Fixed players in arena setup mode being able to join arena
 
 ## [1.0.0-alpha.6] - 2025-09-24
 ### Added
