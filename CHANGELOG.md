@@ -5,6 +5,8 @@
 - Removed old command executor (Not required + saves MB of build size)
 ### Added
 - Added message to player when they leave arena
+### Fixed
+- Fixed PALE_OAK_WALL_HANGING_SIGN and PALE_OAK_WALL_SIGN not being excluded (Thank you @LeDOC666)
 
 ## [1.0.0-alpha.6] - 2025-09-24
 ### Added
