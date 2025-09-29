@@ -142,7 +142,7 @@ public class ItemManager {
                 Material.CRIMSON_WALL_HANGING_SIGN.name(),
                 Material.WARPED_WALL_HANGING_SIGN.name(),
                 Material.BAMBOO_WALL_HANGING_SIGN.name(),
-                Material.PALE_OAK_HANGING_SIGN.name(),
+                Material.PALE_OAK_WALL_HANGING_SIGN.name(),
 
 
                 Material.WATER_CAULDRON.name(),
