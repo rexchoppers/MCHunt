@@ -117,6 +117,8 @@ public class ItemManager {
                 Material.END_PORTAL.name(),
                 Material.BARRIER.name(),
                 Material.PISTON_HEAD.name(),
+
+                // Wall Signs
                 Material.OAK_WALL_SIGN.name(),
                 Material.SPRUCE_WALL_SIGN.name(),
                 Material.BIRCH_WALL_SIGN.name(),
@@ -126,6 +128,9 @@ public class ItemManager {
                 Material.DARK_OAK_WALL_SIGN.name(),
                 Material.MANGROVE_WALL_SIGN.name(),
                 Material.BAMBOO_WALL_SIGN.name(),
+                Material.PALE_OAK_WALL_SIGN.name(),
+
+                // Hanging Signs
                 Material.OAK_WALL_HANGING_SIGN.name(),
                 Material.SPRUCE_WALL_HANGING_SIGN.name(),
                 Material.BIRCH_WALL_HANGING_SIGN.name(),
@@ -137,6 +142,9 @@ public class ItemManager {
                 Material.CRIMSON_WALL_HANGING_SIGN.name(),
                 Material.WARPED_WALL_HANGING_SIGN.name(),
                 Material.BAMBOO_WALL_HANGING_SIGN.name(),
+                Material.PALE_OAK_HANGING_SIGN.name(),
+
+
                 Material.WATER_CAULDRON.name(),
                 Material.LAVA_CAULDRON.name(),
                 Material.POWDER_SNOW_CAULDRON.name(),
