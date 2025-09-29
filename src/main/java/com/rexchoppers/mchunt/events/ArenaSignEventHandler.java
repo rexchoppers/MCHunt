@@ -53,6 +53,18 @@ public class ArenaSignEventHandler implements Listener {
                 if (event.getClickedBlock().getLocation().equals(arena.getArenaSigns()[i])) {
                     event.setCancelled(true);
 
+                    // Check if the player is in an arena setup mode
+                    if (plugin.getArenaSetupManager().getArenaSetupForPlayer(player.getUniqueId()).isPresent()) {
+                        sendPlayerError(
+                                player,
+                                MCHunt.getLocalization()
+                                        .getMessage(
+                                                "player.setup.cannot_join_while_in_setup"
+                                        )
+                        );
+                        return;
+                    }
+
                     // Check the arena status
                     if (!(arena.getStatus().equals(ArenaStatus.WAITING) ||
                             arena.getStatus().equals(ArenaStatus.COUNTDOWN_START))) {

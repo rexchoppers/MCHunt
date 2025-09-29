@@ -6,8 +6,6 @@ import com.rexchoppers.mchunt.enums.ArenaPlayerRole;
 import com.rexchoppers.mchunt.enums.ArenaStatus;
 import com.rexchoppers.mchunt.events.internal.ArenaFinishedEvent;
 import com.rexchoppers.mchunt.events.internal.PlayerDiedEvent;
-import com.rexchoppers.mchunt.events.internal.PlayerJoinedArenaEvent;
-import com.rexchoppers.mchunt.managers.LocalizationManager;
 import com.rexchoppers.mchunt.models.Arena;
 import com.rexchoppers.mchunt.models.ArenaPlayer;
 import com.rexchoppers.mchunt.models.Countdown;
