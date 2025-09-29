@@ -1,6 +1,6 @@
 # MCHunt Changelog
 
-## [1.0.0-alpha.7] - ?
+## [1.0.0-alpha.7] - 2025-09-29
 ### Removed
 - Removed old command executor (Not required + saves MB of build size)
 ### Added
